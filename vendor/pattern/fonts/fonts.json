@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "weightNote": "weight is the CSS-exposed range (400-700). Binary variable axes may be wider; tests assert the exposed range is supported.",
+    "unicodeRangeNote": "unicodeRange is the @font-face request range. Required codepoints for Pattern prose are tested separately (see lib/validate-manifest.mjs).",
+    "preloadNote": "preload on a face is the author's recommendation for T06 (instrument-sans-latin.woff2 and fraunces-latin.woff2 only); the spec caps at two preloads, not which files.",
+    "fallbackBasis": {
+      "platform": "macOS",
+      "algorithm": "Instrument Sans and Fraunces use UPEM-normalised cap-height matching. JetBrains Mono uses representative-line advance-width matching and preserves Courier New's native vertical box; the browser swap test is the outcome oracle.",
+      "files": {
+        "instrument-sans": {
+          "path": "/System/Library/Fonts/Supplemental/Arial.ttf",
+          "sha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+        },
+        "fraunces": {
+          "path": "/System/Library/Fonts/Supplemental/Georgia.ttf",
+          "sha256": "4f54eb299fccea7f103edeb0d92437359bfd4441811d53222b82b335369f6218"
+        },
+        "jetbrains-mono": {
+          "path": "/System/Library/Fonts/Supplemental/Courier New.ttf",
+          "sha256": "c886ca3172d8ce9189976992d145ec090500a4ff516ecb9d4df56b1a78336247"
+        }
+      }
+    },
+    "licenceSha256": {
+      "instrument-sans": "9e27a72ed30eb49a08678f6a5d6ed98ec7ba5368f541637ee0683ec9134ef966",
+      "fraunces": "bdf4c22802eaf804f998195871c6b8938aac2ac14b2d78a8bd66a6f1eced833b",
+      "jetbrains-mono": "b2fe5e8987594e9ffd1d2ca52a2f5d73eb8335243893c5d6254b5ad69269591d"
+    },
+    "builds": {
+      "instrument-sans": { "commit": "7fa22308a3d0c94ee2b3cd537a1196b65db34a3e", "recipe": "pattern/fonts/scripts/build-instrument-sans.sh", "verify": "pattern/fonts/scripts/verify-instrument-sans-repro.sh", "lockfile": "pattern/fonts/instrument-sans/BUILD-recipe.lock.txt", "outputSha256": { "instrument-sans-latin.woff2": "faa47d64961313a084b47cf95d373c27f9259898774fc258e2e72ec22175952d", "instrument-sans-italic-latin.woff2": "126a2d4b682eb19d4b3bb29b6ee08be88966792bb7aa065d163866afd954ed88" } }
+    }
+  },
+  "families": {
+    "instrument-sans": {
+      "family": "Instrument Sans",
+      "role": "text",
+      "licence": "OFL-1.1",
+      "licenceFile": "OFL.txt",
+      "upstream": "https://github.com/Instrument/instrument-sans",
+      "commit": "7fa22308a3d0c94ee2b3cd537a1196b65db34a3e",
+      "files": [
+        {
+          "file": "instrument-sans-latin.woff2",
+          "style": "normal",
+          "weight": [400, 700],
+          "format": "woff2",
+          "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+          "preload": true
+        },
+        {
+          "file": "instrument-sans-italic-latin.woff2",
+          "style": "italic",
+          "weight": [400, 700],
+          "format": "woff2",
+          "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+          "preload": false
+        }
+      ],
+      "fallback": {
+        "family": "Arial",
+        "sizeAdjust": "100.52%",
+        "ascentOverride": "96.50%",
+        "descentOverride": "24.87%",
+        "lineGapOverride": "0.00%"
+      }
+    },
+    "fraunces": {
+      "family": "Fraunces",
+      "role": "display",
+      "licence": "OFL-1.1",
+      "licenceFile": "OFL.txt",
+      "source": "deliverance/assets/fonts/fraunces/fraunces-latin.woff2",
+      "provenance": "Vendored copy from Deliverance; upstream provenance not verified; accepted by Andy's decision 2026-10-11.",
+      "files": [
+        {
+          "file": "fraunces-latin.woff2",
+          "style": "normal",
+          "weight": [400, 700],
+          "format": "woff2",
+          "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+          "preload": true
+        }
+      ],
+      "fallback": {
+        "family": "Georgia",
+        "sizeAdjust": "101.03%",
+        "ascentOverride": "96.80%",
+        "descentOverride": "25.24%",
+        "lineGapOverride": "0.00%"
+      }
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "role": "mono",
+      "licence": "OFL-1.1",
+      "licenceFile": "OFL.txt",
+      "source": "deliverance/assets/fonts/jetbrains-mono/jetbrains-mono-latin.woff2",
+      "provenance": "Vendored copy from Deliverance; upstream provenance not verified; accepted by Andy's decision 2026-10-11.",
+      "files": [
+        {
+          "file": "jetbrains-mono-latin.woff2",
+          "style": "normal",
+          "weight": [400, 700],
+          "format": "woff2",
+          "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+          "preload": false
+        }
+      ],
+      "fallback": {
+        "family": "Courier New",
+        "sizeAdjust": "99.98%",
+        "ascentOverride": "83.27%",
+        "descentOverride": "30.03%",
+        "lineGapOverride": "0.00%"
+      }
+    }
+  }
+}
