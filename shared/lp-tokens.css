@@ -17,6 +17,7 @@
   --lp-break-xl: 80rem; /* core.breakpoint.xl */
   --lp-break-2xl: 90rem; /* core.breakpoint.2xl */
   --lp-full: 100%; /* core ratio.full */
+  --lp-viewport-inline: 100vw; /* CSS viewport inline size; required for the edge-running hero still */
   --lp-zero: 0; /* core zero */
   --lp-one: 1; /* core ratio.full */
   --lp-grid-cols-small: 4; /* brief section 2.0 */

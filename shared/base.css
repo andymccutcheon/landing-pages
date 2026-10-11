@@ -52,11 +52,15 @@ code { border-radius: var(--ds-radius-inner); }
 .lp-details { grid-column: 1 / -1; }
 .lp-details li { margin-block: var(--ds-space-gap-stack); }
 .lp-contract { grid-column: 1 / -1; }
+.lp-contract__copy, .lp-contract__code { grid-column: 1 / -1; }
 .lp-code { position: relative; padding: var(--ds-space-inset-card-compact); overflow-x: auto; background: var(--ds-typography-code-bg); border: var(--ds-border-width-hairline) solid var(--ds-color-border-default); border-radius: var(--ds-radius-control); font-size: var(--ds-text-sm-size); line-height: var(--ds-text-base-line-height); white-space: pre; }
 .lp-code .highlight { display: block; background: var(--ds-color-selected-bg); color: var(--ds-color-selected-fg); font-weight: var(--ds-font-weight-semibold); }
 .lp-terminal { position: relative; }
 .lp-terminal .lp-copy { position: absolute; inset-block-start: var(--lp-copy-offset); inset-inline-end: var(--lp-copy-offset); z-index: var(--ds-layer-overlay); }
-.lp-terminal pre { padding-inline-end: var(--lp-header-h); }
+.lp-terminal pre {
+  padding-block-start: calc(var(--ds-space-inset-card) + var(--ds-button-height-sm));
+  padding-inline-end: calc(var(--ds-button-height-sm) + (var(--ds-button-inset-x-sm) * 2) + (var(--lp-copy-offset) * 2));
+}
 .lp-prompt, .lp-comment { color: var(--ds-color-text-secondary); }
 .lp-search-verb { grid-column: 1 / -1; }
 .lp-search-verb code { display: block; font-size: var(--ds-display-sm-size); line-height: var(--ds-display-sm-line-height); font-weight: var(--ds-font-weight-medium); overflow-wrap: anywhere; }
@@ -136,6 +140,7 @@ code { border-radius: var(--ds-radius-inner); }
 }
 
 @media (min-width: 90rem) {
+  .lp-hero__still { margin-inline-end: calc((var(--lp-viewport-inline) - var(--lp-page-max)) / -2); }
   .lp-theatre--right { inline-size: min(var(--lp-page-wide), calc(var(--lp-full) + var(--lp-wide-overhang))); }
   .lp-theatre--left { inline-size: min(var(--lp-page-wide), calc(var(--lp-full) + var(--lp-wide-overhang))); margin-inline-start: calc(var(--lp-wide-overhang) * -1); }
 }

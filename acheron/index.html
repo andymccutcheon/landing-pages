@@ -68,7 +68,8 @@
         <figure class="lp-theatre lp-theatre--right dark lp-reveal"><div class="lp-placeholder"><strong>Search-path explainer placeholder.</strong> This reserved slot will accept one approved poster, video or interactive explainer. No real notes or current explainer content is included.</div></figure>
         <details class="lp-details"><summary>Read the steps as text</summary><ol><li><strong>The agent calls one tool.</strong> <code>context_search</code> is the only search verb. It takes a query, the engine's filters, or both.</li><li><strong>Basic Memory returns candidates.</strong> Acheron asks the engine for its native hybrid results, ten by default.</li><li><strong>A decision model re-orders them.</strong> Each candidate is scored against the question on a four-step scale, from "unrelated" to "direct answer".</li><li><strong>If the model fails, you still get an answer.</strong> Results come back in the engine's native order, marked <code>fallback: true</code>.</li><li><strong>Filters alone skip the model.</strong> Ask by tag, status or date with no query and you get native order, marked <code>ranking: "native"</code>.</li></ol></details>
         <div class="lp-contract lp-grid"><p class="lp-contract__copy">The sample is illustrative. It shows the response fields without quoting the explainer's on-screen numbers.</p><pre class="lp-code lp-contract__code" tabindex="0" aria-label="Illustrative context search response"><code>{
-  "ranking": "reranked",
+  "query": "how do we handle sync conflicts?",
+  "ranking": "model",
 <span class="highlight">  "fallback": false</span>
 }</code></pre></div>
       </div>

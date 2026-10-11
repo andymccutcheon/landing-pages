@@ -2,15 +2,16 @@
 """Render required views and enforce the Acheron landing-page layout contract."""
 
 import asyncio
+import json
 import os
 from pathlib import Path
 from playwright.async_api import async_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / ".review/shots"
-URL = "http://127.0.0.1:8766/acheron/"
+OUT = Path(os.environ.get("LP_SHOTS_DIR", ROOT / ".review/shots"))
+URL = os.environ.get("LP_TEST_URL", "http://127.0.0.1:8766/acheron/")
 GUIDE_URL = "https://andymccutcheon.github.io/acheron/guide.html"
-WIDTHS = (360, 768, 1280, 1440)
+WIDTHS = (360, 768, 1024, 1280, 1440, 1680)
 
 
 def installed_chromium() -> str:
@@ -21,13 +22,61 @@ def installed_chromium() -> str:
     return os.fspath(candidates[0])
 
 
-async def layout_assertions(page, theme: str, width: int, failures: list[str]) -> None:
+async def layout_assertions(page, theme: str, width: int, failures: list[str], grid_audit: dict) -> None:
     if width == 1280:
         await page.locator('.lp-failure-heading').scroll_into_view_if_needed()
     result = await page.evaluate(
         """({width}) => {
           const root = getComputedStyle(document.documentElement);
           const ledgerGap = parseFloat(root.getPropertyValue('--ds-space-gap-inline'));
+          // --lp-hero-still-small is 15rem (~240 CSS px): ~three content columns at 360.
+          const readableProbe = document.createElement('div');
+          readableProbe.style.inlineSize = root.getPropertyValue('--lp-hero-still-small');
+          readableProbe.style.position = 'absolute';
+          readableProbe.style.visibility = 'hidden';
+          document.body.append(readableProbe);
+          const readableMin = readableProbe.getBoundingClientRect().width;
+          readableProbe.remove();
+          const blockDisplays = new Set(['block', 'flex', 'grid', 'list-item']);
+          const readableAllowlist = [
+            { selector: '.lp-header__inner nav, .lp-header__inner nav *', reason: 'intrinsic navigation controls' },
+            { selector: '.lp-skip, .lp-wordmark, .lp-theme, .lp-copy', reason: 'header chrome and copy controls' },
+            { selector: '.lp-cta a, .lp-cta .lp-button', reason: 'hero call-to-action cluster' },
+            { selector: '.lp-tools li', reason: 'brief-specified multi-column tool roster' },
+            { selector: '.lp-footer__links li', reason: 'brief-specified two-column footer list' },
+            { selector: '.lp-write-side, .lp-write-side *', reason: 'brief-specified three-column write-side aside' },
+          ];
+          const allowReason = element => readableAllowlist.find(entry => element.matches(entry.selector))?.reason || null;
+          const readableTextSelectors = 'p, h1, h2, h3, .lp-lead, article, figcaption, summary, .lp-placeholder, .lp-evidence';
+          const descriptor = element => {
+            const section = element.closest('section, footer, header');
+            const context = section?.id || section?.getAttribute('aria-labelledby') || section?.tagName.toLowerCase() || 'page';
+            const name = element.id ? `#${element.id}` : `${element.tagName.toLowerCase()}${[...element.classList].map(value => `.${value}`).join('')}`;
+            return `${context} ${name}`;
+          };
+          const narrowBlocks = [...document.querySelectorAll(readableTextSelectors)].flatMap(element => {
+            if (element.closest('pre, code, button')) return [];
+            const style = getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            if (!blockDisplays.has(style.display) || style.visibility === 'hidden' || !element.innerText.trim() || rect.width >= readableMin - 0.01) return [];
+            const reason = allowReason(element);
+            return reason ? [] : [{ element: descriptor(element), width: rect.width }];
+          });
+          const narrowCode = [...document.querySelectorAll('pre.lp-code')].flatMap(element => {
+            const width = element.getBoundingClientRect().width;
+            return width < readableMin - 0.01 ? [{ element: descriptor(element), width }] : [];
+          });
+          const grids = [...document.querySelectorAll('body *')].filter(element => ['grid', 'inline-grid'].includes(getComputedStyle(element).display)).map((grid, index) => ({
+            grid: `${index + 1}: ${descriptor(grid)}`,
+            columns: getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+            children: [...grid.children].map(child => ({
+              child: descriptor(child),
+              start: getComputedStyle(child).gridColumnStart,
+              end: getComputedStyle(child).gridColumnEnd,
+              width: child.getBoundingClientRect().width,
+              allow: allowReason(child),
+            })),
+          }));
           const textRect = (cell) => {
             const range = document.createRange();
             range.selectNodeContents(cell);
@@ -57,6 +106,10 @@ async def layout_assertions(page, theme: str, width: int, failures: list[str]) -
             ledgerGap: Math.min(...ledgerGaps),
             requiredLedgerGap: ledgerGap,
             clippedCells,
+            readableMin,
+            narrowBlocks,
+            narrowCode,
+            grids,
           };
           if (width === 1280) {
             const grid = document.querySelector('.lp-grid');
@@ -95,6 +148,16 @@ async def layout_assertions(page, theme: str, width: int, failures: list[str]) -
         failures.append(f"{prefix}: ledger text gap {result['ledgerGap']} < token gap {result['requiredLedgerGap']}")
     if result["clippedCells"]:
         failures.append(f"{prefix}: {result['clippedCells']} ledger cells clipped by non-scrolling ancestors")
+    for item in result["narrowBlocks"]:
+        failures.append(f"{prefix}: text block {item['element']} is {item['width']:.2f}px wide, below token threshold {result['readableMin']:.2f}px")
+    for item in result["narrowCode"]:
+        failures.append(f"{prefix}: code block {item['element']} is {item['width']:.2f}px wide, below token threshold {result['readableMin']:.2f}px")
+    if theme == "light":
+        grid_audit[str(width)] = result["grids"]
+    if width in (1280, 1440, 1680):
+        hero_right = await page.locator('.lp-hero__still').evaluate("element => element.getBoundingClientRect().right")
+        if abs(hero_right - width) > 1:
+            failures.append(f"{prefix}: hero still right edge {hero_right:.2f}px != viewport edge {width}px")
     if width == 1280:
         wide = result["wide"]
         expected = {"tracks": 12, "navVisible": True, "problemsSideBySide": True, "secondProblemLower": True, "failureOverlaps": 0, "failureOwnsCenter": True}
@@ -130,6 +193,24 @@ async def interactive_assertions(browser, failures: list[str]) -> None:
         if after <= before:
             failures.append(f"scroll region {index + 1}: ArrowRight did not move scrollLeft")
     await context.close()
+
+    for width in (360, 1280):
+        page = await browser.new_page(viewport={"width": width, "height": 900})
+        await page.goto(URL, wait_until="networkidle")
+        overlaps = await page.evaluate("""() => [...document.querySelectorAll('.lp-terminal')].flatMap((terminal, index) => {
+          const button = terminal.querySelector('.lp-copy').getBoundingClientRect();
+          const pre = terminal.querySelector('pre');
+          pre.scrollLeft = 0;
+          const range = document.createRange();
+          range.selectNodeContents(pre.querySelector('code'));
+          const intersects = [...range.getClientRects()].some(rect =>
+            rect.left < button.right && rect.right > button.left && rect.top < button.bottom && rect.bottom > button.top
+          );
+          return intersects ? [index + 1] : [];
+        })""")
+        if overlaps:
+            failures.append(f"{width}: copy buttons overlap command glyphs in terminals {overlaps}")
+        await page.close()
 
     for width, height in ((360, 740), (1280, 800)):
         page = await browser.new_page(viewport={"width": width, "height": height})
@@ -199,6 +280,7 @@ async def resilience_assertions(browser, failures: list[str]) -> None:
 async def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     failures: list[str] = []
+    grid_audit: dict = {}
     async with async_playwright() as playwright:
         browser = await playwright.chromium.launch(headless=True, executable_path=installed_chromium())
         for theme in ("light", "dark"):
@@ -206,15 +288,18 @@ async def main() -> None:
                 page = await browser.new_page(viewport={"width": width, "height": 900}, color_scheme=theme, reduced_motion="no-preference")
                 await page.goto(URL, wait_until="networkidle")
                 await page.evaluate("document.querySelectorAll('.lp-reveal').forEach(element => element.classList.add('is-visible'))")
-                await layout_assertions(page, theme, width, failures)
+                await layout_assertions(page, theme, width, failures, grid_audit)
                 await page.screenshot(path=OUT / f"acheron-{theme}-{width}.png", full_page=True)
                 await page.close()
         await interactive_assertions(browser, failures)
         await resilience_assertions(browser, failures)
         await browser.close()
+    audit_path = OUT.parent / "grid-audit.json"
+    audit_path.write_text(json.dumps(grid_audit, indent=2) + "\n", encoding="utf-8")
     if failures:
         raise SystemExit("Render check failed:\n- " + "\n- ".join(failures))
-    print("Render check passed: 8 screenshots, responsive contract, ledger gaps, copy controls, keyboard scrolling, no-JS and reduced motion")
+    print(f"Render check passed: {len(WIDTHS) * 2} screenshots, readable-width and grid audits, edge alignment, command clearance, responsive contract, ledger gaps, copy controls, keyboard scrolling, no-JS and reduced motion")
+    print(f"Grid audit: {audit_path}")
 
 
 if __name__ == "__main__":

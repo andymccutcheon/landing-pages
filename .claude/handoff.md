@@ -2,61 +2,35 @@
 
 **Date:** 2026-10-11, America/Boise  
 **Branch:** `main`  
-**Last implementation commit:** `66a8d0b fix(acheron): close independent review findings`
+**Last implementation commit:** *(pending — fix round for Grok review of 062b1df)*
 
 ## Session Summary
 
-This session completed the single fix round from Grok's independent review of the Acheron landing-page draft. All four blockers, all five majors and every assigned minor were repaired and backed by executable checks. The repository remains local-only with no remote; the six questions reserved for Layla remain unchanged.
+Completed the interrupted fix round from Grok's independent review of commit `062b1df`: responsive contract sample, copy-button clearance, illustrative JSON accuracy, hero still edge alignment at 90rem+, and expanded Playwright assertions (readable-width floor, grid audit, six viewports × light/dark).
 
 ## Accomplished This Session
 
-- Restored responsive ownership: values stay in `shared/lp-tokens.css`; mobile-first layout rules live in `shared/base.css`.
-- Rebuilt the benchmark as a real table inside a named, keyboard-scrollable region with measured text gaps.
-- Fixed wide-grid, navigation, headline, staggered-problem, sticky-heading and quickstart-aside layouts.
-- Made all four copy buttons pointer-accessible and added copied/failure live states.
-- Restored the six copy entries under “When it goes wrong,” added quickstart copy controls and restored the OpenCode path.
-- Made all guide links work without JavaScript at the live guide destination.
-- Extended literal lint to HTML, added middle-dot lint, and expanded Playwright checks across layout, interaction, no-JavaScript and reduced-motion behavior.
-- Captured new ignored screenshots under `.review/shots/`.
+- Default full-span placement for illustrative contract copy and code; 64rem split retained.
+- Terminal `pre` padding from design tokens so copy controls do not cover command glyphs.
+- Illustrative response sample aligned with `server.py` and `docs/guide.html` (`query`, `ranking: "model"`).
+- Hero still negative margin at `90rem` using `--lp-viewport-inline` and `--lp-page-max`.
+- `tools/render_check.py`: widths 360–1680, readable-min probe from `--lp-hero-still-small`, copy overlap checks, hero edge checks, `grid-audit.json`; `LP_TEST_URL` / `LP_SHOTS_DIR` for regression worktrees.
 
 ## Verified Results
 
-- `tools/check_literals.py`: pass after proving a temporary hex, `rgb()` and `rem` fixture fails.
-- `tools/check_middle_dots.py`: pass.
-- `tools/render_check.py`: pass for eight screenshots, page overflow, ledger gaps/clipping, 1280 responsive contract, copy controls, keyboard scrolling, first-screen calls to action, skip focus, no-JavaScript links/content, clipboard fallback and reduced motion.
-- First-load file set: 152,382 gzip bytes against 350 KB.
-- Styles: 7,210 gzip bytes against 25 KB.
-- External script: 3,023 raw bytes against 15 KB.
-- Required Pattern generated hashes still match the snapshot record.
+- `tools/check_literals.py`, `tools/check_middle_dots.py`, `node --check shared/page.js`: pass.
+- `tools/check_copy.py` (binding copy draft): 20 additions / 27 omissions — expected curated drift; human classification unchanged.
+- `tools/render_check.py`: pass (12 screenshots + interaction/resilience).
+- Baseline proof: same script against worktree `062b1df` on port 8767 fails (contract blocks ~68px at 360/768, hero short at 1440/1680, copy overlap).
+- Pattern generated file sha256 unchanged; nothing under `vendor/` modified.
 
 ## In Progress / Incomplete
 
-- Hero still and two explainer frames remain explicit placeholders pending approved synthetic assets.
-- The search-path and storage-path explainer links remain absent because no live addresses exist.
-- Layla's design review has not run.
-- Lighthouse, axe and measured contrast were not part of this fix round and remain unverified.
+- Hero still and explainer placeholders; absent explainer URLs; Layla design review; Lighthouse/axe/contrast not run.
 
 ## Designer-Owned Questions — Do Not Change Without Layla
 
-1. Five hero text elements versus the brief's four, and the sub-headline's length.
-2. Five search-path steps from the copy versus the brief's eleven.
-3. Three benchmark columns versus the brief's two.
-4. The size relationship between the limits paragraph and the figures.
-5. Whether `--delay 3.2` in the replay command stays.
-6. The footer link list in the brief versus the copy.
-
-## Known Gotchas
-
-- CSS cannot consume custom properties in media-query conditions. `base.css` therefore contains the five brief-defined breakpoint literals; the literal linter explicitly permits only those query boundaries.
-- The guide URL appears directly on each guide anchor so links work without JavaScript. `acheron/index.html` is the sole page-destination configuration file.
-- `tools/check_copy.py` reports raw fragment differences in both directions and includes Markdown/HTML-boundary false positives. Read its output with the curated differences in the session report.
-- `theme.css` remains vendored but unloaded because it targets Tailwind's theme layer.
-
-## Recommended Next Steps
-
-1. Ask Layla to review the fixed screenshots and decide the six reserved questions.
-2. Replace the three visual placeholders when approved assets exist and rerun the complete render and budget checks.
-3. Run axe, measured contrast and Lighthouse before publication approval.
+Unchanged from prior handoff (hero text count, search-path steps, benchmark columns, limits sizing, `--delay 3.2`, footer links).
 
 ## How to Run
 
@@ -68,4 +42,4 @@ python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-eng
 ~/.cache/visual-explainer/venv/bin/python tools/render_check.py
 ```
 
-No dependencies, credentials or network access are required. Do not add a remote, publish or deploy without Andy McCutcheon's specific approval.
+No remote, publish, or deploy without Andy McCutcheon's specific approval.
