@@ -2,65 +2,70 @@
 
 **Date:** 2026-10-11, America/Boise  
 **Branch:** `main`  
-**Last implementation commit:** `32c9537 test(acheron): add copy audit`
+**Last implementation commit:** `66a8d0b fix(acheron): close independent review findings`
 
 ## Session Summary
 
-This session created the private, local-only `landing-pages` repository and built the first Acheron landing-page draft from Layla's binding design brief and Katrina's binding copy. The Pattern snapshot is pinned and intact, the static page works in both themes without a framework, and the required local checks pass. The three explainer assets remain explicit placeholders because their approved synthetic content does not exist yet.
+This session completed the single fix round from Grok's independent review of the Acheron landing-page draft. All four blockers, all five majors and every assigned minor were repaired and backed by executable checks. The repository remains local-only with no remote; the six questions reserved for Layla remain unchanged.
 
 ## Accomplished This Session
 
-- Vendored the Design System Pattern snapshot at commit `0292df0`, including verified generated outputs, fonts and licences.
-- Built `acheron/index.html`, shared token-driven styles, provisional motion recipes and progressive-enhancement JavaScript.
-- Added theme persistence, copy-button state, reveal-in-view behavior and a fully readable no-JavaScript path.
-- Added tools for relative font CSS generation, literal linting, copy diffing and Playwright screenshots/overflow checks.
-- Captured light and dark screenshots at 360, 768, 1280 and 1440 pixels in ignored `.review/shots/`.
-- Verified no page-level horizontal overflow at all eight theme/width combinations.
-- Proved the literal linter fails on a temporary planted `13px` fixture, restored the file, and reran it successfully.
-- Measured 152,018 gzip bytes for the first-load file set and 2,245 raw bytes for the external script.
+- Restored responsive ownership: values stay in `shared/lp-tokens.css`; mobile-first layout rules live in `shared/base.css`.
+- Rebuilt the benchmark as a real table inside a named, keyboard-scrollable region with measured text gaps.
+- Fixed wide-grid, navigation, headline, staggered-problem, sticky-heading and quickstart-aside layouts.
+- Made all four copy buttons pointer-accessible and added copied/failure live states.
+- Restored the six copy entries under “When it goes wrong,” added quickstart copy controls and restored the OpenCode path.
+- Made all guide links work without JavaScript at the live guide destination.
+- Extended literal lint to HTML, added middle-dot lint, and expanded Playwright checks across layout, interaction, no-JavaScript and reduced-motion behavior.
+- Captured new ignored screenshots under `.review/shots/`.
+
+## Verified Results
+
+- `tools/check_literals.py`: pass after proving a temporary hex, `rgb()` and `rem` fixture fails.
+- `tools/check_middle_dots.py`: pass.
+- `tools/render_check.py`: pass for eight screenshots, page overflow, ledger gaps/clipping, 1280 responsive contract, copy controls, keyboard scrolling, first-screen calls to action, skip focus, no-JavaScript links/content, clipboard fallback and reduced motion.
+- First-load file set: 152,382 gzip bytes against 350 KB.
+- Styles: 7,210 gzip bytes against 25 KB.
+- External script: 3,023 raw bytes against 15 KB.
+- Required Pattern generated hashes still match the snapshot record.
 
 ## In Progress / Incomplete
 
-- The hero still, search-path explainer and storage-path explainer are deliberately labelled placeholders. Do not use Acheron's current explainers because they contain real vault content.
-- An independent non-GPT review and Layla's designer review have not run.
-- Lighthouse, axe, measured contrast and the unavailable Pattern gate runner have not run.
-- The documentation-site destination remains `[DOCS-SITE-URL]` in one `body` data attribute.
+- Hero still and two explainer frames remain explicit placeholders pending approved synthetic assets.
+- The search-path and storage-path explainer links remain absent because no live addresses exist.
+- Layla's design review has not run.
+- Lighthouse, axe and measured contrast were not part of this fix round and remain unverified.
 
-## Known Issues and Gotchas
+## Designer-Owned Questions — Do Not Change Without Layla
 
-- The pinned snapshot does not contain the `--ds-navigation-*` variables named by the brief. The page uses corresponding existing Pattern semantic tokens. Ask Layla whether the brief or snapshot should be corrected.
-- `theme.css` is vendored but not loaded because its Tailwind theme-layer syntax is not a reliable plain-browser stylesheet.
-- The copy audit reports 19 fragments; several are false positives caused by Markdown formatting or code-block normalization. Actual additions are accessibility labels, required placeholder explanations, the illustrative response note, the not-live docs-site fallback, and Basic Memory credit lines. No new product claim or benchmark number was added.
-- The benchmark command retains `--delay 3.2`; Andy must decide whether a command-line pacing value violates the rule against seconds figures.
-- The benchmark has three columns from the copy even though the design component says two; at 360 pixels it scrolls inside a focusable table to prevent page overflow.
-- The brief asks for eleven search-path steps, but Katrina's binding copy supplies five. The draft prints the five supplied steps without inventing six more.
+1. Five hero text elements versus the brief's four, and the sub-headline's length.
+2. Five search-path steps from the copy versus the brief's eleven.
+3. Three benchmark columns versus the brief's two.
+4. The size relationship between the limits paragraph and the figures.
+5. Whether `--delay 3.2` in the replay command stays.
+6. The footer link list in the brief versus the copy.
+
+## Known Gotchas
+
+- CSS cannot consume custom properties in media-query conditions. `base.css` therefore contains the five brief-defined breakpoint literals; the literal linter explicitly permits only those query boundaries.
+- The guide URL appears directly on each guide anchor so links work without JavaScript. `acheron/index.html` is the sole page-destination configuration file.
+- `tools/check_copy.py` reports raw fragment differences in both directions and includes Markdown/HTML-boundary false positives. Read its output with the curated differences in the session report.
+- `theme.css` remains vendored but unloaded because it targets Tailwind's theme layer.
 
 ## Recommended Next Steps
 
-1. Send the committed diff and acceptance contract to a non-GPT reviewer, then to Layla.
-2. Resolve the navigation-token, five-versus-eleven-step and `--delay 3.2` questions.
-3. Replace each explicit visual slot when the approved synthetic explainer assets arrive, then remeasure performance and theatre ratio.
-4. Run axe, contrast and Lighthouse gates when the Pattern runner is available.
-
-## Architecture and Decisions
-
-- Plain HTML, CSS and JavaScript; no client framework, dependency install or build step.
-- `tokens.css` loads directly; `tools/generate_fonts.py` derives relative font URLs from the immutable vendored CSS and retains the `400 700` Fraunces range.
-- All page colors and lengths use `--ds-` or `--lp-` tokens. Breakpoint-bound compositions live in `lp-tokens.css` because CSS custom properties cannot be used in media-query conditions.
-- Reduced motion keeps hover tint but removes press and reveal transitions, leaving content visible.
+1. Ask Layla to review the fixed screenshots and decide the six reserved questions.
+2. Replace the three visual placeholders when approved assets exist and rerun the complete render and budget checks.
+3. Run axe, measured contrast and Lighthouse before publication approval.
 
 ## How to Run
 
 ```sh
-python3 -m http.server 8000
+python3 -m http.server 8766
 python3 tools/check_literals.py
+python3 tools/check_middle_dots.py
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-acheron-landing-copy-draft1.md
 ~/.cache/visual-explainer/venv/bin/python tools/render_check.py
 ```
 
-The render check expects the page at `http://127.0.0.1:8766/acheron/`; start a static server on port 8766 first.
-
-## Environment Notes
-
-No environment variables, credentials, package installation or network access are required. The repository has no Git remote and must remain private and undeployed until Andy explicitly approves otherwise.
-
+No dependencies, credentials or network access are required. Do not add a remote, publish or deploy without Andy McCutcheon's specific approval.
