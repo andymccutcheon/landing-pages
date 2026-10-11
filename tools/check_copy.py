@@ -31,23 +31,38 @@ class VisibleText(HTMLParser):
 
 
 def normalize(text: str) -> str:
+    text = re.sub(r"\[([^]]+)]\([^)]*\)", r"\1", text)
+    text = text.replace("**", "").replace("`", "").replace("*", "")
     return re.sub(r"\s+", " ", text).strip()
 
 
 def main() -> int:
     if len(sys.argv) != 2:
         raise SystemExit("usage: check_copy.py PATH_TO_BINDING_COPY")
-    source = normalize(Path(sys.argv[1]).read_text(encoding="utf-8"))
+    source_text = Path(sys.argv[1]).read_text(encoding="utf-8")
+    source = normalize(source_text)
     parser = VisibleText()
     parser.feed((ROOT / "acheron/index.html").read_text(encoding="utf-8"))
     additions = []
     for fragment in parser.fragments:
         if len(fragment) >= 24 and normalize(fragment) not in source and fragment not in additions:
             additions.append(fragment)
-    print("Visible prose fragments absent from the binding copy:")
+    print("Page-to-copy differences (visible page fragments absent from the binding copy):")
     for fragment in additions:
         print(f"- {fragment}")
-    print(f"Copy diff result: {len(additions)} fragment(s) require explanation")
+    page = normalize(" ".join(parser.fragments))
+    omissions = []
+    for line in source_text.splitlines():
+        if not line.startswith(">"):
+            continue
+        fragment = normalize(line.lstrip("> "))
+        if len(fragment) < 24 or fragment.startswith("|") or fragment in page or fragment in omissions:
+            continue
+        omissions.append(fragment)
+    print("Copy-to-page differences (binding quoted lines absent from visible page text):")
+    for fragment in omissions:
+        print(f"- {fragment}")
+    print(f"Copy diff result: {len(additions)} page addition(s), {len(omissions)} copy omission(s) require explanation")
     return 0
 
 

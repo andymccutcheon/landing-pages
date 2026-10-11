@@ -4,6 +4,8 @@ Private, standalone landing pages for Acheron, Freewhirr and Shipwatch. Acheron 
 
 The Acheron draft is a static, progressively enhanced page with light and dark themes. Its hero still and two dark explainer frames are deliberately accessible placeholders until approved assets are ready. The page remains readable when JavaScript is unavailable; JavaScript adds remembered theme selection, command copying and in-view reveals.
 
+The dark theme is applied by the `.dark` class on the root `<html>` element. External audit scripts should toggle that class rather than looking for a data attribute.
+
 ## Structure
 
 - `acheron/` contains the Acheron page and product-local assets.
@@ -41,6 +43,12 @@ python3 tools/check_copy.py /absolute/path/to/2026-10-11-acheron-landing-copy-dr
 
 The copy audit reports visible prose fragments that are not verbatim in the binding copy; its output requires human classification because accessibility and placeholder labels may be intentional additions.
 
+Run the visible-text punctuation check separately:
+
+```sh
+python3 tools/check_middle_dots.py
+```
+
 The optional render check requires an already-installed Python Playwright package and Chromium. Start a second terminal with `python3 -m http.server 8766`, then run:
 
 ```sh
@@ -54,6 +62,8 @@ It captures light and dark screenshots at 360, 768, 1280 and 1440 CSS pixels und
 `vendor/pattern/` is replaced as a complete unit, never edited in place. Before accepting a replacement, verify every copied file against the hashes recorded in `vendor/pattern/SNAPSHOT.md` and update that record with the new source commit and date.
 
 The page loads `generated/tokens.css` directly. It does not load `generated/theme.css`, because that file targets Tailwind's theme layer rather than a plain browser stylesheet. It also does not load the vendored `generated/fonts.css`; `tools/generate_fonts.py` derives `shared/fonts.css` with relative URLs so previewing works from a sub-path while preserving declared font-weight ranges.
+
+The canonical Acheron guide destination is defined directly on the guide anchors in `acheron/index.html`, the sole configuration file for page destinations. Because the page must work without JavaScript, each guide anchor carries that destination directly; there is no runtime URL rewrite. The two explainer links remain absent until their live addresses exist.
 
 ## House rules
 
