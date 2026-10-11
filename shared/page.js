@@ -22,10 +22,15 @@
       try {
         await navigator.clipboard.writeText(target.textContent.trim());
         button.textContent = 'Copied';
+        button.setAttribute('aria-label', 'Benchmark replay command copied');
         document.getElementById('copy-status').textContent = 'Benchmark command copied';
-        window.setTimeout(() => { button.textContent = 'Copy'; }, 2000);
+        window.setTimeout(() => {
+          button.textContent = 'Copy';
+          button.setAttribute('aria-label', 'Copy benchmark replay command');
+        }, 2000);
       } catch (error) {
         button.textContent = 'Select command';
+        button.setAttribute('aria-label', 'Select benchmark replay command to copy manually');
         target.focus();
       }
     });
