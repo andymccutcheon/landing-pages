@@ -1,0 +1,84 @@
+/* Landing-page tokens. This is the only page-style file allowed to contain literal primitives. */
+:root {
+  --lp-space-section-sm: 4rem; /* core.space.16 */
+  --lp-space-section-md: 6rem; /* core.space.24 */
+  --lp-space-section-lg: 8rem; /* core.space.32 */
+  --lp-gap-heading: 1.5rem; /* core.space.6 */
+  --lp-page-max: 76rem; /* core.breakpoint.xl minus two core.space.8 gutters */
+  --lp-page-wide: 84rem; /* core.breakpoint.2xl minus two core.space.12 gutters */
+  --lp-gutter: 1.25rem; /* core.space.5 */
+  --lp-col-gap: 1rem; /* core.space.4 */
+  --lp-header-h: 4rem; /* core.space.16 */
+  --lp-measure-lead: 44ch; /* brief section 3.8 new value */
+  --lp-theatre-ratio: 1.615; /* provisional placeholder from 1280 / (680 + 112); final explainer not built */
+  --lp-break-sm: 30rem; /* core.breakpoint.sm */
+  --lp-break-md: 48rem; /* core.breakpoint.md */
+  --lp-break-lg: 64rem; /* core.breakpoint.lg */
+  --lp-break-xl: 80rem; /* core.breakpoint.xl */
+  --lp-break-2xl: 90rem; /* core.breakpoint.2xl */
+  --lp-full: 100%; /* core ratio.full */
+  --lp-zero: 0; /* core zero */
+  --lp-one: 1; /* core ratio.full */
+  --lp-grid-cols-small: 4; /* brief section 2.0 */
+  --lp-grid-cols-medium: 8; /* brief section 2.0 */
+  --lp-grid-cols-large: 12; /* brief section 2.0 */
+  --lp-hero-still-small: 15rem; /* core.space.60 */
+  --lp-hero-still-medium: 20rem; /* core.space.80 */
+  --lp-placeholder-min: 26rem; /* provisional reserved theatre height until assets arrive */
+  --lp-sticky-offset: 5.5rem; /* header plus core.space.6 */
+  --lp-copy-offset: 0.5rem; /* core.space.2 */
+  --lp-reveal-hidden-opacity: 0; /* core zero */
+}
+
+@media (min-width: 48rem) { /* core.breakpoint.md */
+  :root { --lp-gutter: 2rem; /* core.space.8 */ --lp-col-gap: 1.5rem; /* core.space.6 */ }
+}
+
+@media (min-width: 80rem) { /* core.breakpoint.xl */
+  :root { --lp-col-gap: 2rem; /* core.space.8 */ }
+}
+
+@media (min-width: 90rem) { /* core.breakpoint.2xl */
+  :root { --lp-gutter: 3rem; /* core.space.12 */ }
+}
+
+/* Responsive compositions live here because media-query conditions cannot consume custom properties. */
+@media (min-width: 30rem) { /* core.breakpoint.sm */
+  h1 { font-size: var(--ds-display-md-size); line-height: var(--ds-display-md-line-height); letter-spacing: var(--ds-display-md-tracking); }
+}
+@media (min-width: 48rem) { /* core.breakpoint.md */
+  .lp-grid { grid-template-columns: repeat(var(--lp-grid-cols-medium), minmax(var(--lp-zero), 1fr)); }
+  .lp-section { padding-block: var(--lp-space-section-md); }
+  .lp-nav__anchors { display: flex; }
+  .lp-hero__copy { grid-column: 1 / 7; }
+  .lp-hero__still { min-block-size: var(--lp-hero-still-medium); }
+  .lp-problem { grid-column: span 4; }
+  .lp-code { padding: var(--ds-space-inset-card); }
+  .lp-tools { columns: 3; }
+}
+@media (min-width: 64rem) { /* core.breakpoint.lg */
+  .lp-grid { grid-template-columns: repeat(var(--lp-grid-cols-large), minmax(var(--lp-zero), 1fr)); }
+  h1 { font-size: var(--ds-display-lg-size); line-height: var(--ds-display-lg-line-height); letter-spacing: var(--ds-display-lg-tracking); }
+  .lp-hero h1 { grid-column: 1 / 11; }
+  .lp-hero__copy { grid-column: 1 / 6; }
+  .lp-hero__still { grid-column: 7 / -1; }
+  .lp-theatre-heading { grid-column: 1 / 8; }
+  .lp-theatre-section { padding-block: var(--lp-space-section-lg); }
+  .lp-contract__copy { grid-column: 1 / 5; }
+  .lp-contract__code { grid-column: 6 / -1; }
+  .lp-search-verb { grid-column: 1 / 6; }
+  .lp-tools { grid-column: 7 / -1; }
+  .lp-ledger { grid-column: 1 / 8; }
+  .lp-limits { grid-column: 9 / -1; }
+  .lp-benchmark-command { grid-column: 1 / 9; }
+  .lp-failure-heading { grid-column: 1 / 5; position: sticky; inset-block-start: var(--lp-sticky-offset); align-self: start; }
+  .lp-answers { grid-column: 6 / -1; }
+  .lp-storage-heading { grid-column: 6 / -1; }
+  .lp-quickstart { grid-column: 1 / 9; }
+  .lp-write-side { grid-column: 10 / -1; margin-block-start: var(--lp-zero); }
+  .lp-status__copy { grid-column: 1 / 8; }
+  .lp-footer__about { grid-column: 1 / 6; }
+  .lp-footer__links { grid-column: 8 / -1; }
+  .lp-footer__credit { grid-column: 1 / -1; }
+}
+

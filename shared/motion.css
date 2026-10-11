@@ -1,0 +1,15 @@
+/* PROVISIONAL: Andy has not ruled whether these recipes stay here or move into the Pattern. */
+@media (hover: hover) and (pointer: fine) {
+  .lp-hover-tint { transition: color var(--ds-motion-duration-fast) var(--ds-motion-ease-out), background-color var(--ds-motion-duration-fast) var(--ds-motion-ease-out); }
+}
+
+.lp-press:active { transform: scale(var(--ds-motion-scale-press)); transition: transform var(--ds-motion-duration-fast) var(--ds-motion-ease-out); }
+.lp-reveal { opacity: var(--lp-one); transform: none; }
+.js .lp-reveal:not(.is-visible) { opacity: var(--lp-reveal-hidden-opacity); transform: translateY(var(--ds-motion-distance-lg)); }
+.js .lp-reveal { transition: opacity var(--ds-motion-duration-slower) var(--ds-motion-ease-out), transform var(--ds-motion-duration-slower) var(--ds-motion-ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-press:active { transform: none; transition: none; }
+  .js .lp-reveal, .js .lp-reveal:not(.is-visible) { opacity: var(--lp-one); transform: none; transition: none; }
+}
+
