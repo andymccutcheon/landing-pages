@@ -42,7 +42,8 @@ def main() -> int:
     source_text = Path(sys.argv[1]).read_text(encoding="utf-8")
     source = normalize(source_text)
     parser = VisibleText()
-    page_path = ROOT / ("freewhirr/index.html" if "freewhirr" in Path(sys.argv[1]).name.lower() else "acheron/index.html")
+    name = next((name for name in ("shipwatch", "freewhirr") if name in Path(sys.argv[1]).name.lower()), "acheron")
+    page_path = ROOT / name / "index.html"
     print(f"Auditing {page_path.relative_to(ROOT)}")
     parser.feed(page_path.read_text(encoding="utf-8"))
     additions = []

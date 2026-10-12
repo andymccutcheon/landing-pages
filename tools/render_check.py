@@ -376,6 +376,9 @@ async def main() -> None:
         if (ROOT / "freewhirr/index.html").exists():
             from freewhirr_render_check import run
             await run(browser, failures, warm_page_for_capture)
+        if (ROOT / 'shipwatch/index.html').exists():
+            from shipwatch_render_check import run as shipwatch_run
+            await shipwatch_run(browser, failures, warm_page_for_capture)
         await browser.close()
     audit_path = OUT.parent / "grid-audit.json"
     audit_path.write_text(json.dumps(grid_audit, indent=2) + "\n", encoding="utf-8")
