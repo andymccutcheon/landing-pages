@@ -51,10 +51,8 @@
           </div>
         </div>
         <div class="lp-hero__still lp-hero__still--pending" aria-label="Final frame from the search-path explainer: a question moves through Acheron and Basic Memory to a ranked answer.">
-          <!-- PLACEHOLDER: copy context-search-explainer-final-*.png from the explainer rebuild into assets/ -->
           <img class="lp-hero__image lp-hero__image--light" src="assets/context-search-explainer-final-light.png" alt="" width="1280" height="680" decoding="async">
           <img class="lp-hero__image lp-hero__image--dark" src="assets/context-search-explainer-final-dark.png" alt="" width="1280" height="680" decoding="async">
-          <p class="lp-placeholder"><strong>Hero still placeholder.</strong> Expected files: <code>assets/context-search-explainer-final-light.png</code> and <code>assets/context-search-explainer-final-dark.png</code> (1280×680 final frames from the search-path explainer rebuild).</p>
         </div>
       </div>
     </section>
@@ -74,7 +72,6 @@
           <div class="lp-theatre lp-theatre--right dark">
             <div class="lp-theatre__stage">
               <div class="lp-theatre__fallback">
-                <!-- PLACEHOLDER: poster and MP4 from the pattern-dark search-path explainer rebuild -->
                 <img class="lp-theatre__poster" src="assets/context-search-explainer-pattern-dark-poster.png" alt="" width="1280" height="856" decoding="async">
                 <video class="lp-theatre__video" width="1280" height="856" preload="none" playsinline poster="assets/context-search-explainer-pattern-dark-poster.png">
                   <source src="assets/context-search-explainer-pattern-dark.mp4" type="video/mp4">
@@ -96,7 +93,7 @@
           <li><strong>Ten candidates return.</strong> Up to ten notes return with paths and snippets. The right answer is usually already in the list; reranking only reorders.</li>
           <li><strong>The model scores each note.</strong> When an OpenRouter key is set, Mercury Decide scores each candidate on usefulness. Note text is untrusted evidence, not instructions.</li>
           <li><strong>Scores return.</strong> Scores are ordering signal. They do not change which notes were retrieved; the score labels shown here are illustrative.</li>
-          <li><strong>Model order wins.</strong> In auto mode with Mercury, model order wins. On the unstacked benchmark (16 questions, hand labels), Mercury put the labeled note first in 14 of 16; native hybrid alone reached 7 of 16.</li>
+          <li><strong>Model order wins.</strong> In auto mode with Mercury, model order wins. On the unstacked benchmark (16 questions, 23 synthetic notes, hand labels), Mercury put the labeled note first in 14 of 16; native hybrid alone reached 7 of 16.</li>
           <li><strong>Results reach the agent.</strong> The response lists ranked notes with paths and snippets so the agent can open the winner. One call, no search loop.</li>
           <li><strong>When the model rate-limits.</strong> A 429 from the Decisions API is a reranker failure, not a storage outage. Acheron does not pretend the engine survived an outage.</li>
           <li><strong>One retry.</strong> The client waits, then retries once on 429 or 5xx. A persistent outage still fails open after that.</li>
@@ -144,7 +141,6 @@
         <div class="lp-theatre lp-theatre--left dark">
           <div class="lp-theatre__stage">
             <div class="lp-theatre__fallback">
-              <!-- PLACEHOLDER: poster and MP4 from the pattern-dark storage explainer rebuild -->
               <img class="lp-theatre__poster" src="assets/storage-explainer-pattern-dark-poster.png" alt="" width="1280" height="856" decoding="async">
               <video class="lp-theatre__video" width="1280" height="856" preload="none" playsinline poster="assets/storage-explainer-pattern-dark-poster.png">
                 <source src="assets/storage-explainer-pattern-dark.mp4" type="video/mp4">
