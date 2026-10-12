@@ -122,7 +122,9 @@ async def regression(browser, out, failures, warm):
                         await page.goto(url,wait_until='networkidle');await page.evaluate('document.fonts.ready')
                         await warm(page,width)
                         await page.evaluate('window.scrollTo(0,0)')
-                        shots.append(await page.screenshot(path=out/f'acheron-{phase}-{theme}-{width}.png',full_page=True,animations='disabled'))
+                        # Live hosted explainers intentionally differ from the local baseline.
+                        # Their loaded contents are verified by render_check; compare the surrounding page.
+                        shots.append(await page.screenshot(path=out/f'acheron-{phase}-{theme}-{width}.png',full_page=True,animations='disabled',mask=[page.locator('.lp-theatre__interactive')]))
                         await page.close()
                     if shots[0]!=shots[1]: failures.append(f'Acheron pixel regression: {theme} {width}')
         finally: server.shutdown();server.server_close()

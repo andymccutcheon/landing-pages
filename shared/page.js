@@ -68,7 +68,8 @@
       const started = performance.now();
       const tick = () => {
         try {
-          if ((frame.contentDocument?.body?.childElementCount ?? 0) > 0) {
+          if (new URL(frame.src).origin !== window.location.origin ||
+              (frame.contentDocument?.body?.childElementCount ?? 0) > 0) {
             frame.classList.add('is-loaded');
             return;
           }

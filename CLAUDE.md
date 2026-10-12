@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This private, local-only repository holds standalone marketing pages for Andy McCutcheon's open-source tools. Acheron is the approved first page; Freewhirr is the second page, pending independent review. Shipwatch is a future page. Do not create a remote, deploy, or publish anything without Andy's specific approval.
+This repository holds independently reviewed marketing pages for Andy McCutcheon's open-source tools. Andy approved public GitHub Pages publication. The public repository and origin remote exist, but the first push must wait for independent cross-vendor review of the publication diff. Do not push or trigger deployment during preparation.
 
 ## Structure
 

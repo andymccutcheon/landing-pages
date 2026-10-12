@@ -1,0 +1,76 @@
+name: Deploy landing pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "acheron/index.html"
+      - "acheron/assets/**"
+      - "freewhirr/index.html"
+      - "shared/**"
+      - "vendor/pattern/generated/tokens.css"
+      - "vendor/pattern/fonts/**"
+      - ".github/workflows/pages.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Stage allowlisted site files
+        id: stage
+        run: |
+          set -euo pipefail
+          site_dir="$(mktemp -d "${RUNNER_TEMP}/landing-pages-site.XXXXXX")"
+          echo "path=${site_dir}" >> "$GITHUB_OUTPUT"
+          touch "${site_dir}/.nojekyll"
+          for src in \
+            acheron/index.html \
+            freewhirr/index.html \
+            acheron/assets/context-search-explainer-final-light.png \
+            acheron/assets/context-search-explainer-final-dark.png \
+            acheron/assets/context-search-explainer-pattern-dark-poster.png \
+            acheron/assets/storage-explainer-pattern-dark-poster.png \
+            acheron/assets/context-search-explainer-pattern-dark.mp4 \
+            acheron/assets/storage-explainer-pattern-dark.mp4 \
+            shared/base.css \
+            shared/motion.css \
+            shared/fonts.css \
+            shared/lp-tokens.css \
+            shared/freewhirr.css \
+            shared/page.js \
+            vendor/pattern/generated/tokens.css \
+            vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2 \
+            vendor/pattern/fonts/instrument-sans/OFL.txt \
+            vendor/pattern/fonts/fraunces/fraunces-latin.woff2 \
+            vendor/pattern/fonts/fraunces/OFL.txt \
+            vendor/pattern/fonts/jetbrains-mono/jetbrains-mono-latin.woff2 \
+            vendor/pattern/fonts/jetbrains-mono/OFL.txt
+          do
+            test -f "$src"
+            mkdir -p "${site_dir}/$(dirname "$src")"
+            cp "$src" "${site_dir}/$src"
+          done
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ steps.stage.outputs.path }}
+          include-hidden-files: true
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

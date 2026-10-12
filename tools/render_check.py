@@ -47,7 +47,9 @@ async def warm_page_for_capture(page, width: int) -> None:
       if (!visible.length) return resolve();
       const hasContent = (frame) => {
         try {
-          return (frame.contentDocument?.body?.childElementCount ?? 0) > 0;
+          return new URL(frame.src).origin !== window.location.origin
+            ? frame.classList.contains('is-loaded')
+            : (frame.contentDocument?.body?.childElementCount ?? 0) > 0;
         } catch (error) {
           return false;
         }
@@ -77,29 +79,25 @@ async def assert_theatre_iframes(page, theme: str, width: int, failures: list[st
       .map((frame) => {
         const stage = frame.closest('.lp-theatre__stage');
         const poster = stage ? getComputedStyle(stage).getPropertyValue('--lp-theatre-stage-poster').trim() : '';
-        let bodyChildCount = -1;
-        try {
-          bodyChildCount = frame.contentDocument?.body?.childElementCount ?? 0;
-        } catch (error) {
-          bodyChildCount = -1;
-        }
         return {
           loaded: frame.classList.contains('is-loaded'),
           posterSet: poster.length > 0,
-          bodyChildCount,
         };
       })""")
     prefix = f"{theme} {width}"
     if not states:
         failures.append(f"{prefix}: no visible theatre iframes at desktop width")
         return
+    for frame in await page.locator('.lp-theatre__interactive:visible').all():
+        await frame.content_frame.locator('body > *').first.wait_for(state='attached')
+        content = await frame.content_frame.locator('body').evaluate('body => body.childElementCount')
+        if content == 0:
+            failures.append(f"{prefix}: theatre at {await frame.get_attribute('src')} has an empty body")
     for index, state in enumerate(states, start=1):
         if not state["posterSet"]:
             failures.append(f"{prefix}: theatre {index} missing stage poster")
         if not state["loaded"]:
             failures.append(f"{prefix}: theatre {index} iframe not loaded before capture")
-        if state["bodyChildCount"] == 0:
-            failures.append(f"{prefix}: theatre {index} iframe document is empty")
 
 
 async def layout_assertions(page, theme: str, width: int, failures: list[str], grid_audit: dict) -> None:

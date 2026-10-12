@@ -1,8 +1,8 @@
 # Landing pages
 
-Private, standalone landing pages for Acheron, Freewhirr and Shipwatch. Acheron is the first implementation. This repository has no remote; nothing is deployed or made public without Andy McCutcheon's specific approval.
+Standalone landing pages for Acheron and Freewhirr. Andy approved public GitHub Pages publication. The empty public repository is created; the first push remains gated on independent cross-vendor review of the publication commit.
 
-The Acheron draft is a static, progressively enhanced page with light and dark themes. Its hero still and two dark explainer frames are deliberately accessible placeholders until approved assets are ready. The page remains readable when JavaScript is unavailable; JavaScript adds remembered theme selection, command copying and in-view reveals.
+The Acheron draft is a static, progressively enhanced page with light and dark themes. Its hero still, videos and two interactive dark explainer frames use the approved assets. The page remains readable when JavaScript is unavailable; JavaScript adds remembered theme selection, command copying and in-view reveals.
 
 The dark theme is applied by the `.dark` class on the root `<html>` element. External audit scripts should toggle that class rather than looking for a data attribute.
 
@@ -12,7 +12,7 @@ The dark theme is applied by the `.dark` class on the root `<html>` element. Ext
 - `shared/` contains the landing-page tokens, shared styles, generated browser font declarations and small progressive-enhancement script. Marketing-layer names use the `lp` namespace.
 - `tools/` contains dependency-free generation and audit scripts, plus the optional Playwright render check.
 - `vendor/pattern/` contains the immutable Design System Pattern snapshot pinned to source commit `0292df0`. Its provenance and hashes are recorded in `vendor/pattern/SNAPSHOT.md`.
-- `freewhirr/` and `shipwatch/` are the planned future page locations; neither directory has been created yet.
+- `freewhirr/` contains the second finished page; Shipwatch remains a future page.
 
 ## Preview
 
@@ -63,7 +63,7 @@ It captures light and dark screenshots at 360, 768, 1280 and 1440 CSS pixels und
 
 The page loads `generated/tokens.css` directly. It does not load `generated/theme.css`, because that file targets Tailwind's theme layer rather than a plain browser stylesheet. It also does not load the vendored `generated/fonts.css`; `tools/generate_fonts.py` derives `shared/fonts.css` with relative URLs so previewing works from a sub-path while preserving declared font-weight ranges.
 
-The canonical Acheron guide destination is defined directly on the guide anchors in `acheron/index.html`, the sole configuration file for page destinations. Because the page must work without JavaScript, each guide anchor carries that destination directly; there is no runtime URL rewrite. The two explainer links remain absent until their live addresses exist.
+The canonical Acheron guide destination is defined directly on the guide anchors in `acheron/index.html`, the sole configuration file for page destinations. Because the page must work without JavaScript, each guide anchor carries that destination directly; there is no runtime URL rewrite. The two interactive explainers use their live Acheron GitHub Pages addresses.
 
 ## House rules
 
@@ -87,3 +87,17 @@ Literal and middle-dot checks cover both pages. The existing render command also
 Freewhirr and compares Acheron pixels with the approved starting commit at four widths
 in both themes. Use the already installed repository virtual environment when system
 Python cannot import Playwright: `PATH="$PWD/.venv/bin:$PATH" python3 tools/render_check.py`.
+
+## Publication preparation
+
+`.github/workflows/pages.yml` deploys an explicit allowlist from `main`, preserving
+`acheron/`, `freewhirr/`, `shared/` and the required Pattern styles and fonts.
+The artifact includes `.nojekyll`; agent memory, tools, review evidence and source
+documentation are excluded. Pages is configured to deploy through GitHub Actions.
+
+Destinations after the reviewed first push:
+- https://andymccutcheon.github.io/landing-pages/acheron/
+- https://andymccutcheon.github.io/landing-pages/freewhirr/
+
+The site has no root index; use the two page URLs directly. The Acheron interactive
+frames use the live explainers in the Acheron documentation site.
