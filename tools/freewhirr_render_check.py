@@ -135,7 +135,7 @@ async def run(browser, failures, warm):
     url=os.environ.get('LP_TEST_URL','http://127.0.0.1:8766/acheron/').replace('/acheron/','/freewhirr/')
     await check(browser,url,out,failures)
     await regression(browser,out,failures,warm)
-    assets=['freewhirr/index.html','vendor/pattern/generated/tokens.css','shared/fonts.css','shared/lp-tokens.css','shared/base.css','shared/motion.css','shared/freewhirr.css','shared/page.js']
+    assets=['freewhirr/index.html','vendor/pattern/generated/tokens.css','shared/fonts.css','shared/lp-tokens.css','shared/base.css','shared/motion.css','shared/freewhirr.css','shared/common.css','shared/page.js']
     assets += [str(p.relative_to(ROOT)) for p in (ROOT/'vendor/pattern/fonts').rglob('*.woff2')]
     sizes={name:len(gzip.compress((ROOT/name).read_bytes())) for name in assets}
     total=sum(sizes.values());script=sizes['shared/page.js']

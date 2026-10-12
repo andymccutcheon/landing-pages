@@ -1,0 +1,40 @@
+/* Shared install, no-script, navigation and definition-list recipes. */
+:is(.lp-freewhirr, .lp-shipwatch) .lp-theme, :is(.lp-freewhirr, .lp-shipwatch) .lp-copy { display: none; }
+:is(.lp-freewhirr, .lp-shipwatch).js .lp-theme, :is(.lp-freewhirr, .lp-shipwatch).js .lp-copy { display: inline-flex; }
+:is(.lp-freewhirr, .lp-shipwatch) section, :is(.lp-freewhirr, .lp-shipwatch) #main { scroll-margin-block-start: var(--lp-sticky-offset); }
+.lp-install-actions { display: flex; flex-direction: column; gap: var(--ds-space-gap-inline); margin-block-start: var(--ds-space-gap-section); }
+.lp-install { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-space-gap-inline); inline-size: var(--lp-full); max-inline-size: var(--lp-install-max); min-block-size: var(--ds-button-height-lg); padding-inline: var(--ds-space-inset-card-compact) var(--lp-copy-offset); background: var(--ds-typography-code-bg); border: var(--ds-border-width-hairline) solid var(--ds-color-border-default); border-radius: var(--ds-radius-control); }
+.lp-install pre { margin: var(--lp-zero); font-size: var(--ds-text-base-size); white-space: nowrap; }
+:is(.lp-freewhirr, .lp-shipwatch) .lp-install .lp-copy { background: var(--ds-button-primary-bg); color: var(--ds-button-primary-fg); block-size: var(--ds-button-height-md); padding-inline: var(--ds-button-inset-x-md); }
+:is(.lp-freewhirr, .lp-shipwatch) .lp-install .lp-copy:hover { background: var(--ds-button-primary-bg-hover); }
+:is(.lp-freewhirr, .lp-shipwatch) .lp-install .lp-copy:active { background: var(--ds-button-primary-bg-active); }
+:is(.lp-freewhirr, .lp-shipwatch) dt { font-family: var(--ds-font-family-mono); font-size: var(--ds-text-sm-size); overflow-wrap: anywhere; }
+:is(.lp-freewhirr, .lp-shipwatch) dd { margin: var(--lp-zero); margin-block-start: var(--ds-space-gap-stack); }
+@media (min-width: 48rem) {
+  .lp-install-actions { flex-direction: row; flex-wrap: wrap; align-items: center; }
+}
+@media (prefers-color-scheme: dark) {
+  html:is(.lp-freewhirr, .lp-shipwatch):not(.js) {
+    color-scheme: dark;
+    --ds-button-ghost-bg-hover: var(--lp-system-button-ghost-bg-hover);
+    --ds-button-ghost-fg: var(--lp-system-button-ghost-fg);
+    --ds-button-primary-bg: var(--lp-system-button-primary-bg);
+    --ds-button-primary-bg-active: var(--lp-system-button-primary-bg-active);
+    --ds-button-primary-bg-hover: var(--lp-system-button-primary-bg-hover);
+    --ds-button-primary-fg: var(--lp-system-button-primary-fg);
+    --ds-color-bg-canvas: var(--lp-system-color-bg-canvas);
+    --ds-color-bg-inverse: var(--lp-system-color-bg-inverse);
+    --ds-color-bg-subtle: var(--lp-system-color-bg-subtle);
+    --ds-color-border-default: var(--lp-system-color-border-default);
+    --ds-color-border-strong: var(--lp-system-color-border-strong);
+    --ds-color-border-subtle: var(--lp-system-color-border-subtle);
+    --ds-color-focus-ring: var(--lp-system-color-focus-ring);
+    --ds-color-selected-bg: var(--lp-system-color-selected-bg);
+    --ds-color-selected-fg: var(--lp-system-color-selected-fg);
+    --ds-color-text-inverse: var(--lp-system-color-text-inverse);
+    --ds-color-text-link: var(--lp-system-color-text-link);
+    --ds-color-text-primary: var(--lp-system-color-text-primary);
+    --ds-color-text-secondary: var(--lp-system-color-text-secondary);
+    --ds-typography-code-bg: var(--lp-system-typography-code-bg);
+  }
+}

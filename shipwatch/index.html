@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en" class="lp-shipwatch">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>shipwatch: a cited briefing from AI changelogs</title>
+  <meta name="description" content="An open-source command-line tool that reads the changelogs you list, scores each item with a rubric you can tune, and writes a briefing where every bullet links to its source.">
+  <meta property="og:title" content="shipwatch: know what AI companies actually shipped this week">
+  <meta property="og:description" content="A cited changelog briefing. Fetches public sources; optional model calls send item text to your endpoint. MIT licensed.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="preload" href="../vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../vendor/pattern/fonts/fraunces/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../vendor/pattern/generated/tokens.css">
+  <link rel="stylesheet" href="../shared/fonts.css">
+  <link rel="stylesheet" href="../shared/lp-tokens.css">
+  <link rel="stylesheet" href="../shared/base.css">
+  <link rel="stylesheet" href="../shared/motion.css">
+  <link rel="stylesheet" href="../shared/common.css">
+  <link rel="stylesheet" href="../shared/shipwatch.css">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('lp-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')}</script>
+</head>
+<body>
+<a class="lp-skip" href="#main">Skip to main content</a>
+
+<header class="lp-header">
+<div class="lp-shell lp-header__inner"><a class="lp-wordmark" href="#main">shipwatch</a><nav class="lp-nav" aria-label="Primary navigation"><span class="lp-nav__anchors"><a class="lp-hover-tint" href="#grounding">Grounding</a><a class="lp-hover-tint" href="#quickstart">Quickstart</a><a class="lp-hover-tint" href="#limits">Limits</a></span><a class="lp-hover-tint" href="https://github.com/andymccutcheon/shipwatch">GitHub</a><button class="lp-theme lp-hover-tint lp-press" type="button" aria-label="Switch to dark theme" aria-pressed="false">Dark</button></nav></div></header>
+
+<main id="main" tabindex="-1">
+
+<section class="lp-hero lp-section" aria-labelledby="hero-title">
+<div class="lp-shell lp-grid">
+<p class="lp-kicker">Changelog briefing tool · independent project</p>
+<h1 id="hero-title">Know what AI companies actually shipped this week.</h1>
+<div class="lp-hero__copy">
+<p class="lp-lead">Changelogs in, a cited briefing out. Each bullet links to its source and is checked for shared words with it.</p>
+<div class="lp-install-actions">
+<div class="lp-install"><pre><span class="lp-prompt" aria-hidden="true">$ </span><code id="install-command">pip install shipwatch</code></pre><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-command" aria-label="Copy install command">Copy</button></div><a href="#quickstart">Quickstart</a></div></div>
+
+<figure class="lp-brief" aria-labelledby="specimen-caption">
+
+<article>
+<div class="lp-brief-heading">
+<p class="lp-brief-title">Northwind Agents: northwind 1.2.0</p>
+<p class="lp-brief-score">score 0.75</p></div>
+<p class="lp-brief-claim">Northwind Agents 1.2.0 adds a stable tool-calling interface and removes the deprecated DeskRetrievalChain.</p>
+<p class="lp-brief-source">Northwind Agents<br><span>https://github.com/example/northwind/releases/tag/v1.2.0</span></p></article>
+
+<article>
+<div class="lp-brief-heading">
+<p class="lp-brief-title">Acme AI News: New fine-tuning recipes for structured outputs</p>
+<p class="lp-brief-score">score 0.70</p></div>
+<p class="lp-brief-claim">The API now ships official fine-tuning recipes for structured outputs so teams can keep JSON schemas stable across model upgrades.</p>
+<p class="lp-brief-source">Acme AI News<br><span>https://acme.example/index/structured-outputs-recipes</span></p></article>
+
+<figcaption id="specimen-caption">Sample output: two of the eight stories in the repository's sample briefing. The companies and products are invented. <a href="https://github.com/andymccutcheon/shipwatch/blob/main/examples/briefing.md">Read the full sample</a>.</figcaption></figure></div></section>
+<section class="lp-section " id="in-out" aria-labelledby="in-out-title">
+<div class="lp-shell lp-grid">
+<div class="lp-heading">
+<h2 id="in-out-title">How a briefing is built</h2></div>
+<article class="lp-problem">
+<h3>What goes in</h3>
+<p>RSS and Atom feeds, HTML changelog pages, GitHub Releases, and docs sitemaps.</p>
+<dl class="lp-source-list">
+<div>
+<dt>rss</dt><dd>RSS or Atom feeds</dd></div>
+<div>
+<dt>html</dt><dd>changelog pages</dd></div>
+<div>
+<dt>github</dt><dd>a repository's releases</dd></div>
+<div>
+<dt>sitemap</dt><dd>new documentation pages</dd></div></dl>
+<p>Every request identifies itself as shipwatch. It reads each site's <code>robots.txt</code> and obeys it unless you turn that off, waits between requests to the same host, and asks for a page again only if it has changed.</p>
+<p><code>shipwatch init</code> writes a starter list of public sources to <code>sources.yaml</code>. Edit it freely. A source is a few lines of YAML.</p>
+<p><a href="https://github.com/andymccutcheon/shipwatch/blob/main/examples/sources.yaml">See the starter source list</a></p></article>
+<article class="lp-problem">
+<h3>What comes out</h3>
+<p>Outputs are a Markdown file, a JSON file, an RSS feed of past briefings, and an optional static HTML page.</p>
+<dl class="lp-source-list">
+<div>
+<dt>briefing.md</dt><dd>Markdown briefing</dd></div>
+<div>
+<dt>briefing.json</dt><dd>structured briefing</dd></div>
+<div>
+<dt>briefings.xml</dt><dd>RSS feed of past briefings</dd></div>
+<div>
+<dt>index.html</dt><dd>optional static HTML page</dd></div></dl>
+<p>The archive is one SQLite file in <code>.shipwatch/</code>. shipwatch has no telemetry of its own.</p>
+<p>It is a local pipeline, with no hosted service and no human editor.</p></article></div></section>
+<section class="lp-section " id="grounding" aria-labelledby="grounding-title">
+<div class="lp-shell lp-grid">
+<div class="lp-grounding-copy">
+<h2 id="grounding-title">What the check does, and what it cannot tell you</h2>
+<p>A claim that cites no known item is thrown out before the briefing is written.</p>
+<p>The verifier takes the claim's content words, four characters or longer, and counts how many appear in the item it cites.</p></div>
+<figure class="lp-verdicts">
+<dl class="lp-verdict-list">
+<div>
+<dt>supported</dt><dd><span>Half or more of the claim's content words appear in the cited text.</span><span>Kept.</span></dd></div>
+<div>
+<dt>flagged</dt><dd><span>Between a quarter and a half.</span><span>Kept, and marked as flagged.</span></dd></div>
+<div>
+<dt>dropped</dt><dd><span>Less than a quarter, or no cited source.</span><span>Removed from the briefing.</span></dd></div></dl>
+<figcaption>Content words are four characters or longer. The comparison is with the text of the cited items.</figcaption></figure>
+<div class="lp-grounding-limit">
+<p class="lp-lead">The footer of each briefing reports the counts.</p>
+<p class="lp-lead">The verifier runs whether or not a model wrote the briefing.</p>
+<p>It compares words, not meaning. A sentence that reuses the source's words passes even if it changes a number, adds "not", or turns a price cut into a price rise. Short words and short numbers are not compared at all. Read "supported" as "these words appear in the source", then open the link.</p></div></div></section>
+<section class="lp-section " id="scoring" aria-labelledby="scoring-title">
+<div class="lp-shell lp-grid">
+<div class="lp-scoring-main">
+<h2 id="scoring-title">A rubric you can tune</h2>
+<p>A weighted rubric gives each item and each topic a number from 0 to 1.</p>
+<table class="lp-weights" role="table"><caption class="lp-visually-hidden">Default scoring weights</caption>
+<thead role="rowgroup">
+<tr role="row"><th role="columnheader" scope="col">Signal</th><th role="columnheader" scope="col">Default weight</th><th role="columnheader" scope="col">What it measures</th></tr></thead>
+<tbody role="rowgroup">
+<tr role="row"><th role="rowheader" scope="row">Novelty</th><td role="cell">0.25</td><td role="cell">how distinct the title is from other items in the window</td></tr>
+<tr role="row"><th role="rowheader" scope="row">Impact</th><td role="cell">0.30</td><td role="cell">the kind of item, plus keyword cues</td></tr>
+<tr role="row"><th role="rowheader" scope="row">Breadth</th><td role="cell">0.20</td><td role="cell">the audience its text mentions, such as the API, enterprise or all customers</td></tr>
+<tr role="row"><th role="rowheader" scope="row">Recency</th><td role="cell">0.25</td><td role="cell">newer items score higher; the default half-life is 7 days</td></tr></tbody></table>
+<p>Every weight is a line in <code>shipwatch.yaml</code>. Change them to suit what you cover.</p>
+<p>The number tells you how an item did against your rubric. It is not a general measure of importance.</p>
+<p><a href="https://github.com/andymccutcheon/shipwatch/blob/main/examples/shipwatch.yaml">Read the scoring configuration</a></p></div>
+<div class="lp-adjustments">
+<dl class="lp-source-list">
+<div>
+<dt>pricing_change</dt><dd>Pricing changes get an added boost.</dd></div>
+<div>
+<dt>deprecation</dt><dd>Deprecations get an added boost.</dd></div>
+<div>
+<dt>security</dt><dd>Security items get an added boost.</dd></div>
+<div>
+<dt>non_shipment</dt><dd>Case studies, webinars, hiring posts and opinion pieces are tagged as non-shipments and take a penalty.</dd></div></dl></div></div></section>
+<section class="lp-section " id="quickstart" aria-labelledby="quickstart-title">
+<div class="lp-shell lp-grid">
+<div class="lp-quickstart">
+<div class="lp-heading">
+<h2 id="quickstart-title">Quickstart</h2>
+<p>You need Python 3.10 or newer. No API key and no account.</p></div>
+<div class="lp-command">
+<h3>Install</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-setup" aria-label="Copy Install">Copy</button><pre class="lp-code" tabindex="0" aria-label="Install"><code id="install-setup">python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install shipwatch</code></pre></div></div>
+<div class="lp-command">
+<h3>Set up</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="source-setup" aria-label="Copy Set up">Copy</button><pre class="lp-code" tabindex="0" aria-label="Set up"><code id="source-setup">shipwatch init
+shipwatch sources check</code></pre></div></div>
+<div class="lp-command">
+<h3>Run</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="run-command" aria-label="Copy Run">Copy</button><pre class="lp-code" tabindex="0" aria-label="Run"><code id="run-command">shipwatch --no-llm run --since 7d --html</code></pre></div></div>
+<p>This run requests the public sources in your list. The briefing lands in <code>out/</code> as <code>briefing.md</code>, <code>briefing.json</code>, <code>briefings.xml</code> and <code>index.html</code>.</p></div>
+<aside class="lp-write-side">
+<h3>Other commands</h3>
+<dl class="lp-source-list">
+<div>
+<dt>shipwatch fetch</dt><dd>only updates the archive</dd></div>
+<div>
+<dt>shipwatch brief --since 7d</dt><dd>briefs again from what is already stored</dd></div>
+<div>
+<dt>shipwatch stats</dt><dd>prints counts</dd></div></dl></aside></div></section>
+<section class="lp-section " id="modes" aria-labelledby="modes-title">
+<div class="lp-shell lp-grid">
+<h2 class="lp-failure-heading" id="modes-title">With a model, or without one</h2>
+<div class="lp-answers">
+<article class="lp-answer">
+<h3>Without a model.</h3>
+<p>No key and no account. Each bullet is a sentence copied from the item: the first usable one, cut at 220 characters.</p>
+<p>Some will read as fragments. A copied sentence is being checked against the text it came from, so "supported" tells you little in this mode.</p>
+<p class="lp-fact">--no-llm</p></article>
+<article class="lp-answer">
+<h3>With a model.</h3>
+<p>Point shipwatch at any OpenAI-compatible endpoint.</p>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="model-setup" aria-label="Copy Model endpoint setup">Copy</button><pre class="lp-code" tabindex="0" aria-label="Model endpoint setup"><code id="model-setup">export SHIPWATCH_BASE_URL=https://your-endpoint.example/v1
+export SHIPWATCH_MODEL=your-model
+export SHIPWATCH_API_KEY=...
+shipwatch run --since 7d</code></pre></div>
+<p>It asks the model to classify each item, to pull facts from each item, and then to write the briefing. That is two calls for every item in the window, plus one. Count your items before you point it at an endpoint that charges.</p>
+<p>In this mode the model writes the headings, and the score printed beside a section is the model's own number when it supplies one.</p>
+<p>If the endpoint cannot be reached, or the model's output fails validation after retries, shipwatch writes the copied-sentence briefing instead and says so in a note at the top.</p>
+<p>shipwatch has no billing of its own. Tokens go to the endpoint you configure and are billed, if at all, by whoever runs it.</p>
+<p>With no endpoint set, shipwatch calls <a href="../freewhirr/">freewhirr</a> on your own machine, a separate tool by the same author; its own page sets out its limits.</p>
+<p><a href="https://github.com/andymccutcheon/shipwatch#llm-layer-optional">Other endpoints in the README</a></p></article>
+<article class="lp-answer">
+<h3>On a schedule.</h3>
+<p>The repository includes a cron example and a GitHub Actions workflow that commits each briefing.</p>
+<figure class="lp-cron">
+<figcaption>Cron example</figcaption>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="cron-example" aria-label="Copy Cron example">Copy</button><pre class="lp-code" tabindex="0" aria-label="Cron example"><code id="cron-example">0 9 * * 1  cd /path/to/project &amp;&amp; .venv/bin/shipwatch --no-llm run --since 7d --out briefs</code></pre></div></figure>
+<p>Nobody reads a scheduled briefing before it is written. Read it before you forward it.</p>
+<p><a href="https://github.com/andymccutcheon/shipwatch/blob/main/.github/workflows/weekly-briefing.yml">Weekly workflow example</a></p></article></div></div></section>
+<section class="lp-section " id="limits" aria-labelledby="limits-title">
+<div class="lp-shell lp-grid">
+<div class="lp-limits-copy">
+<h2 id="limits-title">Limits</h2>
+<div class="lp-answer lp-answer--egress">
+<p class="lp-lead"><strong>It compares words, not meaning.</strong> A flagged claim is not necessarily wrong, and a supported claim is not necessarily right.</p>
+<p class="lp-lead">No accuracy figure has been measured against a labelled set, and none is published.</p></div>
+<dl class="lp-limit-list">
+<div>
+<dt>HTML extraction</dt><dd>Pages built in the browser extract thinly. An entry with no machine-readable date is left out of every briefing, because shipwatch cannot place it in the week. Use a feed or GitHub Releases where a site offers one.</dd></div>
+<div>
+<dt>Keyword rules</dt><dd>The signals are keyword rules. They will tag some posts wrongly, and a post the rules do not recognise is scored as "other".</dd></div>
+<div>
+<dt>Near-duplicates</dt><dd>Items with the same link, or mostly the same words, are merged. The comparison is by shared words, so one release described in different words can appear twice.</dd></div>
+<div>
+<dt>Source addresses</dt><dd>Source addresses move. Run <code>shipwatch sources check --live</code> after you edit the list.</dd></div></dl>
+<p>Only if you use a model, the titles and text of fetched items go to the endpoint you configured.</p>
+<p>shipwatch looks for the key variable you configured, then <code>OPENROUTER_API_KEY</code>, then <code>OPENAI_API_KEY</code>, and sends the first one it finds to your endpoint. Keep only the key for the endpoint you are using in that shell.</p>
+<p>For HTML changelogs, the link on a bullet is the first link found inside the entry. Sometimes that is a docs page the entry points to, not the changelog itself.</p>
+<p>A blocked, unreachable or unparseable source is reported by name in the run output. The other sources still run.</p></div></div></section>
+<section class="lp-section lp-status" id="status" aria-labelledby="status-title">
+<div class="lp-shell lp-grid">
+<div class="lp-status__copy">
+<h2 id="status-title">Status</h2>
+<p class="lp-lead">shipwatch is version 0.1.1, an early release under the MIT licence. It is maintained by one person. Issues and pull requests are welcome.</p>
+<p>It drafts; it does not edit. If you need a briefing nobody has to check, this is the wrong tool.</p>
+<p><a href="https://github.com/andymccutcheon/shipwatch">GitHub repository</a> · <a href="https://github.com/andymccutcheon/shipwatch/issues">Open an issue</a></p></div></div></section></main>
+<footer class="lp-footer">
+<div class="lp-shell lp-grid">
+<div class="lp-footer__about"><a class="lp-wordmark" href="#main">shipwatch</a>
+<p>MIT licence</p></div>
+<ul class="lp-footer__links">
+<li><a href="https://github.com/andymccutcheon/shipwatch">GitHub repository</a></li>
+<li><a href="https://github.com/andymccutcheon/shipwatch#readme">README</a></li>
+<li><a href="https://pypi.org/project/shipwatch/">Install from PyPI</a></li>
+<li><a href="https://github.com/andymccutcheon/shipwatch/issues">Open an issue</a></li>
+<li><a href="https://github.com/andymccutcheon/shipwatch/blob/main/LICENSE">Licence</a></li>
+<li><a href="https://github.com/andymccutcheon/shipwatch/blob/main/CHANGELOG.md">Changelog</a></li></ul>
+<div class="lp-footer__credit">
+<p>shipwatch is an independent open-source project by Andy McCutcheon. It reads public pages. It is not affiliated with, or endorsed by, any company whose changelog, feed or repository it can read, or any model provider it can call.</p>
+<p>Product names belong to their owners. The sample briefing on this page uses invented companies.</p></div></div></footer>
+<div class="lp-visually-hidden" aria-live="polite" id="copy-status"></div><script src="../shared/page.js" defer></script></body></html>

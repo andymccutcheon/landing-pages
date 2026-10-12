@@ -80,3 +80,7 @@
 
 /* Freewhirr review: strengthen route/policy gate rules without changing Acheron. */
 html.lp-freewhirr { --lp-route-gate-color: var(--ds-color-text-secondary); }
+
+/* Shipwatch brief section 3.6: reading specimen width, design decision. */
+:root { --lp-brief-max: 36rem; }
+html.lp-shipwatch { --lp-route-gate-color: var(--ds-color-text-secondary); }

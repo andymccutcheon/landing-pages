@@ -7,6 +7,9 @@ on:
       - "acheron/index.html"
       - "acheron/assets/**"
       - "freewhirr/index.html"
+      - "shipwatch/index.html"
+      - "shared/common.css"
+      - "shared/shipwatch.css"
       - "shared/**"
       - "vendor/pattern/generated/tokens.css"
       - "vendor/pattern/fonts/**"
@@ -40,6 +43,7 @@ jobs:
           for src in \
             acheron/index.html \
             freewhirr/index.html \
+            shipwatch/index.html \
             acheron/assets/context-search-explainer-final-light.png \
             acheron/assets/context-search-explainer-final-dark.png \
             acheron/assets/context-search-explainer-pattern-dark-poster.png \
@@ -50,7 +54,9 @@ jobs:
             shared/motion.css \
             shared/fonts.css \
             shared/lp-tokens.css \
+            shared/common.css \
             shared/freewhirr.css \
+            shared/shipwatch.css \
             shared/page.js \
             vendor/pattern/generated/tokens.css \
             vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2 \

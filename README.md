@@ -1,6 +1,6 @@
 # Landing pages
 
-Standalone landing pages for Acheron and Freewhirr. Andy approved public GitHub Pages publication. The empty public repository is created; the first push remains gated on independent cross-vendor review of the publication commit.
+Standalone landing pages for Acheron, Freewhirr and Shipwatch. Andy approved public GitHub Pages publication. The empty public repository is created; the first push remains gated on independent cross-vendor review of the publication commit.
 
 The Acheron draft is a static, progressively enhanced page with light and dark themes. Its hero still, videos and two interactive dark explainer frames use the approved assets. The page remains readable when JavaScript is unavailable; JavaScript adds remembered theme selection, command copying and in-view reveals.
 
@@ -12,7 +12,7 @@ The dark theme is applied by the `.dark` class on the root `<html>` element. Ext
 - `shared/` contains the landing-page tokens, shared styles, generated browser font declarations and small progressive-enhancement script. Marketing-layer names use the `lp` namespace.
 - `tools/` contains dependency-free generation and audit scripts, plus the optional Playwright render check.
 - `vendor/pattern/` contains the immutable Design System Pattern snapshot pinned to source commit `0292df0`. Its provenance and hashes are recorded in `vendor/pattern/SNAPSHOT.md`.
-- `freewhirr/` contains the second finished page; Shipwatch remains a future page.
+- `freewhirr/` contains the second finished page; `shipwatch/` contains the third page, pending sign-off.
 
 ## Preview
 
@@ -101,3 +101,7 @@ Destinations after the reviewed first push:
 
 The site has no root index; use the two page URLs directly. The Acheron interactive
 frames use the live explainers in the Acheron documentation site.
+
+## Shipwatch
+
+Preview at `/shipwatch/`. See [implementation report](docs/shipwatch-implementation-report.md) for copy judgments and verification. Publication remains a separate approval; the current publication allowlist does not include Shipwatch.
