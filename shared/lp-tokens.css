@@ -46,3 +46,37 @@
   :root { --lp-gutter: 3rem; /* core.space.12 */ }
 }
 
+
+/* Freewhirr brief section 3.7: new component dimensions. */
+:root {
+  --lp-ladder-max: 30rem; /* core.breakpoint.sm */
+  --lp-install-max: 26rem; /* brief design decision: install command plus Copy */
+  --lp-policy-label-col: 12rem; /* design decision: core.space.48 absent from vendored snapshot */
+}
+
+/* No-script system-dark aliases: exact values from Pattern 0292df0 .dark. */
+:root {
+  --lp-system-button-ghost-bg-hover: oklch(0.31 0.008 80);
+  --lp-system-button-ghost-fg: oklch(0.965 0.005 80);
+  --lp-system-button-primary-bg: oklch(0.87 0.064 205);
+  --lp-system-button-primary-bg-active: oklch(0.72 0.085 205);
+  --lp-system-button-primary-bg-hover: oklch(0.925 0.042 205);
+  --lp-system-button-primary-fg: oklch(0.17 0.006 80);
+  --lp-system-color-bg-canvas: oklch(0.17 0.006 80);
+  --lp-system-color-bg-inverse: oklch(0.965 0.005 80);
+  --lp-system-color-bg-subtle: oklch(0.31 0.008 80);
+  --lp-system-color-border-default: oklch(0.4 0.009 80);
+  --lp-system-color-border-strong: oklch(0.72 0.01 80);
+  --lp-system-color-border-subtle: oklch(0.31 0.008 80);
+  --lp-system-color-focus-ring: oklch(0.87 0.064 205);
+  --lp-system-color-selected-bg: oklch(0.24 0.042 205);
+  --lp-system-color-selected-fg: oklch(0.965 0.024 205);
+  --lp-system-color-text-inverse: oklch(0.24 0.007 80);
+  --lp-system-color-text-link: oklch(0.87 0.064 205);
+  --lp-system-color-text-primary: oklch(0.965 0.005 80);
+  --lp-system-color-text-secondary: oklch(0.72 0.01 80);
+  --lp-system-typography-code-bg: oklch(0.31 0.008 80);
+}
+
+/* Freewhirr review: strengthen route/policy gate rules without changing Acheron. */
+html.lp-freewhirr { --lp-route-gate-color: var(--ds-color-text-secondary); }

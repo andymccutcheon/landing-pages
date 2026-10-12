@@ -32,13 +32,15 @@ class TextLines(HTMLParser):
 
 
 def main() -> int:
-    parser = TextLines()
-    parser.feed((ROOT / "acheron/index.html").read_text(encoding="utf-8"))
-    failures = [(line, text) for line, text in parser.lines if text.count("·") > 1]
+    failures = []
+    for name in ("acheron", "freewhirr"):
+        parser = TextLines()
+        parser.feed((ROOT / name / "index.html").read_text(encoding="utf-8"))
+        failures.extend((name, line, text) for line, text in parser.lines if text.count("·") > 1)
     if failures:
         print("Middle-dot check failed")
-        for line, text in failures:
-            print(f"acheron/index.html:{line}: {text}")
+        for name, line, text in failures:
+            print(f"{name}/index.html:{line}: {text}")
         return 1
     print("Middle-dot check passed: no visible text line contains more than one middle dot")
     return 0

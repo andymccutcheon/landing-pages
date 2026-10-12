@@ -42,7 +42,9 @@ def main() -> int:
     source_text = Path(sys.argv[1]).read_text(encoding="utf-8")
     source = normalize(source_text)
     parser = VisibleText()
-    parser.feed((ROOT / "acheron/index.html").read_text(encoding="utf-8"))
+    page_path = ROOT / ("freewhirr/index.html" if "freewhirr" in Path(sys.argv[1]).name.lower() else "acheron/index.html")
+    print(f"Auditing {page_path.relative_to(ROOT)}")
+    parser.feed(page_path.read_text(encoding="utf-8"))
     additions = []
     for fragment in parser.fragments:
         if len(fragment) >= 24 and normalize(fragment) not in source and fragment not in additions:

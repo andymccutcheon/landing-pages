@@ -75,3 +75,15 @@ The canonical Acheron guide destination is defined directly on the guide anchors
 - Do not add a remote, deploy a page or publish repository content without that approval.
 - Run the relevant checks above before committing page changes.
 
+
+## Freewhirr
+
+The second page is [freewhirr/index.html](freewhirr/index.html). Preview at `/freewhirr/`.
+Its [implementation report](docs/freewhirr-implementation-report.md) records binding-copy
+reconciliation, audit classifications, measured verification and remaining review gates.
+
+The copy audit selects Freewhirr when the binding-copy filename contains `freewhirr`.
+Literal and middle-dot checks cover both pages. The existing render command also checks
+Freewhirr and compares Acheron pixels with the approved starting commit at four widths
+in both themes. Use the already installed repository virtual environment when system
+Python cannot import Playwright: `PATH="$PWD/.venv/bin:$PATH" python3 tools/render_check.py`.

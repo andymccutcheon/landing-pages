@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en" class="lp-freewhirr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>freewhirr: a free-first model router for OpenRouter</title>
+  <meta name="description" content="An open-source router and proxy that tries OpenRouter's $0 models first, fails over between them, then stops or spends only inside the caps you set.">
+  <meta property="og:title" content="freewhirr: spend nothing until you choose to">
+  <meta property="og:description" content="Tries free models first and fails over between them. When they all fail you get an error, or a paid model if you opted in. Independent, MIT licensed.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="preload" href="../vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../vendor/pattern/fonts/fraunces/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../vendor/pattern/generated/tokens.css">
+  <link rel="stylesheet" href="../shared/fonts.css">
+  <link rel="stylesheet" href="../shared/lp-tokens.css">
+  <link rel="stylesheet" href="../shared/base.css">
+  <link rel="stylesheet" href="../shared/motion.css">
+  <link rel="stylesheet" href="../shared/freewhirr.css">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('lp-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')}</script>
+</head>
+<body>
+<a class="lp-skip" href="#main">Skip to main content</a>
+
+<header class="lp-header">
+<div class="lp-shell lp-header__inner"><a class="lp-wordmark" href="#main">freewhirr</a><nav class="lp-nav" aria-label="Primary navigation"><span class="lp-nav__anchors"><a class="lp-hover-tint" href="#policies">Policies</a><a class="lp-hover-tint" href="#quickstart">Quickstart</a><a class="lp-hover-tint" href="#surfaces">Three surfaces</a></span><a class="lp-hover-tint" href="https://github.com/andymccutcheon/freewhirr">GitHub</a><button class="lp-theme lp-hover-tint lp-press" type="button" aria-label="Switch to dark theme" aria-pressed="false">Dark</button></nav>
+</div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<section class="lp-hero lp-section" aria-labelledby="hero-title">
+<div class="lp-shell lp-grid">
+<p class="lp-kicker">Free-first model router · independent project</p>
+<h1 id="hero-title">Spend nothing until you choose to.</h1>
+<div class="lp-hero__copy">
+<p class="lp-lead">freewhirr tries OpenRouter's $0 models in order and fails over when one rate-limits, errors or times out. Free models are not guaranteed to answer. When they all fail, you get an error unless you have opted in to paid fallback.</p>
+<div class="lp-install-actions">
+<div class="lp-install"><pre><span class="lp-prompt" aria-hidden="true">$ </span><code id="install-command">pip install freewhirr</code></pre><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-command" aria-label="Copy install command">Copy</button>
+</div><a href="#quickstart">Quickstart</a>
+</div>
+</div>
+
+<figure class="lp-ladder">
+<ol aria-label="One request under the default policy">
+<li><code>free model</code><span>rate limited</span><code></code></li>
+<li><code>free model</code><span>context window exceeded</span><code></code></li>
+<li><code>free model</code><span>timed out</span><code></code></li>
+<li class="lp-ladder__answer"><code>free model</code><span>answered</span><code>$0.00</code></li>
+<li class="lp-ladder__gate"><code>paid models</code><span>not tried</span><code>policy: stop</code></li>
+</ol>
+<figcaption>Illustration of one request.</figcaption>
+</figure>
+</div>
+</section>
+
+<section class="lp-section " id="walk" aria-labelledby="walk-title">
+<div class="lp-shell lp-grid">
+<div class="lp-walk-copy">
+<h2 id="walk-title">How a request is routed</h2>
+<p>Models come from your own pinned list, from OpenRouter's catalog where the price is zero, or both.</p>
+</div>
+<div class="lp-walk-evidence">
+<dl class="lp-triggers">
+<div>
+<dt>Rate limit</dt><dd>A rate limit is retried on the same model with backoff.</dd>
+</div>
+<div>
+<dt>Error</dt><dd>A context-length error or most other client errors move straight to the next model.</dd>
+</div>
+<div>
+<dt>Timeout</dt><dd>A timeout is retried before moving to the next model.</dd>
+</div>
+<div>
+<dt>Context window</dt><dd>A context-length error or most other client errors move straight to the next model.</dd>
+</div>
+</dl>
+<p>Streaming can only fail over before the first token. After that, an error is passed to the caller, because switching models mid-answer would corrupt the stream.</p>
+</div>
+</div>
+</section>
+<section class="lp-section " id="why" aria-labelledby="why-title">
+<div class="lp-shell lp-grid">
+<h2 class="lp-problems__intro" id="why-title">Free models are generous. They are also flaky.</h2>
+<article class="lp-problem">
+<h3>The common workaround</h3>
+<p>The common workaround is to hard-code one cheap paid model, and then pay for work a free model would have done.</p>
+<p class="lp-fact">rate-limit</p>
+</article>
+<article class="lp-problem">
+<h3>freewhirr reverses that default.</h3>
+<p>It walks the free list first and moves on when a model fails. Paid models stay out of the path until you put them in it.</p>
+<p class="lp-fact">exhaustion_policy: stop</p>
+</article>
+</div>
+</section>
+<section class="lp-section " id="policies" aria-labelledby="policies-title">
+<div class="lp-shell lp-grid">
+<div class="lp-policy-heading">
+<h2 id="policies-title">Stop, or spend on purpose</h2>
+</div>
+<div class="lp-policy-wrap">
+<table class="lp-policy" role="table"><caption>Stop, or spend on purpose</caption>
+<thead role="rowgroup">
+<tr role="row"><td role="cell"></td><th scope="col" role="columnheader">stop</th><th scope="col" role="columnheader">paid</th></tr></thead>
+<tbody role="rowgroup">
+<tr role="row"><th scope="row" role="rowheader">When the free list is exhausted</th><td role="cell">freewhirr raises an error and calls nothing on your paid list.</td><td role="cell">You list the paid models you accept, in order.</td></tr>
+<tr role="row"><th scope="row" role="rowheader">Money spent</th><td role="cell">Nothing on your paid list is called.</td><td role="cell">only if every cap you set allows it</td></tr>
+<tr role="row"><th scope="row" role="rowheader">When a limit is hit</th><td role="cell">Stop with an error</td><td role="cell">When a cap blocks the call, the request fails the same way stop does.</td></tr>
+<tr role="row"><th scope="row" role="rowheader">Default</th><td role="cell">stop is the default.</td><td role="cell">paid is opt-in.</td></tr></tbody>
+</table>
+</div>
+<div class="lp-policy-guards">
+<dl class="lp-guards">
+<div>
+<dt>max_paid_per_request</dt><dd>a ceiling per request, checked against an estimate of the call's cost</dd>
+</div>
+<div>
+<dt>max_paid_per_day / max_paid_per_month</dt><dd>a ceiling per day and per month, checked against a ledger on your machine</dd>
+</div>
+<div>
+<dt>max_paid_share</dt><dd>a maximum share of successful requests that may be paid</dd>
+</div>
+<div>
+<dt>paid_only_high_complexity</dt><dd>an option to allow paid only for requests you tag as high complexity</dd>
+</div>
+</dl>
+</div>
+<div class="lp-policy-example">
+<figure>
+<figcaption><a href="https://github.com/andymccutcheon/freewhirr/blob/main/examples/paid.yaml">examples/paid.yaml</a> (example)</figcaption>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="paid-example" aria-label="Copy Paid policy example">Copy</button><pre class="lp-code" tabindex="0" aria-label="Paid policy example"><code id="paid-example"># Escalate to paid models only after free models are exhausted, and only
+<span class="lp-comment"># inside explicit dollar and share guardrails.</span>
+exhaustion_policy: paid
+include_discovered_free: true
+free_models: []
+paid_models:
+  - openai/gpt-4o-mini
+  - google/gemini-2.0-flash-001
+max_paid_per_request: 0.05
+max_paid_per_day: 1.00
+max_paid_per_month: 10.00
+<span class="lp-comment"># Fraction of successful requests that may be paid (0.1 = 10%).</span>
+max_paid_share: 0.1
+<span class="lp-comment"># When true, paid fallback runs only if the request is tagged high-complexity.</span>
+paid_only_high_complexity: false
+deny_data_collection: false
+baseline_paid_model: openai/gpt-4o-mini
+state_backend: sqlite</code></pre>
+</div>
+</figure>
+<p><strong>Set the caps before you switch to <code>paid</code>.</strong> Every cap is off until you set it. With <code>paid</code> and no caps, the only limit is the list of models.</p>
+<p><strong>Two settings that change what "free" means.</strong> A model you pin in <code>free_models</code> is treated as free whatever it costs, and so is a model a client asks for when <code>honor_requested_model</code> is on. Both are off or empty by default. Pin only $0 models.</p>
+</div>
+</div>
+</section>
+<section class="lp-section " id="quickstart" aria-labelledby="quickstart-title">
+<div class="lp-shell lp-grid">
+<div class="lp-quickstart">
+<div class="lp-heading">
+<h2 id="quickstart-title">Quickstart</h2>
+<p>You need Python 3.10 or newer and an OpenRouter API key.</p>
+</div>
+<div class="lp-command">
+<h3>Install</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="setup-command" aria-label="Copy Install">Copy</button><pre class="lp-code" tabindex="0" aria-label="Install"><code id="setup-command">python -m pip install freewhirr
+export OPENROUTER_API_KEY=sk-or-v1-...</code></pre>
+</div>
+</div>
+<div class="lp-command">
+<h3>From Python</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="python-example" aria-label="Copy From Python">Copy</button><pre class="lp-code" tabindex="0" aria-label="From Python"><code id="python-example">from freewhirr import Freewhirr
+
+with Freewhirr() as client:
+    result = client.complete(
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain vector clocks in one paragraph.&quot;}]
+    )
+    print(result.model)
+    print(result.content)</code></pre>
+</div>
+</div>
+<div class="lp-command">
+<h3>From the command line</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="chat-command" aria-label="Copy From the command line">Copy</button><pre class="lp-code" tabindex="0" aria-label="From the command line"><code id="chat-command">freewhirr chat &quot;Explain vector clocks in one paragraph.&quot;</code></pre>
+</div>
+</div>
+</div>
+<aside class="lp-write-side">
+<h3>Each result</h3>
+<dl class="lp-result">
+<div>
+<dt>.model</dt><dd>which model answered</dd>
+</div>
+<div>
+<dt>.content</dt><dd>the answer</dd>
+</div>
+<div>
+<dt>.cost_usd</dt><dd>the cost</dd>
+</div>
+<div>
+<dt>.paid</dt><dd>whether the call was paid</dd>
+</div>
+<div>
+<dt>.models_tried</dt><dd>which were tried</dd>
+</div>
+</dl>
+</aside>
+</div>
+</section>
+<section class="lp-section " id="surfaces" aria-labelledby="surfaces-title">
+<div class="lp-shell lp-grid">
+<h2 class="lp-failure-heading" id="surfaces-title">A library, a proxy, or a command line</h2>
+<div class="lp-answers">
+<article class="lp-answer">
+<h3>Python library.</h3>
+<p>Sync and async clients, plus a namespace shaped like the OpenAI SDK's. Each result tells you which model answered, which were tried, and whether the call was paid.</p><pre class="lp-code" tabindex="0" aria-label="Library surface"><code id="library-example">result = client.complete(messages=[...], quality=MinLengthCheck(40))
+async_result = await client.acomplete(messages=[...])
+for chunk in client.stream(messages=[...]):
+    print(chunk[&quot;choices&quot;][0][&quot;delta&quot;].get(&quot;content&quot;) or &quot;&quot;, end=&quot;&quot;)
+client.chat.completions.create(messages=[...])</code></pre>
+<p><a href="https://github.com/andymccutcheon/freewhirr#library-surface">Library surface</a></p>
+</article>
+<article class="lp-answer">
+<h3>Local proxy.</h3>
+<p>One process that accepts OpenAI Chat Completions, the OpenAI Responses API and Anthropic Messages, with streaming on all three. Point a client's base URL at it.</p>
+<p>By default the proxy ignores the model name the client sends, so an app with a paid model hard-coded cannot skip the free list.</p>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="serve-command" aria-label="Copy Proxy command">Copy</button><pre class="lp-code" tabindex="0" aria-label="Proxy command"><code id="serve-command">freewhirr serve --port 8787</code></pre>
+</div>
+<p>Then point an OpenAI-compatible client at <code>http://127.0.0.1:8787/v1</code>. With no configuration file the policy is <code>stop</code>.</p>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="proxy-example" aria-label="Copy OpenAI client example">Copy</button><pre class="lp-code" tabindex="0" aria-label="OpenAI client example"><code id="proxy-example"># examples/proxy_openai.py
+from openai import OpenAI
+
+client = OpenAI(base_url=&quot;http://127.0.0.1:8787/v1&quot;, api_key=&quot;not-used&quot;)
+response = client.chat.completions.create(
+    model=&quot;freewhirr&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Give me a one-line haiku about buses.&quot;}],
+)
+print(response.choices[0].message.content)</code></pre>
+</div>
+<ul class="lp-endpoints">
+<li>POST /v1/chat/completions</li>
+<li>POST /v1/responses</li>
+<li>POST /v1/messages</li>
+</ul>
+<p>The README has setup notes for Claude Code, Codex, OpenCode, Cursor, Pi, Goose, Omnigent and Hermes.</p>
+<ul class="lp-harnesses">
+<li>Claude Code</li>
+<li>OpenCode</li>
+<li>Codex</li>
+<li>Cursor</li>
+<li>Pi</li>
+<li>Goose</li>
+<li>Omnigent</li>
+<li>Hermes</li>
+</ul>
+<p>Most agent work needs a model that can call tools, which narrows the free list.</p>
+<p><a href="https://github.com/andymccutcheon/freewhirr#use-with">Setup notes in the README</a></p>
+<p><strong>The proxy has no login.</strong> It listens on 127.0.0.1 by default and does not check the key a client sends. Anyone who can reach the port can spend against your OpenRouter key under your policy. Keep it on localhost, or put your own authentication in front of it before you expose it.</p>
+</article>
+<article class="lp-answer">
+<h3>Command line.</h3>
+<p><code>freewhirr chat</code> for a one-off prompt, <code>freewhirr models</code> to see the list the next call would walk, <code>freewhirr stats</code> for the ledger, <code>freewhirr config</code> to print resolved settings with the key hidden.</p>
+<dl class="lp-cli">
+<div>
+<dt>chat</dt><dd>Send a one-shot chat completion.</dd>
+</div>
+<div>
+<dt>serve</dt><dd>Run an OpenAI-compatible proxy.</dd>
+</div>
+<div>
+<dt>stats</dt><dd>Show free vs paid share and estimated savings.</dd>
+</div>
+<div>
+<dt>models</dt><dd>List the free models the router would try.</dd>
+</div>
+<div>
+<dt>watch</dt><dd>Poll OpenRouter for new and stealth free models.</dd>
+</div>
+<div>
+<dt>config</dt><dd>Print the resolved configuration (secrets redacted).</dd>
+</div>
+</dl>
+</article>
+</div>
+</div>
+</section>
+<section class="lp-section " id="settings" aria-labelledby="settings-title">
+<div class="lp-shell lp-grid">
+<div class="lp-settings-copy">
+<h2 id="settings-title">Settings: yours, in any format</h2>
+<p>Configuration comes from a YAML or TOML file, environment variables, or arguments in code, in that order of precedence.</p>
+<ol class="lp-precedence">
+<li>defaults</li>
+<li>a YAML or TOML file</li>
+<li>environment variables</li>
+<li>constructor arguments: later wins</li>
+</ol>
+</div>
+<div class="lp-settings-code"><pre class="lp-code" tabindex="0" aria-label="One policy in four formats"><code id="settings-example"># YAML
+exhaustion_policy: stop
+
+<span class="lp-comment"># TOML</span>
+exhaustion_policy = &quot;stop&quot;
+
+<span class="lp-comment"># Environment variable</span>
+FREEWHIRR_EXHAUSTION_POLICY=stop
+
+<span class="lp-comment"># Python</span>
+FreewhirrConfig(exhaustion_policy=ExhaustionPolicy.STOP)</code></pre>
+</div>
+<div class="lp-settings-dependency">
+<p>The one required setting is your OpenRouter key.</p>
+<p>It works with OpenRouter and nothing else. If you need one gateway across several providers, this is the wrong tool.</p>
+<p><code>OPENROUTER_API_KEY</code></p>
+<p><a href="https://github.com/andymccutcheon/freewhirr#configuration">Full settings table in the README</a></p>
+</div>
+</div>
+</section>
+<section class="lp-section " id="privacy" aria-labelledby="privacy-title">
+<div class="lp-shell lp-grid">
+<div class="lp-privacy">
+<h2 id="privacy-title">The cost of free</h2>
+<div class="lp-answer lp-answer--egress">
+<p class="lp-lead"><strong>The project's README warns that most free endpoints may train on prompts.</strong> freewhirr sends your prompt to OpenRouter and to whichever model provider answers.</p>
+<p class="lp-lead">Set <code>deny_data_collection: true</code> and freewhirr asks OpenRouter to route only to providers that do not collect prompts.</p><pre class="lp-code" tabindex="0" aria-label="Data collection setting"><code id="privacy-setting">deny_data_collection: true</code></pre>
+<p class="lp-lead">That shrinks the free list, sometimes to nothing, and then <code>stop</code> fails closed.</p>
+</div>
+<div class="lp-answer">
+<p>Request logs and spend totals are written to a file on your machine. freewhirr has no telemetry of its own.</p>
+<p>Each request carries an app name and a link identifying freewhirr. You can change both.</p>
+</div>
+<div class="lp-answer">
+<p>The savings figure is an estimate for your own bookkeeping. It is not an invoice, and it is not a prediction of what you will save.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="lp-section lp-status" id="status" aria-labelledby="status-title">
+<div class="lp-shell lp-grid">
+<div class="lp-status__copy">
+<h2 id="status-title">Status</h2>
+<p class="lp-lead">freewhirr is version 0.1.0, the first public release, under the MIT licence. It is maintained by one person. Issues and pull requests are welcome.</p>
+<p>It works with OpenRouter and nothing else. If you need one gateway across several providers, this is the wrong tool.</p>
+<p>Named after Whir of Invention.</p>
+<p><a href="https://github.com/andymccutcheon/freewhirr">GitHub repository</a> · <a href="https://github.com/andymccutcheon/freewhirr/issues">Open an issue</a></p>
+</div>
+</div>
+</section>
+</main>
+<footer class="lp-footer">
+<div class="lp-shell lp-grid">
+<div class="lp-footer__about"><a class="lp-wordmark" href="#main">freewhirr</a>
+<p>MIT licence</p>
+</div>
+<ul class="lp-footer__links">
+<li><a href="https://github.com/andymccutcheon/freewhirr">GitHub repository</a></li>
+<li><a href="https://github.com/andymccutcheon/freewhirr#readme">README</a></li>
+<li><a href="https://github.com/andymccutcheon/freewhirr/issues">Open an issue</a></li>
+<li><a href="https://github.com/andymccutcheon/freewhirr/blob/main/LICENSE">Licence</a></li>
+<li><a href="https://github.com/andymccutcheon/freewhirr/blob/main/CHANGELOG.md">Changelog</a></li>
+<li><a href="https://pypi.org/project/freewhirr/">Install from PyPI</a></li>
+</ul>
+<div class="lp-footer__credit">
+<p>freewhirr is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, OpenRouter, OpenAI, Anthropic, or the makers of the tools and models it can work with. Product names belong to their owners.</p>
+<p>Not affiliated with OpenRouter.</p>
+</div>
+</div>
+</footer>
+<div class="lp-visually-hidden" aria-live="polite" id="copy-status">
+</div><script src="../shared/page.js" defer></script></body></html>

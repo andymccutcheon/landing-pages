@@ -375,6 +375,9 @@ async def main() -> None:
                 await page.close()
         await interactive_assertions(browser, failures)
         await resilience_assertions(browser, failures)
+        if (ROOT / "freewhirr/index.html").exists():
+            from freewhirr_render_check import run
+            await run(browser, failures, warm_page_for_capture)
         await browser.close()
     audit_path = OUT.parent / "grid-audit.json"
     audit_path.write_text(json.dumps(grid_audit, indent=2) + "\n", encoding="utf-8")
