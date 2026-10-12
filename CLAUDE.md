@@ -2,11 +2,13 @@
 
 ## Purpose
 
-This private, local-only repository holds standalone marketing pages for Andy McCutcheon's open-source tools. Acheron is the first draft; Freewhirr and Shipwatch are future pages. Do not create a remote, deploy, or publish anything without Andy's specific approval.
+This private, local-only repository holds standalone marketing pages for Andy McCutcheon's open-source tools. Acheron is the approved first page; Freewhirr is the second page, pending independent review. Shipwatch is a future page. Do not create a remote, deploy, or publish anything without Andy's specific approval.
 
 ## Structure
 
 - `acheron/index.html` — static Acheron landing page.
+- `freewhirr/index.html` — static Freewhirr landing page; scoped additions in `shared/freewhirr.css`.
+- `docs/freewhirr-implementation-report.md` — section reconciliation, classified copy audit and verification limits.
 - `shared/` — landing-page tokens, shared styles, generated font declarations and progressive enhancement. Keep marketing-layer selectors and variables under the `lp` namespace.
 - `vendor/pattern/` — read-only Design System Pattern snapshot pinned to commit `0292df0`; replace the complete snapshot rather than editing any vendored file.
 - `tools/` — font generation, raw-literal lint, copy audit and optional Playwright render check.
@@ -47,3 +49,5 @@ Do not install dependencies or download browsers merely to run the optional rend
 - Vendored and documented the verified Design System Pattern snapshot at commit `0292df0`.
 - Built the first Acheron page draft with light and dark themes, accessible semantic structure, budgeted progressive enhancement and reserved placeholder slots for the hero still and two explainers.
 - Added literal lint, copy audit, font generation and optional multi-viewport screenshot/overflow checks.
+
+- 2026-10-12: built Freewhirr; extended source gates to both pages and render gate with Freewhirr checks plus eight Acheron before/after pixel comparisons against `ebccc26`. Existing `.venv` and Chromium suffice; no new dependency. Copy audit chooses page by binding-copy filename.
