@@ -8,7 +8,9 @@
   <meta property="og:title" content="Acheron: one MCP server for your agent's memory">
   <meta property="og:description" content="A reference implementation you can clone and check. One search verb, a clean tool list, fail-open reranking, and a benchmark you can rerun.">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="assets/context-search-explainer-final-light.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="assets/context-search-explainer-final-light.png">
   <link rel="preload" href="../vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../vendor/pattern/fonts/fraunces/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../vendor/pattern/generated/tokens.css">
@@ -41,15 +43,18 @@
         <p class="lp-kicker">Reference implementation · MCP memory server</p>
         <h1 id="hero-title">One MCP server for your agent's memory.</h1>
         <div class="lp-hero__copy">
-          <p class="lp-lead">Acheron sits in front of Basic Memory. Your agent sees one search verb and a clean tool list, and reranking fails open: if the ranking model is down, you get the engine's native order instead of an error.</p>
+          <p class="lp-lead">Acheron sits in front of Basic Memory: one search verb, a clean tool list, and reranking that fails open.</p>
           <p>A reference implementation, not a product. MIT licensed, alpha, no support promise. Written to be read, run and adapted.</p>
           <div class="lp-cta">
             <a class="lp-button lp-hover-tint lp-press" href="https://github.com/andymccutcheon/acheron">Clone it and rerun the benchmark</a>
             <a class="lp-hover-tint" href="https://andymccutcheon.github.io/acheron/guide.html">Read the operator's guide</a>
           </div>
         </div>
-        <div class="lp-hero__still" role="img" aria-label="Placeholder for the final search-path diagram still, showing a question moving through Acheron and Basic Memory to a ranked answer.">
-          <p class="lp-placeholder"><strong>Hero still placeholder.</strong> The re-skinned search-path still will replace this single slot when the approved demo asset is ready.</p>
+        <div class="lp-hero__still lp-hero__still--pending" aria-label="Final frame from the search-path explainer: a question moves through Acheron and Basic Memory to a ranked answer.">
+          <!-- PLACEHOLDER: copy context-search-explainer-final-*.png from the explainer rebuild into assets/ -->
+          <img class="lp-hero__image lp-hero__image--light" src="assets/context-search-explainer-final-light.png" alt="" width="1280" height="680" decoding="async">
+          <img class="lp-hero__image lp-hero__image--dark" src="assets/context-search-explainer-final-dark.png" alt="" width="1280" height="680" decoding="async">
+          <p class="lp-placeholder"><strong>Hero still placeholder.</strong> Expected files: <code>assets/context-search-explainer-final-light.png</code> and <code>assets/context-search-explainer-final-dark.png</code> (1280×680 final frames from the search-path explainer rebuild).</p>
         </div>
       </div>
     </section>
@@ -57,7 +62,7 @@
     <section class="lp-section" aria-labelledby="problems-title">
       <div class="lp-shell lp-grid">
         <div class="lp-heading lp-problems__intro"><h2 id="problems-title">Tool sprawl hides the note that answers the question</h2><p class="lp-lead">Agents wired to a personal knowledge base hit two problems.</p></div>
-        <article class="lp-problem"><h3>Too many tools.</h3><p>Basic Memory's own MCP server exposes around 27 tools, including two overlapping search verbs. Every turn the agent has to choose, and the weaker path is always selectable.</p><p class="lp-evidence"><code>search_notes</code> <code>context_search</code></p></article>
+        <article class="lp-problem"><h3>Too many tools.</h3><p>Basic Memory's own MCP server exposes around 27 tools, including two overlapping search verbs. Every turn the agent has to choose, and the weaker path is always selectable.</p><p class="lp-evidence"><code>search_notes</code> <code>search</code></p></article>
         <article class="lp-problem"><h3>Ordering is not recall.</h3><p>Hybrid search finds the right notes, but hub pages, person pages and passing mentions outrank the note that answers the question. On the demo set in the repository, native search put the expected note first in <a href="#evidence">7 of 16 questions</a>.</p><p class="lp-evidence">That figure comes from 23 synthetic notes and 16 hand-labelled questions. It shows the shape of the problem, not its size on your notes.</p></article>
       </div>
     </section>
@@ -65,13 +70,53 @@
     <section class="lp-theatre-section" id="search-path" aria-labelledby="search-title">
       <div class="lp-shell lp-grid">
         <div class="lp-theatre-heading"><h2 id="search-title">How a question becomes a ranked answer</h2><p class="lp-lead">Every response says how it was ranked, so the agent can tell a reranked answer from a fallback.</p></div>
-        <figure class="lp-theatre lp-theatre--right dark lp-reveal"><div class="lp-placeholder"><strong>Search-path explainer placeholder.</strong> This reserved slot will accept one approved poster, video or interactive explainer. No real notes or current explainer content is included.</div></figure>
-        <details class="lp-details"><summary>Read the steps as text</summary><ol><li><strong>The agent calls one tool.</strong> <code>context_search</code> is the only search verb. It takes a query, the engine's filters, or both.</li><li><strong>Basic Memory returns candidates.</strong> Acheron asks the engine for its native hybrid results, ten by default.</li><li><strong>A decision model re-orders them.</strong> Each candidate is scored against the question on a four-step scale, from "unrelated" to "direct answer".</li><li><strong>If the model fails, you still get an answer.</strong> Results come back in the engine's native order, marked <code>fallback: true</code>.</li><li><strong>Filters alone skip the model.</strong> Ask by tag, status or date with no query and you get native order, marked <code>ranking: "native"</code>.</li></ol></details>
-        <div class="lp-contract lp-grid"><p class="lp-contract__copy">The sample is illustrative. It shows the response fields without quoting the explainer's on-screen numbers.</p><pre class="lp-code lp-contract__code" tabindex="0" aria-label="Illustrative context search response"><code>{
+        <figure class="lp-theatre-figure lp-reveal">
+          <div class="lp-theatre lp-theatre--right dark">
+            <div class="lp-theatre__stage">
+              <div class="lp-theatre__fallback">
+                <!-- PLACEHOLDER: poster and MP4 from the pattern-dark search-path explainer rebuild -->
+                <img class="lp-theatre__poster" src="assets/context-search-explainer-pattern-dark-poster.png" alt="" width="1280" height="856" decoding="async">
+                <video class="lp-theatre__video" width="1280" height="856" preload="none" playsinline poster="assets/context-search-explainer-pattern-dark-poster.png">
+                  <source src="assets/context-search-explainer-pattern-dark.mp4" type="video/mp4">
+                </video>
+              </div>
+              <iframe class="lp-theatre__interactive" title="Search-path explainer (interactive)" src="assets/context-search-explainer-pattern-dark.html" width="1280" height="856" loading="lazy"></iframe>
+            </div>
+            <div class="lp-theatre__controls">
+              <button class="lp-theatre__play lp-button lp-hover-tint lp-press" type="button">Play</button>
+              <p class="lp-theatre__motion-hint">Motion is off in your settings. Step through with the explainer controls after you open it at desktop width, or read the steps below.</p>
+            </div>
+          </div>
+          <p class="lp-theatre-caption">Illustrative scores; synthetic demo library.</p>
+        </figure>
+        <details class="lp-details"><summary>Read the steps as text</summary><ol>
+          <li><strong>The demo corpus, indexed.</strong> Twenty-three markdown notes for a fictional photo-sync project, grouped by folder. Basic Memory keeps a local hybrid index over them and refreshes when files change.</li>
+          <li><strong>A question arrives.</strong> Any agent calls the one first-party tool, context_search. Every other storage tool stays proxied under its engine name.</li>
+          <li><strong>Hybrid search on the engine.</strong> Acheron forwards search_notes to the long-running Basic Memory service. Candidates come from the engine's native hybrid search, not from the decision model.</li>
+          <li><strong>Ten candidates return.</strong> Up to ten notes return with paths and snippets. The right answer is usually already in the list; reranking only reorders.</li>
+          <li><strong>The model scores each note.</strong> When an OpenRouter key is set, Mercury Decide scores each candidate on usefulness. Note text is untrusted evidence, not instructions.</li>
+          <li><strong>Scores return.</strong> Scores are ordering signal. They do not change which notes were retrieved; the score labels shown here are illustrative.</li>
+          <li><strong>Model order wins.</strong> In auto mode with Mercury, model order wins. On the unstacked benchmark (16 questions, hand labels), Mercury put the labeled note first in 14 of 16; native hybrid alone reached 7 of 16.</li>
+          <li><strong>Results reach the agent.</strong> The response lists ranked notes with paths and snippets so the agent can open the winner. One call, no search loop.</li>
+          <li><strong>When the model rate-limits.</strong> A 429 from the Decisions API is a reranker failure, not a storage outage. Acheron does not pretend the engine survived an outage.</li>
+          <li><strong>One retry.</strong> The client waits, then retries once on 429 or 5xx. A persistent outage still fails open after that.</li>
+          <li><strong>Native order, fallback true.</strong> If the model stays down, results keep native hybrid order. The response sets fallback: true and ranking: native. Recall stays; ordering weakens.</li>
+        </ol></details>
+        <div class="lp-search-path__body">
+          <ol class="lp-search-steps" aria-label="Search path summary">
+            <li><strong>The agent calls one tool.</strong> <code>context_search</code> is the only search verb. It takes a query, the engine's filters, or both.</li>
+            <li><strong>Basic Memory returns candidates.</strong> Acheron asks the engine for its native hybrid results, ten by default.</li>
+            <li><strong>A decision model re-orders them.</strong> Each candidate is scored against the question on a four-step scale, from "unrelated" to "direct answer".</li>
+            <li><strong>If the model fails, you still get an answer.</strong> Results come back in the engine's native order, marked <code>fallback: true</code>.</li>
+            <li><strong>Filters alone skip the model.</strong> Ask by tag, status or date with no query and you get native order, marked <code>ranking: "native"</code>.</li>
+          </ol>
+          <p class="lp-contract__copy">The sample is illustrative. It shows the response fields without quoting the explainer's on-screen numbers.</p>
+          <pre class="lp-code lp-contract__code" tabindex="0" aria-label="Illustrative context search response"><code>{
   "query": "how do we handle sync conflicts?",
   "ranking": "model",
 <span class="highlight">  "fallback": false</span>
-}</code></pre></div>
+}</code></pre>
+        </div>
       </div>
     </section>
 
@@ -83,20 +128,38 @@
 
     <section class="lp-section" id="evidence" aria-labelledby="evidence-title"><div class="lp-shell lp-grid">
       <div class="lp-heading"><h2 id="evidence-title">What the included benchmark shows, and what it does not</h2><p>The repository ships a synthetic corpus of 23 notes for a fictional photo-sync project, and 16 labelled questions. Each row counts the questions where the expected note came back first, and in the top three.</p></div>
-      <div class="lp-ledger-scroll lp-scroll-region lp-reveal" tabindex="0" role="region" aria-label="Benchmark results; scroll horizontally to see all columns"><table class="lp-ledger"><caption>Benchmark results</caption><thead><tr><th scope="col">Method</th><th scope="col">First</th><th scope="col">Top three</th></tr></thead><tbody><tr><th scope="row">Native hybrid search (engine default)</th><td>7 of 16</td><td>12 of 16</td></tr><tr><th scope="row">Basic Memory's built-in local reranker</th><td>12 of 16</td><td>14 of 16</td></tr><tr><th scope="row">Acheron with Mercury Decide</th><td>14 of 16</td><td>15 of 16</td></tr><tr><th scope="row">Acheron stacked on the built-in reranker</th><td>15 of 16</td><td>16 of 16</td></tr></tbody></table></div>
+      <div class="lp-ledger-scroll lp-reveal"><table class="lp-ledger"><caption>Benchmark results<span class="lp-ledger__limits">23 synthetic notes, 16 hand-labelled questions, one corpus. A difference of one to three questions is within noise.</span></caption><thead><tr><th scope="col">Method</th><th scope="col">First</th><th scope="col">Top three</th></tr></thead><tbody><tr><th scope="row">Native hybrid search (engine default)</th><td>7 <span class="lp-ledger__denom">of 16</span></td><td>12 <span class="lp-ledger__denom">of 16</span></td></tr><tr><th scope="row">Basic Memory's built-in local reranker</th><td>12 <span class="lp-ledger__denom">of 16</span></td><td>14 <span class="lp-ledger__denom">of 16</span></td></tr><tr><th scope="row">Acheron with Mercury Decide</th><td>14 <span class="lp-ledger__denom">of 16</span></td><td>15 <span class="lp-ledger__denom">of 16</span></td></tr><tr><th scope="row">Acheron stacked on the built-in reranker</th><td>15 <span class="lp-ledger__denom">of 16</span></td><td>16 <span class="lp-ledger__denom">of 16</span></td></tr></tbody></table></div>
       <p class="lp-limits"><strong>Read this before you quote it.</strong> This is 23 synthetic notes, 16 questions, hand labels and one corpus. A difference of one to three questions is within noise. Basic Memory's built-in reranker is strong and free. Acheron's case is not better ranking. It is the single surface, the fail-open contract, and evidence you can rerun.</p>
       <div class="lp-benchmark-command"><p>Rerun it without installing the engine. You need an OpenRouter key.</p><div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="benchmark-command" aria-label="Copy benchmark replay command">Copy</button><pre class="lp-code lp-scroll-region" tabindex="0" aria-label="Benchmark replay command"><span class="lp-prompt" aria-hidden="true">$ </span><code id="benchmark-command">uv run python eval/benchmark.py --replay eval/demo/candidates.json --provider mercury --delay 3.2</code></pre></div></div>
     </div></section>
 
     <section class="lp-section" aria-labelledby="failure-title"><div class="lp-shell lp-grid">
       <h2 class="lp-failure-heading" id="failure-title">When it goes wrong, and what leaves your machine</h2>
-      <div class="lp-answers"><article class="lp-answer"><h3>The ranking model fails.</h3><p>Acheron retries once on a rate limit or server error. After that, or with no key set, results come back in native order with <code>fallback: true</code>. This covers the reranker only. If Basic Memory itself is down, search returns an error.</p><p class="lp-fact">One retry, then native order</p></article><article class="lp-answer"><h3>A call asks for too much.</h3><p>Results are capped at 25 and candidates at 50 per call, and the rerank timeout is bounded. One request cannot inflate payload size or provider usage.</p><p class="lp-fact">25 results, 50 candidates, bounded timeout</p></article><article class="lp-answer lp-answer--privacy"><h3>A note contains instructions.</h3><p>Note text reaches the ranking model labelled as untrusted evidence to score, not instructions to follow, and the search tool tells your agent the same. This is a prompt-level guard, not isolation. Keep your client's tool permissions on.</p><p class="lp-fact">Untrusted evidence to score, not instructions to follow</p></article><article class="lp-answer lp-answer--privacy"><h3>What is sent out.</h3><p>By default, a search with a query sends that query, each candidate's title and up to 500 characters of each candidate's text to OpenRouter for scoring. Unless you name a project, the search covers every project you have registered. Filter-only searches make no model call.</p><p class="lp-fact">Query, candidate titles, up to 500 characters per candidate</p></article><article class="lp-answer"><h3>Turning it off.</h3><p>Set <code>ACHERON_PROVIDER=none</code> and reranking is off: no key, no outbound call, native order.</p><p class="lp-fact">No key, no outbound call, native order</p></article><article class="lp-answer"><h3>Where the key comes from.</h3><p>Acheron uses <code>OPENROUTER_API_KEY</code> if it is set. Otherwise it reuses the OpenRouter key that OpenCode stores on your machine, if there is one.</p><p class="lp-fact">Environment first, then OpenCode</p></article><p><a href="https://andymccutcheon.github.io/acheron/guide.html">Read the design notes</a></p></div>
+      <div class="lp-answers"><article class="lp-answer"><h3>The ranking model fails.</h3><p>Acheron retries once on a rate limit or server error. After that, or with no key set, results come back in native order with <code>fallback: true</code>. This covers the reranker only. If Basic Memory itself is down, search returns an error.</p><p class="lp-fact">One retry, then native order</p></article><article class="lp-answer"><h3>A call asks for too much.</h3><p>Results are capped at 25 and candidates at 50 per call, and the rerank timeout is bounded. One request cannot inflate payload size or provider usage.</p><p class="lp-fact">25 results, 50 candidates, bounded timeout</p></article><article class="lp-answer"><h3>A note contains instructions.</h3><p>Note text reaches the ranking model labelled as untrusted evidence to score, not instructions to follow, and the search tool tells your agent the same. This is a prompt-level guard, not isolation. Keep your client's tool permissions on.</p><p class="lp-fact">Untrusted evidence to score, not instructions to follow</p></article><article class="lp-answer lp-answer--egress"><h3>What is sent out.</h3><p><span class="lp-privacy-lead">By default, a search with a query sends that query, each candidate's title and up to 500 characters of each candidate's text to OpenRouter for scoring.</span> Unless you name a project, the search covers every project you have registered. Filter-only searches make no model call.</p><p class="lp-fact">Query, candidate titles, up to 500 characters per candidate</p></article><article class="lp-answer"><h3>Turning it off.</h3><p>Set <code>ACHERON_PROVIDER=none</code> and reranking is off: no key, no outbound call, native order.</p><p class="lp-fact">No key, no outbound call, native order</p></article><article class="lp-answer"><h3>Where the key comes from.</h3><p>Acheron uses <code>OPENROUTER_API_KEY</code> if it is set. Otherwise it reuses the OpenRouter key that OpenCode stores on your machine, if there is one.</p><p class="lp-fact">Environment first, then OpenCode</p></article><p><a href="https://andymccutcheon.github.io/acheron/guide.html">Read the design notes</a></p></div>
     </div></section>
 
     <section class="lp-theatre-section" aria-labelledby="storage-title"><div class="lp-shell lp-grid">
       <div class="lp-theatre-heading lp-storage-heading"><h2 id="storage-title">Your notes stay plain markdown</h2><p>This part is Basic Memory's design, and Acheron leaves it alone. Your notes are ordinary markdown files in ordinary folders. The search index and the graph of links between notes are built from those files and can be rebuilt from them. Anything that writes markdown is a valid way to add a note.</p><p class="lp-lead">Save a note and your agent can find it in under a minute.</p></div>
-      <figure class="lp-theatre lp-theatre--left dark lp-reveal"><div class="lp-placeholder"><strong>Storage-path explainer placeholder.</strong> This reserved slot will accept one approved poster, video or interactive explainer with synthetic demo content.</div></figure>
-      <p class="lp-details">The markdown-is-canonical property belongs to <a href="https://github.com/basicmachines-co/basic-memory">Basic Memory</a>.</p>
+      <figure class="lp-theatre-figure lp-reveal">
+        <div class="lp-theatre lp-theatre--left dark">
+          <div class="lp-theatre__stage">
+            <div class="lp-theatre__fallback">
+              <!-- PLACEHOLDER: poster and MP4 from the pattern-dark storage explainer rebuild -->
+              <img class="lp-theatre__poster" src="assets/storage-explainer-pattern-dark-poster.png" alt="" width="1280" height="856" decoding="async">
+              <video class="lp-theatre__video" width="1280" height="856" preload="none" playsinline poster="assets/storage-explainer-pattern-dark-poster.png">
+                <source src="assets/storage-explainer-pattern-dark.mp4" type="video/mp4">
+              </video>
+            </div>
+            <iframe class="lp-theatre__interactive" title="Storage-path explainer (interactive)" src="assets/storage-explainer-pattern-dark.html" width="1280" height="856" loading="lazy"></iframe>
+          </div>
+          <div class="lp-theatre__controls">
+            <button class="lp-theatre__play lp-button lp-hover-tint lp-press" type="button">Play</button>
+            <p class="lp-theatre__motion-hint">Motion is off in your settings. Step through with the explainer controls after you open it at desktop width.</p>
+          </div>
+        </div>
+        <p class="lp-theatre-caption">Illustrative scores; synthetic demo library.</p>
+      </figure>
+      <figure class="lp-storage-credit"><figcaption>The markdown-is-canonical property belongs to <a href="https://github.com/basicmachines-co/basic-memory">Basic Memory</a>.</figcaption></figure>
     </div></section>
 
     <section class="lp-section" id="quickstart" aria-labelledby="quickstart-title"><div class="lp-shell lp-grid">
@@ -118,7 +181,7 @@ uv run acheron               <span class="lp-comment"># the one agent-facing ser
     <section class="lp-status lp-section" aria-labelledby="status-title"><div class="lp-shell lp-grid"><div class="lp-status__copy"><h2 id="status-title">Status</h2><p class="lp-lead">Acheron is a reference implementation. There is no support promise and no maintenance guarantee. Issues and pull requests are welcome on a best-effort basis.</p><p>The code targets Basic Memory's HTTP MCP server. There is no adapter for other storage engines. The part meant to travel is the pattern: discover the engine's tools, hide the duplicate search verb, proxy the rest unchanged, and rerank with a fallback.</p><p><a href="https://github.com/andymccutcheon/acheron/issues">Open an issue</a> · <a href="https://andymccutcheon.github.io/acheron/guide.html">Read the guide</a></p></div></div></section>
   </main>
 
-  <footer class="lp-footer"><div class="lp-shell lp-grid"><div class="lp-footer__about"><a class="lp-wordmark" href="#main">Acheron</a><p>Reference implementation, MIT licence, Alpha</p></div><ul class="lp-footer__links"><li><a href="https://github.com/andymccutcheon/acheron">GitHub repository</a></li><li><a href="https://andymccutcheon.github.io/acheron/guide.html">Operator's guide</a></li><li><a href="https://github.com/andymccutcheon/acheron/issues">Open an issue</a></li><li><a href="https://github.com/andymccutcheon/acheron/blob/main/LICENSE">Licence</a></li></ul><p class="lp-footer__credit">Acheron is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, Basic Memory, OpenRouter, or the providers of the models it can call. Product names belong to their owners.</p><p class="lp-footer__credit">The markdown source-of-truth design is credited to Basic Memory.</p></div></footer>
+  <footer class="lp-footer"><div class="lp-shell lp-grid"><div class="lp-footer__about"><a class="lp-wordmark" href="#main">Acheron</a><p>Reference implementation, MIT licence, alpha</p></div><ul class="lp-footer__links"><li><a href="https://github.com/andymccutcheon/acheron">GitHub repository</a></li><li><a href="https://andymccutcheon.github.io/acheron/guide.html">Operator's guide</a></li><li><a href="https://github.com/andymccutcheon/acheron/issues">Open an issue</a></li><li><a href="https://github.com/andymccutcheon/acheron/blob/main/LICENSE">Licence</a></li></ul><p class="lp-footer__credit">Acheron is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, Basic Memory, OpenRouter, or the providers of the models it can call. Product names belong to their owners.</p><p class="lp-footer__credit">The markdown source-of-truth design is credited to Basic Memory.</p></div></footer>
   <div class="lp-visually-hidden" aria-live="polite" id="copy-status"></div>
   <script src="../shared/page.js" defer></script>
 </body>

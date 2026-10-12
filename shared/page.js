@@ -53,6 +53,29 @@
     });
   });
 
+  document.querySelectorAll('.lp-hero__image').forEach((image) => {
+    const still = image.closest('.lp-hero__still');
+    const markReady = () => {
+      if (still && image.naturalWidth > 0) still.classList.remove('lp-hero__still--pending');
+    };
+    image.addEventListener('load', markReady);
+    image.addEventListener('error', () => still?.classList.add('lp-hero__still--pending'));
+    if (image.complete) markReady();
+  });
+
+  document.querySelectorAll('.lp-theatre').forEach((theatre) => {
+    const poster = theatre.querySelector('.lp-theatre__poster');
+    const video = theatre.querySelector('.lp-theatre__video');
+    const play = theatre.querySelector('.lp-theatre__play');
+    if (!poster || !video || !play) return;
+    play.addEventListener('click', () => {
+      poster.classList.add('is-hidden');
+      video.classList.add('is-active');
+      video.controls = true;
+      video.play().catch(() => {});
+    });
+  });
+
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {

@@ -10,7 +10,10 @@
   --lp-col-gap: 1rem; /* core.space.4 */
   --lp-header-h: 4rem; /* core.space.16 */
   --lp-measure-lead: 44ch; /* brief section 3.8 new value */
-  --lp-theatre-ratio: 1.615; /* provisional placeholder from 1280 / (680 + 112); final explainer not built */
+  --lp-theatre-ratio: 1.496; /* 1280 / 856 — stage, caption and control rows from the pattern explainer build */
+  --lp-tool-col-min: 12.625rem; /* 202px — longest proxied tool name without mid-word breaks */
+  --lp-failure-heading-max: 22ch; /* sticky failure heading at 1024 */
+  --lp-ledger-method-max: 14rem; /* benchmark method column at 1024 */
   --lp-break-sm: 30rem; /* core.breakpoint.sm */
   --lp-break-md: 48rem; /* core.breakpoint.md */
   --lp-break-lg: 64rem; /* core.breakpoint.lg */

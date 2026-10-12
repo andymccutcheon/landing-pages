@@ -1,4 +1,3 @@
-/* PROVISIONAL: Andy has not ruled whether these recipes stay here or move into the Pattern. */
 @media (hover: hover) and (pointer: fine) {
   .lp-hover-tint { transition: color var(--ds-motion-duration-fast) var(--ds-motion-ease-out), background-color var(--ds-motion-duration-fast) var(--ds-motion-ease-out); }
 }
