@@ -10,5 +10,6 @@
 @media (prefers-reduced-motion: reduce) {
   .lp-press:active { transform: none; transition: none; }
   .js .lp-reveal, .js .lp-reveal:not(.is-visible) { opacity: var(--lp-one); transform: none; transition: none; }
+  .lp-theatre__interactive { transition: none; }
 }
 

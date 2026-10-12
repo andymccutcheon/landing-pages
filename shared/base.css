@@ -54,8 +54,9 @@ html:not(.dark) .lp-hero__image--dark, html.dark .lp-hero__image--light { displa
 .lp-theatre-section { padding-block: var(--lp-space-section-sm); }
 .lp-theatre-heading { grid-column: 1 / -1; }
 .lp-theatre { inline-size: var(--lp-full); aspect-ratio: var(--lp-theatre-ratio); background: var(--ds-color-bg-canvas); border: var(--ds-border-width-hairline) solid var(--ds-color-border-default); border-radius: var(--ds-radius-container); color: var(--ds-color-text-primary); overflow: hidden; display: grid; grid-template-rows: minmax(var(--lp-zero), 1fr) auto; }
-.lp-theatre__stage { position: relative; min-block-size: var(--lp-zero); overflow: hidden; }
+.lp-theatre__stage { position: relative; min-block-size: var(--lp-zero); overflow: hidden; background-color: var(--ds-color-bg-canvas); }
 .lp-theatre__fallback, .lp-theatre__interactive { position: absolute; inset: var(--lp-zero); inline-size: var(--lp-full); block-size: var(--lp-full); border: var(--lp-zero); }
+.lp-theatre__interactive { background-color: transparent; }
 .lp-theatre__poster, .lp-theatre__video { display: block; inline-size: var(--lp-full); block-size: var(--lp-full); object-fit: cover; object-position: center top; }
 .lp-theatre__video { display: none; background: var(--ds-color-bg-canvas); }
 .lp-theatre__video.is-active { display: block; }
@@ -174,7 +175,24 @@ html:not(.dark) .lp-hero__image--dark, html.dark .lp-hero__image--light { displa
 }
 
 @media (min-width: 80rem) {
-  .lp-theatre__interactive { display: block; }
+  .lp-theatre__stage::before {
+    content: "";
+    position: absolute;
+    inset: var(--lp-zero);
+    z-index: 0;
+    background-image: var(--lp-theatre-stage-poster);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    pointer-events: none;
+  }
+  .lp-theatre__interactive {
+    display: block;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity var(--ds-motion-duration-fast) var(--ds-motion-ease-out);
+  }
+  .lp-theatre__interactive.is-loaded { opacity: 1; }
   .lp-theatre__fallback, .lp-theatre__controls { display: none; }
 }
 

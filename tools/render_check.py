@@ -22,6 +22,75 @@ def installed_chromium() -> str:
     return os.fspath(candidates[0])
 
 
+async def warm_page_for_capture(page, width: int) -> None:
+    await page.evaluate("""async () => {
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const step = Math.max(240, window.innerHeight - 64);
+      const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      for (let y = 0; y <= maxY; y += step) {
+        window.scrollTo(0, y);
+        await delay(100);
+      }
+      window.scrollTo(0, maxY);
+      await delay(200);
+      window.scrollTo(0, 0);
+      await delay(100);
+    }""")
+    if width < 1280:
+        return
+    frames = page.locator(".lp-theatre__interactive")
+    for index in range(await frames.count()):
+        await frames.nth(index).scroll_into_view_if_needed()
+    await page.evaluate("""() => new Promise((resolve) => {
+      const visible = [...document.querySelectorAll('.lp-theatre__interactive')]
+        .filter((element) => getComputedStyle(element).display !== 'none');
+      if (!visible.length) return resolve();
+      let settled = 0;
+      const finish = () => {
+        settled += 1;
+        if (settled >= visible.length) resolve();
+      };
+      visible.forEach((element) => {
+        if (element.classList.contains('is-loaded')) return finish();
+        element.addEventListener('load', finish, { once: true });
+        setTimeout(finish, 10000);
+      });
+    })""")
+
+
+async def assert_theatre_iframes(page, theme: str, width: int, failures: list[str]) -> None:
+    if width < 1280:
+        return
+    states = await page.evaluate("""() => [...document.querySelectorAll('.lp-theatre__interactive')]
+      .filter((element) => getComputedStyle(element).display !== 'none')
+      .map((frame) => {
+        const stage = frame.closest('.lp-theatre__stage');
+        const poster = stage ? getComputedStyle(stage).getPropertyValue('--lp-theatre-stage-poster').trim() : '';
+        let bodyChildCount = -1;
+        try {
+          bodyChildCount = frame.contentDocument?.body?.childElementCount ?? 0;
+        } catch (error) {
+          bodyChildCount = -1;
+        }
+        return {
+          loaded: frame.classList.contains('is-loaded'),
+          posterSet: poster.length > 0,
+          bodyChildCount,
+        };
+      })""")
+    prefix = f"{theme} {width}"
+    if not states:
+        failures.append(f"{prefix}: no visible theatre iframes at desktop width")
+        return
+    for index, state in enumerate(states, start=1):
+        if not state["posterSet"]:
+            failures.append(f"{prefix}: theatre {index} missing stage poster")
+        if not state["loaded"]:
+            failures.append(f"{prefix}: theatre {index} iframe not loaded before capture")
+        if state["bodyChildCount"] == 0:
+            failures.append(f"{prefix}: theatre {index} iframe document is empty")
+
+
 async def layout_assertions(page, theme: str, width: int, failures: list[str], grid_audit: dict) -> None:
     if width == 1280:
         await page.locator('.lp-failure-heading').scroll_into_view_if_needed()
@@ -288,7 +357,9 @@ async def main() -> None:
                 page = await browser.new_page(viewport={"width": width, "height": 900}, color_scheme=theme, reduced_motion="no-preference")
                 await page.goto(URL, wait_until="networkidle")
                 await page.evaluate("document.querySelectorAll('.lp-reveal').forEach(element => element.classList.add('is-visible'))")
+                await warm_page_for_capture(page, width)
                 await layout_assertions(page, theme, width, failures, grid_audit)
+                await assert_theatre_iframes(page, theme, width, failures)
                 await page.screenshot(path=OUT / f"acheron-{theme}-{width}.png", full_page=True)
                 await page.close()
         await interactive_assertions(browser, failures)

@@ -63,6 +63,16 @@
     if (image.complete) markReady();
   });
 
+  document.querySelectorAll('.lp-theatre__interactive').forEach((frame) => {
+    const markLoaded = () => frame.classList.add('is-loaded');
+    frame.addEventListener('load', markLoaded);
+    try {
+      if (frame.contentDocument?.readyState === 'complete') markLoaded();
+    } catch (error) {
+      // Cross-origin iframes cannot be inspected; rely on the load event.
+    }
+  });
+
   document.querySelectorAll('.lp-theatre').forEach((theatre) => {
     const poster = theatre.querySelector('.lp-theatre__poster');
     const video = theatre.querySelector('.lp-theatre__video');
