@@ -77,7 +77,7 @@
                   <source src="assets/context-search-explainer-pattern-dark.mp4" type="video/mp4">
                 </video>
               </div>
-              <iframe class="lp-theatre__interactive" title="Search-path explainer (interactive)" src="assets/context-search-explainer-pattern-dark.html" width="1280" height="856" loading="eager"></iframe>
+              <iframe class="lp-theatre__interactive" title="Search-path explainer (interactive)" src="assets/context-search-explainer-pattern-dark.html" width="1280" height="856" loading="lazy"></iframe>
             </div>
             <div class="lp-theatre__controls">
               <button class="lp-theatre__play lp-button lp-hover-tint lp-press" type="button">Play</button>
@@ -107,7 +107,7 @@
             <li><strong>If the model fails, you still get an answer.</strong> Results come back in the engine's native order, marked <code>fallback: true</code>.</li>
             <li><strong>Filters alone skip the model.</strong> Ask by tag, status or date with no query and you get native order, marked <code>ranking: "native"</code>.</li>
           </ol>
-          <p class="lp-contract__copy">The sample is illustrative. It shows the response fields without quoting the explainer's on-screen numbers.</p>
+          <p class="lp-contract__copy">The sample is illustrative.</p>
           <pre class="lp-code lp-contract__code" tabindex="0" aria-label="Illustrative context search response"><code>{
   "query": "how do we handle sync conflicts?",
   "ranking": "model",
@@ -132,7 +132,7 @@
 
     <section class="lp-section" aria-labelledby="failure-title"><div class="lp-shell lp-grid">
       <h2 class="lp-failure-heading" id="failure-title">When it goes wrong, and what leaves your machine</h2>
-      <div class="lp-answers"><article class="lp-answer"><h3>The ranking model fails.</h3><p>Acheron retries once on a rate limit or server error. After that, or with no key set, results come back in native order with <code>fallback: true</code>. This covers the reranker only. If Basic Memory itself is down, search returns an error.</p><p class="lp-fact">One retry, then native order</p></article><article class="lp-answer"><h3>A call asks for too much.</h3><p>Results are capped at 25 and candidates at 50 per call, and the rerank timeout is bounded. One request cannot inflate payload size or provider usage.</p><p class="lp-fact">25 results, 50 candidates, bounded timeout</p></article><article class="lp-answer"><h3>A note contains instructions.</h3><p>Note text reaches the ranking model labelled as untrusted evidence to score, not instructions to follow, and the search tool tells your agent the same. This is a prompt-level guard, not isolation. Keep your client's tool permissions on.</p><p class="lp-fact">Untrusted evidence to score, not instructions to follow</p></article><article class="lp-answer lp-answer--egress"><h3>What is sent out.</h3><p><span class="lp-privacy-lead">By default, a search with a query sends that query, each candidate's title and up to 500 characters of each candidate's text to OpenRouter for scoring.</span> Unless you name a project, the search covers every project you have registered. Filter-only searches make no model call.</p><p class="lp-fact">Query, candidate titles, up to 500 characters per candidate</p></article><article class="lp-answer"><h3>Turning it off.</h3><p>Set <code>ACHERON_PROVIDER=none</code> and reranking is off: no key, no outbound call, native order.</p><p class="lp-fact">No key, no outbound call, native order</p></article><article class="lp-answer"><h3>Where the key comes from.</h3><p>Acheron uses <code>OPENROUTER_API_KEY</code> if it is set. Otherwise it reuses the OpenRouter key that OpenCode stores on your machine, if there is one.</p><p class="lp-fact">Environment first, then OpenCode</p></article><p><a href="https://andymccutcheon.github.io/acheron/guide.html">Read the design notes</a></p></div>
+      <div class="lp-answers"><article class="lp-answer"><h3>The ranking model fails.</h3><p>Acheron retries once on a rate limit or server error. After that, or with no key set, results come back in native order with <code>fallback: true</code>. This covers the reranker only. If Basic Memory itself is down, search returns an error.</p><p class="lp-fact">One retry, then native order</p></article><article class="lp-answer"><h3>A call asks for too much.</h3><p>Results are capped at 25 and candidates at 50 per call, and the rerank timeout is bounded. One request cannot inflate payload size or provider usage.</p><p class="lp-fact">25 results, 50 candidates, bounded timeout</p></article><article class="lp-answer"><h3>A note contains instructions.</h3><p>Note text reaches the ranking model labelled as untrusted evidence to score, not instructions to follow, and the search tool tells your agent the same. This is a prompt-level guard, not isolation. Keep your client's tool permissions on.</p><p class="lp-fact">Untrusted evidence to score, not instructions to follow</p></article><article class="lp-answer lp-answer--egress"><h3>What is sent out.</h3><p><span class="lp-privacy-lead">By default, a search with a query sends that query, each candidate's title and up to 500 characters of each candidate's text to OpenRouter for scoring.</span> Unless you name a project, the search covers every project you have registered. Filter-only searches make no model call.</p><p class="lp-fact">Query, candidate titles, up to 500 characters per candidate</p></article><article class="lp-answer"><h3>Turning it off.</h3><p>Set <code>ACHERON_PROVIDER=none</code> and reranking is off: no key, no outbound call, native order.</p><p class="lp-fact">No key, no outbound call, native order</p></article><article class="lp-answer"><h3>Where the key comes from.</h3><p>Acheron uses <code>OPENROUTER_API_KEY</code> if it is set. Otherwise it reuses the OpenRouter key that OpenCode stores on your machine, if there is one.</p><p class="lp-fact">Environment first, then OpenCode</p></article><p><a href="https://github.com/andymccutcheon/acheron#design-notes">Read the design notes</a></p></div>
     </div></section>
 
     <section class="lp-theatre-section" aria-labelledby="storage-title"><div class="lp-shell lp-grid">
@@ -146,14 +146,14 @@
                 <source src="assets/storage-explainer-pattern-dark.mp4" type="video/mp4">
               </video>
             </div>
-            <iframe class="lp-theatre__interactive" title="Storage-path explainer (interactive)" src="assets/storage-explainer-pattern-dark.html" width="1280" height="856" loading="eager"></iframe>
+            <iframe class="lp-theatre__interactive" title="Storage-path explainer (interactive)" src="assets/storage-explainer-pattern-dark.html" width="1280" height="856" loading="lazy"></iframe>
           </div>
           <div class="lp-theatre__controls">
             <button class="lp-theatre__play lp-button lp-hover-tint lp-press" type="button">Play</button>
             <p class="lp-theatre__motion-hint">Motion is off in your settings. Step through with the explainer controls after you open it at desktop width.</p>
           </div>
         </div>
-        <p class="lp-theatre-caption">Illustrative scores; synthetic demo library.</p>
+        <p class="lp-theatre-caption">Synthetic demo library.</p>
       </figure>
       <figure class="lp-storage-credit"><figcaption>The markdown-is-canonical property belongs to <a href="https://github.com/basicmachines-co/basic-memory">Basic Memory</a>.</figcaption></figure>
     </div></section>
@@ -164,7 +164,7 @@
 scripts/start-bm-http.sh     <span class="lp-comment"># Basic Memory's HTTP MCP service on port 8765</span>
 uv run acheron               <span class="lp-comment"># the one agent-facing server (stdio)</span></code></pre></div></div>
         <div class="lp-command"><h3>Claude Code</h3><div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="claude-command" aria-label="Copy Claude Code configuration command">Copy</button><pre class="lp-code lp-scroll-region" tabindex="0" aria-label="Claude Code configuration command"><span class="lp-prompt" aria-hidden="true">$ </span><code id="claude-command">claude mcp add --scope user acheron -- /path/to/acheron/.venv/bin/acheron</code></pre></div></div>
-        <div class="lp-command"><h3>OpenCode <code>(~/.config/opencode/opencode.jsonc)</code></h3><div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="opencode-config" aria-label="Copy OpenCode configuration">Copy</button><pre class="lp-code lp-scroll-region" tabindex="0" aria-label="OpenCode configuration"><code id="opencode-config">"acheron": {
+        <div class="lp-command"><h3>OpenCode (<code>~/.config/opencode/opencode.jsonc</code>)</h3><div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="opencode-config" aria-label="Copy OpenCode configuration">Copy</button><pre class="lp-code lp-scroll-region" tabindex="0" aria-label="OpenCode configuration"><code id="opencode-config">"acheron": {
   "type": "local",
   "command": ["uv", "run", "--directory", "/path/to/acheron", "acheron"],
   "enabled": true
@@ -174,10 +174,10 @@ uv run acheron               <span class="lp-comment"># the one agent-facing ser
       <aside class="lp-write-side"><h3>The write side.</h3><p>The repository includes a memory skill for agents. It seeds a knowledge base from existing folders, captures durable facts during a session, and wraps a session into short linked notes.</p></aside>
     </div></section>
 
-    <section class="lp-status lp-section" aria-labelledby="status-title"><div class="lp-shell lp-grid"><div class="lp-status__copy"><h2 id="status-title">Status</h2><p class="lp-lead">Acheron is a reference implementation. There is no support promise and no maintenance guarantee. Issues and pull requests are welcome on a best-effort basis.</p><p>The code targets Basic Memory's HTTP MCP server. There is no adapter for other storage engines. The part meant to travel is the pattern: discover the engine's tools, hide the duplicate search verb, proxy the rest unchanged, and rerank with a fallback.</p><p><a href="https://github.com/andymccutcheon/acheron/issues">Open an issue</a> · <a href="https://andymccutcheon.github.io/acheron/guide.html">Read the guide</a></p></div></div></section>
+    <section class="lp-status lp-section" aria-labelledby="status-title"><div class="lp-shell lp-grid"><div class="lp-status__copy"><h2 id="status-title">Status</h2><p class="lp-lead">Acheron is a reference implementation. There is no support promise and no maintenance guarantee. Issues and pull requests are welcome on a best-effort basis.</p><p>The code targets Basic Memory's HTTP MCP server. There is no adapter for other storage engines. The part meant to travel is the pattern: discover the engine's tools, hide the duplicate search verb, proxy the rest unchanged, and rerank with a fallback.</p><p><a href="https://github.com/andymccutcheon/acheron/issues">Open an issue</a> · <a href="https://andymccutcheon.github.io/acheron/guide.html">Read the operator's guide</a></p></div></div></section>
   </main>
 
-  <footer class="lp-footer"><div class="lp-shell lp-grid"><div class="lp-footer__about"><a class="lp-wordmark" href="#main">Acheron</a><p>Reference implementation, MIT licence, alpha</p></div><ul class="lp-footer__links"><li><a href="https://github.com/andymccutcheon/acheron">GitHub repository</a></li><li><a href="https://andymccutcheon.github.io/acheron/guide.html">Operator's guide</a></li><li><a href="https://github.com/andymccutcheon/acheron/issues">Open an issue</a></li><li><a href="https://github.com/andymccutcheon/acheron/blob/main/LICENSE">Licence</a></li></ul><p class="lp-footer__credit">Acheron is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, Basic Memory, OpenRouter, or the providers of the models it can call. Product names belong to their owners.</p><p class="lp-footer__credit">The markdown source-of-truth design is credited to Basic Memory.</p></div></footer>
+  <footer class="lp-footer"><div class="lp-shell lp-grid"><div class="lp-footer__about"><a class="lp-wordmark" href="#main">Acheron</a><p>Reference implementation, MIT licence, alpha</p></div><ul class="lp-footer__links"><li><a href="https://github.com/andymccutcheon/acheron">GitHub repository</a></li><li><a href="https://andymccutcheon.github.io/acheron/guide.html">Operator's guide</a></li><li><a href="https://github.com/andymccutcheon/acheron/issues">Open an issue</a></li><li><a href="https://github.com/andymccutcheon/acheron/blob/main/LICENSE">Licence</a></li></ul><p class="lp-footer__credit">Acheron is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, Basic Memory, OpenRouter, or the providers of the models it can call. Product names belong to their owners.</p></div></footer>
   <div class="lp-visually-hidden" aria-live="polite" id="copy-status"></div>
   <script src="../shared/page.js" defer></script>
 </body>

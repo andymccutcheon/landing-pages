@@ -64,12 +64,28 @@
   });
 
   document.querySelectorAll('.lp-theatre__interactive').forEach((frame) => {
-    const markLoaded = () => frame.classList.add('is-loaded');
-    frame.addEventListener('load', markLoaded);
+    const markLoadedWhenPaintable = () => {
+      const started = performance.now();
+      const tick = () => {
+        try {
+          if ((frame.contentDocument?.body?.childElementCount ?? 0) > 0) {
+            frame.classList.add('is-loaded');
+            return;
+          }
+        } catch (error) {
+          frame.classList.add('is-loaded');
+          return;
+        }
+        if (performance.now() - started > 12000) return;
+        window.setTimeout(tick, 50);
+      };
+      tick();
+    };
+    frame.addEventListener('load', markLoadedWhenPaintable);
     try {
-      if (frame.contentDocument?.readyState === 'complete') markLoaded();
+      if (frame.contentDocument?.readyState === 'complete') markLoadedWhenPaintable();
     } catch (error) {
-      // Cross-origin iframes cannot be inspected; rely on the load event.
+      frame.addEventListener('load', () => frame.classList.add('is-loaded'), { once: true });
     }
   });
 

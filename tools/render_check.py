@@ -45,16 +45,27 @@ async def warm_page_for_capture(page, width: int) -> None:
       const visible = [...document.querySelectorAll('.lp-theatre__interactive')]
         .filter((element) => getComputedStyle(element).display !== 'none');
       if (!visible.length) return resolve();
-      let settled = 0;
-      const finish = () => {
-        settled += 1;
-        if (settled >= visible.length) resolve();
+      const hasContent = (frame) => {
+        try {
+          return (frame.contentDocument?.body?.childElementCount ?? 0) > 0;
+        } catch (error) {
+          return false;
+        }
       };
-      visible.forEach((element) => {
-        if (element.classList.contains('is-loaded')) return finish();
-        element.addEventListener('load', finish, { once: true });
-        setTimeout(finish, 10000);
+      const waitForFrame = (frame) => new Promise((done) => {
+        const started = performance.now();
+        const tick = () => {
+          if (hasContent(frame)) {
+            frame.classList.add('is-loaded');
+            return done();
+          }
+          if (performance.now() - started > 12000) return done();
+          window.setTimeout(tick, 50);
+        };
+        frame.addEventListener('load', tick, { once: true });
+        tick();
       });
+      Promise.all(visible.map(waitForFrame)).then(resolve);
     })""")
 
 
