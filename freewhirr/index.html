@@ -66,13 +66,13 @@
 <dt>Rate limit</dt><dd>A rate limit is retried on the same model with backoff.</dd>
 </div>
 <div>
-<dt>Error</dt><dd>A context-length error or most other client errors move straight to the next model.</dd>
+<dt>Error</dt><dd>Server errors are retried on the same model with backoff.</dd>
 </div>
 <div>
 <dt>Timeout</dt><dd>A timeout is retried before moving to the next model.</dd>
 </div>
 <div>
-<dt>Context window</dt><dd>A context-length error or most other client errors move straight to the next model.</dd>
+<dt>Context window</dt><dd>A context-length error moves straight to the next model.</dd>
 </div>
 </dl>
 <p>Streaming can only fail over before the first token. After that, an error is passed to the caller, because switching models mid-answer would corrupt the stream.</p>
@@ -100,7 +100,7 @@
 <h2 id="policies-title">Stop, or spend on purpose</h2>
 </div>
 <div class="lp-policy-wrap">
-<table class="lp-policy" role="table"><caption>Stop, or spend on purpose</caption>
+<table class="lp-policy" role="table"><caption class="lp-visually-hidden">Stop, or spend on purpose</caption>
 <thead role="rowgroup">
 <tr role="row"><td role="cell"></td><th scope="col" role="columnheader">stop</th><th scope="col" role="columnheader">paid</th></tr></thead>
 <tbody role="rowgroup">
@@ -213,7 +213,7 @@ with Freewhirr() as client:
 <div class="lp-answers">
 <article class="lp-answer">
 <h3>Python library.</h3>
-<p>Sync and async clients, plus a namespace shaped like the OpenAI SDK's. Each result tells you which model answered, which were tried, and whether the call was paid.</p><pre class="lp-code" tabindex="0" aria-label="Library surface"><code id="library-example">result = client.complete(messages=[...], quality=MinLengthCheck(40))
+<p>Sync and async clients, plus a namespace shaped like the OpenAI SDK's. Each result tells you which model answered, which were tried, and whether the call was paid.</p><pre class="lp-code" tabindex="0" aria-label="Library surface"><code id="library-example">result = client.complete(messages=[...])
 async_result = await client.acomplete(messages=[...])
 for chunk in client.stream(messages=[...]):
     print(chunk[&quot;choices&quot;][0][&quot;delta&quot;].get(&quot;content&quot;) or &quot;&quot;, end=&quot;&quot;)
@@ -340,7 +340,6 @@ FreewhirrConfig(exhaustion_policy=ExhaustionPolicy.STOP)</code></pre>
 <div class="lp-status__copy">
 <h2 id="status-title">Status</h2>
 <p class="lp-lead">freewhirr is version 0.1.0, the first public release, under the MIT licence. It is maintained by one person. Issues and pull requests are welcome.</p>
-<p>It works with OpenRouter and nothing else. If you need one gateway across several providers, this is the wrong tool.</p>
 <p>Named after Whir of Invention.</p>
 <p><a href="https://github.com/andymccutcheon/freewhirr">GitHub repository</a> · <a href="https://github.com/andymccutcheon/freewhirr/issues">Open an issue</a></p>
 </div>
@@ -361,7 +360,8 @@ FreewhirrConfig(exhaustion_policy=ExhaustionPolicy.STOP)</code></pre>
 <li><a href="https://pypi.org/project/freewhirr/">Install from PyPI</a></li>
 </ul>
 <div class="lp-footer__credit">
-<p>freewhirr is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, OpenRouter, OpenAI, Anthropic, or the makers of the tools and models it can work with. Product names belong to their owners.</p>
+<p>freewhirr is an independent open-source project by Andy McCutcheon.</p>
+<p>Product names belong to their owners.</p>
 <p>Not affiliated with OpenRouter.</p>
 </div>
 </div>

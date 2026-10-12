@@ -38,9 +38,18 @@ async def check(browser, url, out, failures):
                 h1: document.querySelectorAll('h1').length,
                 sections: document.querySelectorAll('main > section').length,
                 headings: [...document.querySelectorAll('main h2')].map(el => el.textContent),
-                tableRole: document.querySelector('.lp-policy').getAttribute('role')};
+                tableRole: document.querySelector('.lp-policy').getAttribute('role'),
+                caption: {text: document.querySelector('.lp-policy caption').textContent,
+                  position: getComputedStyle(document.querySelector('.lp-policy caption')).position,
+                  clip: getComputedStyle(document.querySelector('.lp-policy caption')).clipPath,
+                  width: b(document.querySelector('.lp-policy caption')).width}};
             }''')
             label=f'{theme} {width}'
+            caption = result['caption']
+            if caption['text'] != 'Stop, or spend on purpose' or caption['position'] != 'absolute' or caption['clip'] == 'none' or caption['width'] > 1:
+                failures.append(f'{label}: policy caption is not visually hidden: {caption}')
+            if await page.get_by_role('table', name='Stop, or spend on purpose', exact=True).count() != 1:
+                failures.append(f'{label}: policy table lost its accessible caption')
             if result['overflow'] or result['escaped']: failures.append(f'{label}: overflow {result}')
             if result['lines'] > (3 if width==360 else 2)+0.1: failures.append(f'{label}: headline lines {result["lines"]}')
             if result['h1'] != 1 or result['sections'] != 9 or result['tableRole'] != 'table': failures.append(f'{label}: structure {result}')

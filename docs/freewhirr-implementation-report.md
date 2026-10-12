@@ -375,3 +375,24 @@ Verdict on original commit `50dea7668918ea3e6456b1ef056c1496a8afc708`: ACCEPT WI
 - Minor 5, log only: reviewer reported an axe-CI Chrome/ChromeDriver version mismatch. Recorded without changing either version or installing anything; axe validation remains unclaimed.
 
 Review-fix checks: literal lint, middle-dot check, copy audit (31 additions, 40 omissions, fully classified), contrast sampling and complete render/regression gate rerun. Acheron remains byte-identical at all eight width/theme pairs against `ebccc26`.
+
+## Layla design sign-off minors
+
+Design verdict: SIGN-OFF WITH MINORS. This follow-up is one product-only commit above `d07b4d7`; no `.agent/` or `CLAUDE.md` changes.
+
+Applied changes:
+
+1. Policy caption retains its text and semantic `<caption>` element, adding the existing `lp-visually-hidden` class. Absolute positioning and clipping remove it from mobile layout without hiding it from screen readers. The render gate now checks the caption’s clipped, one-pixel, out-of-flow box and the table’s accessible name in all eight theme/width views, including 360.
+2. Error trigger: “Server errors are retried on the same model with backoff.” Context-window trigger: “A context-length error moves straight to the next model.” All four triggers remain, each with distinct copy.
+3. Keep “It works with OpenRouter and nothing else. If you need one gateway across several providers, this is the wrong tool.” once in Settings; remove its duplicate from the closing band.
+4. Footer keeps the exact “Not affiliated with OpenRouter.” line once. Remove the long non-affiliation sentence; keep the original author-credit and product-name-ownership sentences as separate paragraphs. This supersedes the earlier reconciliation retaining the broader disclaimer.
+5. Library example now starts `result = client.complete(messages=[...])`; remove the quality-check argument without changing the remaining sync/async/stream/OpenAI-shaped examples. This supersedes the initial verbatim source snippet choice.
+
+Copy-audit delta from the previous pass: **31 → 33 additions**, **40 → 40 omissions**. The two new additions are the authorized Error and Context-window rewrites. The library block’s old source-example addition is replaced by the trimmed block (one-for-one). Removing duplicates creates no new omission because the audit checks whether text exists anywhere, not occurrence counts. The semantic caption remains in the parser’s text despite being visually clipped. The short footer line was already classified as an explicit ruling. Binding copy file unchanged; no other word deltas. Earlier classifications remain the historical baseline, with these changes superseding the affected entries.
+
+Accepted and logged only:
+
+- Strong-border token remains 1.5px; reported standard-screen rendering at 1px accepted for now. Revisit visual weight separately.
+- The gate-colour alias and 20 `--lp-system-*` dark-value copies remain beyond the three component dimensions. Accepted; when the Pattern snapshot changes, recheck those copies against its `.dark` values to prevent theme drift.
+
+Validation: literal lint, middle-dot check, copy audit and render check rerun. Caption has no visible wrapping column at 360 and remains the table’s accessible name. Acheron regression remains 8/8 byte-identical PNG pairs at the four widths in both themes against `ebccc26`. No existing shared style or vendor file changed in this pass.
