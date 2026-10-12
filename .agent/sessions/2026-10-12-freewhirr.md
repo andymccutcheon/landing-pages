@@ -1,3 +1,9 @@
+---
+permalink: landing-pages-memory/sessions/2026-10-12-freewhirr
+title: 2026-10-12-freewhirr
+type: note
+---
+
 # Freewhirr implementation session
 
 Built the second landing page on local main from two binding inputs. Detailed choices, source provenance, copy differences and verification are in `docs/freewhirr-implementation-report.md`. No Acheron content or vendor files changed. No remote/push. Upcoming reviewer: Grok 4.7, different vendor from OpenAI implementer.

@@ -1,3 +1,9 @@
+---
+permalink: landing-pages-memory/sessions/2026-10-12-publication-preparation
+title: 2026-10-12-publication-preparation
+type: note
+---
+
 # Publication preparation — 2026-10-12
 
 Andy authorized creation of the empty public `andymccutcheon/landing-pages` repository

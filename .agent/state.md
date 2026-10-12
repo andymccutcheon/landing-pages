@@ -1,3 +1,9 @@
+---
+permalink: landing-pages-memory/state
+title: state
+type: note
+---
+
 # Landing pages handoff
 
 Freewhirr is implemented locally on main; awaiting the user-assigned Grok 4.7 independent review. Read `docs/freewhirr-implementation-report.md` for section order, classified copy audit, reconciliations, evidence and remaining validation. Acheron remains the approved first page and passes byte-identical regression at four widths in both themes against `ebccc26`. No remote exists; do not push or deploy.
