@@ -6,8 +6,12 @@ type: note
 
 # Landing pages handoff
 
-Freewhirr is implemented locally on main; awaiting the user-assigned Grok 4.7 independent review. Read `docs/freewhirr-implementation-report.md` for section order, classified copy audit, reconciliations, evidence and remaining validation. Acheron remains the approved first page and passes byte-identical regression at four widths in both themes against `ebccc26`. No remote exists; do not push or deploy.
+All three pages are LIVE on GitHub Pages (Acheron, Freewhirr, Shipwatch) from `main` of the public repository `andymccutcheon/landing-pages`; Shipwatch 0.1.1 released 2026-10-12. Docs (`CLAUDE.md`, `README.md`, commit `d54b469`) cover the three pages, the shared Pattern system (`shared/`, `--lp-` tokens), the render/contrast/copy/regression gates, the Pages allowlist, and the step-by-step "add a page" guide.
 
-Use the existing `.venv/bin/python3` for Playwright checks. Source checks use system Python. Preview on 8769 if 8766 is occupied by an unresponsive process. Screenshots and raw audit output are ignored under `.review/`.
+Authoritative close-out: `hellDivers/.agent/handoffs/2026-10-12-shipwatch-landing-publication.md` (completion + backlog with owners). Full dispatch history: `hellDivers/.agent/inbox/2026-10-11-vanguard-landing-pages-routing-log.md`. Session notes: `sessions/2026-10-12-freewhirr.md`, `sessions/2026-10-12-publication-preparation.md`.
 
-Review-fix follow-up: original Freewhirr verdict ACCEPT WITH FIXES; scope separated into product and housekeeping commits, gate contrast strengthened, rate-limit/timeout descriptions made distinct, and Why fact made plain language. Chrome/ChromeDriver axe-CI mismatch logged only. Details in the implementation report.
+Backlog (owners in the handoff): Freewhirr product fixes (stop=never-spend escape hatches, uncapped paid policy, proxy no auth); Shipwatch follow-ups (future-dated exclusion test, SQLite ISO-text ordering); Freewhirr live-Lab fix. Loose end: Layla's design brief and Katrina's copy draft remain untracked in their own repos (inbox notes dropped to each).
+
+Operational: use `.venv/bin/python3` for Playwright checks; system Python for source checks; preview on 8769 if 8766 is occupied; `.review/` is ignored.
+
+> Corrected 2026-10-12 by Cricket (Omnigent operations): this file still described the pre-publication Freewhirr stage ("no remote exists; do not push or deploy") — stale after the overnight close-out. Sources: the successor session's close-out summary (2026-10-12 07:44) and the 07:31 handoff.
