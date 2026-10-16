@@ -9,9 +9,21 @@ root landing page and no build step.
 | Freewhirr | [`freewhirr/index.html`](freewhirr/index.html) | <https://andymccutcheon.github.io/landing-pages/freewhirr/> |
 | Shipwatch | [`shipwatch/index.html`](shipwatch/index.html) | <https://andymccutcheon.github.io/landing-pages/shipwatch/> |
 
+## Promptzilla
+
+`promptzilla/` is a fourth page. It is **not** published by the GitHub Pages workflow and is
+not listed above: it ships as its own Cloudflare static-assets Worker, packaged in
+`promptzilla/cloudflare/` and driven by the `cf` CLI. Its content plan, positioning and
+design decisions are in [`promptzilla/DESIGN.md`](promptzilla/DESIGN.md); its deploy and
+verify commands are in [`promptzilla/cloudflare/README.md`](promptzilla/cloudflare/README.md).
+
+It reuses the same shared Pattern layer as the other three, keeps its own stylesheet in
+`promptzilla/css/`, and is covered by the same source, contrast and render gates.
+
 ## Repository map
 
 - `acheron/`, `freewhirr/`, `shipwatch/` — page HTML and product-local assets.
+- `promptzilla/` — page HTML, page stylesheet, favicon, design record and Cloudflare packaging.
 - `shared/` — the shared Pattern layer: generated fonts, `--lp-` tokens, base and motion rules,
   `common.css`, page-specific `freewhirr.css` and `shipwatch.css`, and `page.js`.
 - `vendor/pattern/` — immutable Design System Pattern snapshot pinned in `SNAPSHOT.md`.
@@ -44,6 +56,7 @@ Source checks:
 python3 tools/check_literals.py
 python3 tools/check_middle_dots.py
 node --check shared/page.js
+node --check promptzilla/cloudflare/scripts/build.mjs
 ```
 
 Copy audit, once per page, using the binding Marketing Engineering draft:
@@ -67,13 +80,20 @@ Then, in another terminal:
 PATH="$PWD/.venv/bin:$PATH" python3 tools/render_check.py
 PATH="$PWD/.venv/bin:$PATH" python3 tools/freewhirr_contrast_check.py
 PATH="$PWD/.venv/bin:$PATH" python3 tools/shipwatch_contrast_check.py
+PATH="$PWD/.venv/bin:$PATH" python3 tools/promptzilla_contrast_check.py
 ```
+
+Each browser gate reads the preview server from `LP_TEST_URL`, defaulting to
+`http://127.0.0.1:8766/acheron/`, and derives its own page from it. Set that one variable
+to move every gate to a different port, or override a single page with
+`LP_FREEWHIRR_URL`, `LP_SHIPWATCH_URL` or `LP_PROMPTZILLA_URL`.
 
 The aggregate render gate produces:
 
 - Acheron: 6 widths × 2 themes = 12 captures.
 - Freewhirr: 4 widths × 2 themes = 8 captures.
 - Shipwatch: 6 widths × 2 themes = 12 captures, plus 2 no-JavaScript captures.
+- Promptzilla: 6 widths × 2 themes = 12 captures, plus 2 no-JavaScript captures.
 
 It also exercises responsive layout, clipboard and fallback behavior, keyboard scrolling, theme and
 skip controls, reduced motion, long strings and asset budgets. The final regression gate compares

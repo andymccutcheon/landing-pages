@@ -13,7 +13,7 @@ async def main():
   b=await p.chromium.launch(executable_path=installed_chromium())
   for theme in ('light','dark'):
    page=await b.new_page(color_scheme=theme,viewport={'width':1280,'height':800})
-   await page.goto(os.environ.get('LP_FREEWHIRR_URL','http://127.0.0.1:8766/freewhirr/'),wait_until='networkidle')
+   await page.goto(os.environ.get('LP_FREEWHIRR_URL',os.environ.get('LP_TEST_URL','http://127.0.0.1:8766/acheron/').removesuffix('acheron/')+'freewhirr/'),wait_until='networkidle')
    await page.evaluate('''() => {window.ratio = (a,b) => {
     const canvas=document.createElement('canvas'); canvas.width=canvas.height=1; const ctx=canvas.getContext('2d',{willReadFrequently:true});
     const luminance=color=>{ctx.clearRect(0,0,1,1);ctx.fillStyle=color;ctx.fillRect(0,0,1,1);const rgb=[...ctx.getImageData(0,0,1,1).data].slice(0,3).map(x=>{x/=255;return x<=.04045?x/12.92:((x+.055)/1.055)**2.4});return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;};
