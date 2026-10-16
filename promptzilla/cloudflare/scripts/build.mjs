@@ -17,25 +17,25 @@ const REPO = path.resolve(PROJECT, '../..');
 const DIST = path.join(PROJECT, 'dist');
 const PAGE = path.join(REPO, 'promptzilla/index.html');
 
-/** Files copied from the repository root, published at the same path under dist/. */
+/**
+ * Files copied from the repository root, published at the same path under dist/. The Alien UI
+ * snapshot is allowlisted file by file; vendor/alien-ui/SNAPSHOT.md is deliberately left out.
+ */
 const SHARED_ASSETS = [
-  'shared/fonts.css',
-  'shared/lp-tokens.css',
-  'shared/base.css',
-  'shared/motion.css',
-  'shared/common.css',
-  'shared/page.js',
-  'vendor/pattern/generated/tokens.css',
-  'vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2',
-  'vendor/pattern/fonts/instrument-sans/OFL.txt',
-  'vendor/pattern/fonts/fraunces/fraunces-latin.woff2',
-  'vendor/pattern/fonts/fraunces/OFL.txt',
-  'vendor/pattern/fonts/jetbrains-mono/jetbrains-mono-latin.woff2',
-  'vendor/pattern/fonts/jetbrains-mono/OFL.txt',
+  'vendor/alien-ui/css/system-contract.css',
+  'vendor/alien-ui/css/tokens.css',
+  'vendor/alien-ui/css/system-components.css',
+  'vendor/alien-ui/css/components.css',
+  'vendor/alien-ui/css/crt.css',
+  'vendor/alien-ui/js/typeon.js',
+  'vendor/alien-ui/fonts/Michroma.ttf',
+  'vendor/alien-ui/fonts/Michroma-OFL.txt',
+  'vendor/alien-ui/fonts/ShareTechMono.ttf',
+  'vendor/alien-ui/fonts/ShareTechMono-OFL.txt',
 ];
 
 /** Page-local directories copied verbatim, published relative to dist/. */
-const PAGE_DIRECTORIES = ['css', 'assets'];
+const PAGE_DIRECTORIES = ['css', 'js', 'assets'];
 
 const references = (source, pattern) => [...source.matchAll(pattern)].map((match) => match[1]);
 
@@ -66,13 +66,13 @@ async function assertAllowlistIsComplete(html) {
 
 /**
  * Move the page to the Worker root. Every local reference becomes root-relative, so
- * the page resolves the same way whatever path serves it: `../shared/x` and `css/x`
- * both become `/shared/x` and `/css/x`.
+ * the page resolves the same way whatever path serves it: `../vendor/x` and `css/x`
+ * both become `/vendor/x` and `/css/x`.
  */
 const ROOT_RELATIVE_REWRITES = [
-  ['"../shared/', '"/shared/'],
   ['"../vendor/', '"/vendor/'],
   ['"css/', '"/css/'],
+  ['"js/', '"/js/'],
   ['"assets/', '"/assets/'],
 ];
 

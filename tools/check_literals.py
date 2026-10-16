@@ -6,7 +6,8 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-EXEMPT = ROOT / "shared/lp-tokens.css"
+# Token files: the only places raw literals may live (one per design system in use).
+EXEMPTS = {ROOT / "shared/lp-tokens.css", ROOT / "promptzilla/css/pz-tokens.css"}
 PATTERNS = {
     "colour": re.compile(r"(?<![\w-])(?:#[0-9a-fA-F]{3,8}|(?:rgb|hsl|oklch|lab|lch)\s*\()"),
     "length": re.compile(r"(?<![\w.-])-?(?:\d*\.\d+|\d+)(?:px|rem|em|ch|vw|vh|dvw|dvh)\b"),
@@ -29,7 +30,7 @@ def main() -> int:
         ROOT / "promptzilla/index.html",
     ]
     for path in paths:
-        if path == EXEMPT or path.name == "fonts.css":
+        if path in EXEMPTS or path.name == "fonts.css":
             continue
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             for kind, pattern in PATTERNS.items():
@@ -43,7 +44,7 @@ def main() -> int:
         print("Literal lint failed")
         print("\n".join(failures))
         return 1
-    print("Literal lint passed: no raw colour, length or duration values outside shared/lp-tokens.css or the five reviewed base.css media-query boundaries")
+    print("Literal lint passed: no raw colour, length or duration values outside the token files (shared/lp-tokens.css, promptzilla/css/pz-tokens.css) or the five reviewed base.css media-query boundaries")
     return 0
 
 

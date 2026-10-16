@@ -1,0 +1,36 @@
+/* Promptzilla page tokens. The only file on this page that holds raw lengths; colour, type and
+   motion come from the vendored Alien UI contract (vendor/alien-ui/css/system-contract.css).
+   tools/check_literals.py exempts this file the same way it exempts shared/lp-tokens.css. */
+:root {
+  /* components.css reads these two names; point them at the contract's families. */
+  --font-ui: var(--alien-primitive-typography-family-interface);
+  --font-wide: var(--alien-primitive-typography-family-display);
+
+  --pz-shell: 77.5rem;
+  --pz-gutter: 1.5rem;
+  --pz-gutter-sm: 1rem;
+  --pz-header-height: 4rem;
+  --pz-section-space: 6rem;
+  --pz-section-space-sm: 3.5rem;
+  --pz-hero-space: 4rem;
+  --pz-hero-space-sm: 2rem;
+  --pz-gap-xl: 4rem;
+  --pz-measure: 62ch;
+  --pz-measure-wide: 80ch;
+  --pz-label-col: 13rem;
+  --pz-crt-max: 36rem;
+  --pz-crt-text: clamp(0.8rem, 0.55rem + 0.6vw, 0.95rem);
+  --pz-h1: clamp(1.75rem, 1rem + 2.6vw, 2.75rem);
+  --pz-h2: clamp(1.25rem, 1rem + 0.9vw, 1.75rem);
+  --pz-h3: 1rem;
+  --pz-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --pz-command: 0.9375rem;
+  --pz-mark: 1.5rem;
+  --pz-display-tracking: -0.02em;
+  --pz-label-tracking: 0.12em;
+  --pz-ui-tracking: 0.08em;
+  --pz-note-tracking: 0.04em;
+  --pz-link-offset: 0.2em;
+  --pz-crt-line: 1.3em;
+  --pz-crt-padding: 6%;
+}

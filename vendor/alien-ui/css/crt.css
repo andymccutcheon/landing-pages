@@ -1,0 +1,63 @@
+/* Alien UI design system — CRT effects (CSS layer).
+ * DOM approximation of the measured effect params. The WebGL post-process
+ * (js/crt.js) applies the same parameters to canvas surfaces; this is the
+ * no-JS / DOM fallback.
+ *
+ * Parameters cite design/tokens.merged.json:
+ *   scanline period  5.8758 px median (measured, 2 frames)
+ *   vignette ratio   0.545 corner/center (measured, 87 frames)
+ */
+
+.crt::before {
+  /* scanlines — period from the measured token, scaled for display density */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.32) 0 1px,
+    transparent 1px 3px);
+  background-size: 100% calc(var(--alien-scanline-period-px, 5.88) / 2 * 1px);
+}
+
+.crt::after {
+  /* vignette — corner/center ratio ~0.545, plus the faint screen tint */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center,
+      transparent 52%,
+      rgba(0, 0, 0, 0.45) calc(100% - (var(--alien-vignette-ratio, 0.545) * 30%)),
+      rgba(0, 0, 0, 0.75) 100%),
+    rgba(18, 16, 16, 0.05);
+  animation: crt-flicker 0.15s steps(2) infinite;  /* after X18 */
+}
+@keyframes crt-flicker { 50% { opacity: 0.6; } }
+
+/* Chromatic aberration toward edges is a static, subtle border tint (the
+ * shader does the real RGB split; DOM keeps it as an edge fringe). */
+.crt .aberration-edge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 2px 0 0 rgba(255, 60, 60, 0.06),
+              inset -2px 0 0 rgba(60, 120, 255, 0.06);
+}
+
+/* Reduced motion: flicker off, everything else static (library §3.5 +
+ * accessible-motion practice). */
+@media (prefers-reduced-motion: reduce) {
+  .crt::after { animation: none; }
+  .alert { animation: none; }
+  .tracker .sweep { animation: none; }
+}
+
+/* Screen-off state: line collapses to a bright dot (~0.3-0.6 s, estimate) */
+.crt.off { animation: crt-off 0.45s steps(6) forwards; }
+@keyframes crt-off {
+  60% { filter: brightness(3) contrast(2); transform: scaleY(0.02); }
+  100% { filter: brightness(6); transform: scaleY(0.002) scaleX(0.02); opacity: 0; }
+}
