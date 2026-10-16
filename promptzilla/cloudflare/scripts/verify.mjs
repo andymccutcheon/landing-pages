@@ -8,18 +8,20 @@ const REPO_URL = 'https://github.com/andymccutcheon/promptzilla';
 /** Paths that must answer 200, in the order a browser asks for them. */
 const PATHS = [
   '/',
+  '/css/pz-tokens.css',
   '/css/promptzilla.css',
+  '/js/page.js',
   '/assets/favicon.svg',
-  '/shared/base.css',
-  '/shared/common.css',
-  '/shared/fonts.css',
-  '/shared/lp-tokens.css',
-  '/shared/motion.css',
-  '/shared/page.js',
-  '/vendor/pattern/generated/tokens.css',
-  '/vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2',
-  '/vendor/pattern/fonts/fraunces/fraunces-latin.woff2',
-  '/vendor/pattern/fonts/jetbrains-mono/jetbrains-mono-latin.woff2',
+  '/vendor/alien-ui/css/system-contract.css',
+  '/vendor/alien-ui/css/tokens.css',
+  '/vendor/alien-ui/css/system-components.css',
+  '/vendor/alien-ui/css/components.css',
+  '/vendor/alien-ui/css/crt.css',
+  '/vendor/alien-ui/js/typeon.js',
+  '/vendor/alien-ui/fonts/Michroma.ttf',
+  '/vendor/alien-ui/fonts/Michroma-OFL.txt',
+  '/vendor/alien-ui/fonts/ShareTechMono.ttf',
+  '/vendor/alien-ui/fonts/ShareTechMono-OFL.txt',
 ];
 
 const base = process.argv[2]?.replace(/\/$/, '');
@@ -47,13 +49,18 @@ for (const asset of PATHS) {
 }
 
 if (page) {
-  const ctas = [...page.matchAll(/<a class="lp-button lp-press" href="([^"]+)"/g)].map((match) => match[1]);
+  const ctas = [...page.matchAll(/<a class="[^"]*\bpz-primary\b[^"]*"[^>]*? href="([^"]+)"/g)].map((match) => match[1]);
   if (ctas.length !== 2 || ctas.some((href) => href !== REPO_URL)) {
     failures.push(`expected two primary calls to action pointing at ${REPO_URL}, found ${JSON.stringify(ctas)}`);
   } else {
     console.log(`ok   both primary calls to action point at ${REPO_URL}`);
   }
-  for (const [label, needle] of [['stylesheet', '"/css/promptzilla.css"'], ['script', '"/shared/page.js"'], ['favicon', '"/assets/favicon.svg"']]) {
+  for (const [label, needle] of [
+    ['stylesheet', '"/css/promptzilla.css"'],
+    ['page script', '"/js/page.js"'],
+    ['type-on script', '"/vendor/alien-ui/js/typeon.js"'],
+    ['favicon', '"/assets/favicon.svg"'],
+  ]) {
     if (!page.includes(needle)) failures.push(`served page does not reference the ${label} at ${needle}`);
   }
 }
