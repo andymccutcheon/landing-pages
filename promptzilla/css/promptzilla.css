@@ -1,8 +1,14 @@
 /* Promptzilla: editorial engineering. A light technical-document surface built from the
    shared Pattern layer. Raw primitives belong in shared/lp-tokens.css. */
 
+/* One sans family. The page reassigns the shared display token to the text face, so every
+   heading that reads --ds-font-family-display renders in Instrument Sans, not Fraunces. */
+.lp-promptzilla { --ds-font-family-display: var(--ds-font-family-text); }
+.lp-promptzilla h1, .lp-promptzilla h2 { font-weight: var(--ds-font-weight-semibold); }
+
 /* Wordmark lockup: original mark plus display-face name. */
 .lp-lockup { display: inline-flex; align-items: center; gap: var(--ds-space-gap-inline); }
+a.lp-lockup { min-block-size: var(--ds-size-target-min); }
 .lp-mark { inline-size: var(--ds-size-icon-lg); block-size: var(--ds-size-icon-lg); flex: none; }
 .lp-promptzilla .lp-wordmark { font-family: var(--ds-font-family-display); font-weight: var(--ds-font-weight-medium); letter-spacing: var(--ds-text-lg-tracking); }
 .lp-promptzilla .lp-footer__about .lp-wordmark { font-size: var(--ds-text-xl-size); }
@@ -11,9 +17,8 @@
 .lp-provenance { font-family: var(--ds-font-family-mono); font-size: var(--ds-text-xs-size); letter-spacing: var(--ds-text-xs-tracking); color: var(--ds-color-text-secondary); }
 
 /* Hero: asymmetric copy block, full-width pipeline rail beneath it. */
-.lp-promptzilla a { display: inline-block; min-block-size: var(--ds-size-target-min); min-inline-size: var(--ds-size-target-min); }
+.lp-promptzilla a:not(.lp-button, .lp-lockup) { display: inline-block; min-block-size: var(--ds-size-target-min); min-inline-size: var(--ds-size-target-min); }
 .lp-promptzilla .lp-hero { overflow: visible; padding-block-start: var(--lp-space-section-sm); }
-.lp-promptzilla .lp-hero h1 { font-weight: var(--ds-display-lg-weight); }
 .lp-hero__install { display: flex; align-items: center; gap: var(--ds-space-gap-inline); margin-block-start: var(--ds-space-gap-section); max-inline-size: var(--lp-json-max); min-block-size: var(--ds-button-height-lg); padding-inline: var(--ds-space-inset-card-compact) var(--lp-copy-offset); background: var(--ds-typography-code-bg); border: var(--ds-border-width-hairline) solid var(--ds-color-border-default); border-radius: var(--ds-radius-control); }
 .lp-hero__install .lp-code { flex: 1 1 auto; min-inline-size: var(--lp-zero); padding: var(--lp-zero); background: none; border: none; border-radius: var(--lp-zero); }
 .lp-hero__install .lp-copy { flex: none; block-size: var(--ds-button-height-md); padding-inline: var(--ds-button-inset-x-md); background: var(--ds-button-primary-bg); color: var(--ds-button-primary-fg); }
@@ -84,6 +89,11 @@
    own call to action and its install bar. Keeps the install bar on the first screen. */
 @media (width < 48rem) {
   .lp-promptzilla .lp-cta, .lp-hero__install, .lp-stamp { margin-block-start: var(--ds-space-gap-stack); }
+  /* The whole command stays readable on a phone: wrap it rather than clip it. */
+  .lp-hero__install { padding-block: var(--ds-space-inset-cell-y-compact); }
+  .lp-hero__install .lp-code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  /* Break only at the space before "--", never inside the flag separator itself. */
+  .lp-hero__install .lp-nobreak { white-space: nowrap; }
 }
 
 @media (min-width: 30rem) {
@@ -93,9 +103,8 @@
 @media (min-width: 48rem) {
   .lp-rail__stage { padding-inline-end: var(--lp-col-gap); }
   .lp-rail__gate { grid-template-columns: var(--lp-policy-label-col) minmax(var(--lp-zero), 1fr); gap: var(--lp-col-gap); align-items: baseline; }
-  .lp-ends:not(.lp-ends--row) > div, .lp-manifest-list > div { display: grid; grid-template-columns: var(--lp-policy-label-col) minmax(var(--lp-zero), 1fr); gap: var(--lp-col-gap); }
-  .lp-ends--row { display: grid; grid-template-columns: repeat(3, minmax(var(--lp-zero), 1fr)); gap: var(--lp-col-gap); }
-  .lp-promptzilla .lp-ends:not(.lp-ends--row) dd, .lp-promptzilla .lp-manifest-list dd { margin-block-start: var(--lp-zero); }
+  .lp-ends > div, .lp-manifest-list > div { display: grid; grid-template-columns: var(--lp-policy-label-col) minmax(var(--lp-zero), 1fr); gap: var(--lp-col-gap); }
+  .lp-promptzilla .lp-ends dd, .lp-promptzilla .lp-manifest-list dd { margin-block-start: var(--lp-zero); }
   .lp-spec { display: grid; grid-template-columns: var(--lp-policy-label-col) minmax(var(--lp-zero), 1fr); gap: var(--lp-col-gap); }
   .lp-spec p { margin-block-start: var(--lp-zero); }
   .lp-spec .lp-provenance { grid-column: 1; grid-row: 2; margin-block-start: var(--ds-space-gap-field); }
@@ -109,7 +118,6 @@
   .lp-spec-heading { grid-column: 1 / 4; position: sticky; inset-block-start: var(--lp-sticky-offset); align-self: start; }
   .lp-specs { grid-column: 5 / -1; }
   .lp-outcomes-heading { grid-column: 1 / 8; }
-  .lp-ends--row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(var(--lp-zero), 1fr)); gap: var(--lp-col-gap); }
   .lp-outcomes-note { grid-column: 1 / -1; }
   .lp-modes { grid-column: 1 / 8; }
   .lp-surface-side { grid-column: 9 / -1; margin-block-start: var(--lp-zero); }

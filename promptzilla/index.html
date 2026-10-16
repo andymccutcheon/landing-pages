@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Promptzilla: a prompt pipeline your AI client runs</title>
+  <title>Promptzilla: stop hand-writing prompts</title>
   <meta name="description" content="An MCP server built from five prompt-engineering skills. It generates a prompt, scores it on a locked rubric, rewrites it against the recommendations, and stops when the score reaches 9. Your AI client does the work, so no API key is needed.">
-  <meta property="og:title" content="Promptzilla: a prompt pipeline your AI client runs">
+  <meta property="og:title" content="Promptzilla: stop hand-writing prompts">
   <meta property="og:description" content="Generate, score, rewrite, stop at 9 or above. Five prompt-engineering skills as MCP tools, prompts and resources, with a durable controller and every stage on disk. MIT licensed.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://github.com/andymccutcheon/promptzilla">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Promptzilla: a prompt pipeline your AI client runs">
+  <meta name="twitter:title" content="Promptzilla: stop hand-writing prompts">
   <meta name="twitter:description" content="Generate, score, rewrite, stop at 9 or above. Five prompt-engineering skills as MCP tools, prompts and resources. MIT licensed.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="../vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="../vendor/pattern/fonts/fraunces/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../vendor/pattern/fonts/jetbrains-mono/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../vendor/pattern/generated/tokens.css">
   <link rel="stylesheet" href="../shared/fonts.css">
@@ -36,13 +35,12 @@
 <section class="lp-hero lp-section" aria-labelledby="hero-title">
 <div class="lp-shell lp-grid">
 <p class="lp-kicker">MCP server · five prompt-engineering skills</p>
-<h1 id="hero-title">A prompt pipeline your AI client runs.</h1>
+<h1 id="hero-title">Stop hand-writing your prompts.</h1>
 <div class="lp-hero__copy">
-<p class="lp-lead">Write the request. Promptzilla generates the prompt, scores it on a locked rubric, rewrites it against the numbered recommendations, and stops only when the rubric scores it 9 or 10. You do not build the loop.</p>
-<p>The connected AI client executes the skills, so there is no API key and no model-provider account.</p>
-<div class="lp-cta"><a class="lp-button lp-press" href="https://github.com/andymccutcheon/promptzilla">View on GitHub</a><a href="#install">Install</a></div>
-<div class="lp-hero__install"><pre class="lp-code" tabindex="0" aria-label="Install command for Claude Code"><code id="install-claude-code">claude mcp add promptzilla -- npx -y promptzilla</code></pre><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-claude-code" aria-label="Copy install command">Copy</button></div>
-<p class="lp-provenance">Claude Code. Other clients take the JSON in <a href="#install">Install</a>.</p></div>
+<p class="lp-lead">Your AI client drafts the prompt, scores it on a locked rubric and rewrites it. Only a 9 or 10 passes.</p>
+<div class="lp-cta"><a class="lp-button lp-press" href="https://github.com/andymccutcheon/promptzilla">Get it on GitHub</a></div>
+<div class="lp-hero__install"><pre class="lp-code" tabindex="0" aria-label="Install command for Claude Code"><code id="install-claude-code">claude mcp add promptzilla <span class="lp-nobreak">-- npx -y promptzilla</span></code></pre><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-claude-code" aria-label="Copy install command">Copy</button></div>
+<p class="lp-provenance">For Claude Code. Cursor, Claude Desktop and other clients: <a href="#install">see Install</a>.</p></div>
 
 <aside class="lp-stamp" aria-labelledby="stamp-title">
 <h2 class="lp-stamp__title" id="stamp-title">At a glance</h2>
@@ -58,7 +56,7 @@
 <div>
 <dt>Runtime</dt><dd>Node.js 22.12+</dd></div>
 <div>
-<dt>Licence</dt><dd>MIT</dd></div>
+<dt>License</dt><dd>MIT</dd></div>
 <div>
 <dt>API key</dt><dd>not required</dd></div></dl></aside>
 
@@ -115,15 +113,17 @@
 <section class="lp-section" id="outcomes" aria-labelledby="outcomes-title">
 <div class="lp-shell lp-grid">
 <div class="lp-heading lp-outcomes-heading">
-<h2 id="outcomes-title">Three ways a run ends</h2>
-<p class="lp-lead">A run is finished when the rubric says so, when the loop limit is reached, or when the rewrite stops improving and the decision is yours. Promptzilla reports which of the three happened.</p></div>
-<dl class="lp-ends lp-ends--row">
+<h2 id="outcomes-title">How a run ends</h2>
+<p class="lp-lead">Approved by the rubric, stopped by the loop limit, or handed back to you. Promptzilla records which one happened.</p></div>
+<dl class="lp-ends">
 <div>
 <dt>STOP at 9 or above</dt><dd>The scored prompt is approved and written as the final artifact.</dd></div>
 <div>
 <dt>Four-round cap</dt><dd>The best scored candidate can be exported as provisional, with approved set to false.</dd></div>
 <div>
-<dt>No improvement</dt><dd>After two rewrites without improvement the run pauses and asks you the actual question.</dd></div></dl>
+<dt>No improvement</dt><dd>After two rewrites without improvement the run pauses for your decision.</dd></div>
+<div>
+<dt>Blocked</dt><dd>A stage output rejected twice blocks the run. If there is a best scored candidate, it can still be exported as provisional.</dd></div></dl>
 <p class="lp-outcomes-note lp-provenance">Pass 1 counts toward the four-round maximum.</p></div></section>
 
 <section class="lp-section" id="modes" aria-labelledby="modes-title">
@@ -226,20 +226,20 @@
 <div class="lp-shell lp-grid">
 <div class="lp-status__copy">
 <h2 id="status-title">Status</h2>
-<p class="lp-lead">Promptzilla is version 1.0.0 on npm under the MIT licence. Continuous integration runs on Node 22, 24 and 26.</p>
+<p class="lp-lead">Promptzilla is version 1.0.0 on npm under the MIT license. Continuous integration runs on Node 22, 24 and 26.</p>
 <p>It can also run as a private, authenticated HTTP server on your own Cloudflare account, using Workers and Durable Objects with no database and no model API. The repository's Cloudflare guide covers that path.</p>
-<div class="lp-cta"><a class="lp-button lp-press" href="https://github.com/andymccutcheon/promptzilla">View on GitHub</a><a href="https://github.com/andymccutcheon/promptzilla/issues">Open an issue</a></div></div></div></section></main>
+<div class="lp-cta"><a class="lp-button lp-press" href="https://github.com/andymccutcheon/promptzilla">Get it on GitHub</a><a href="https://github.com/andymccutcheon/promptzilla/issues">Open an issue</a></div></div></div></section></main>
 
 <footer class="lp-footer">
 <div class="lp-shell lp-grid">
 <div class="lp-footer__about"><span class="lp-wordmark lp-lockup"><svg class="lp-mark" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false"><rect x="1.75" y="1.75" width="20.5" height="20.5" rx="2" stroke="currentColor" stroke-width="1.25"></rect><path d="M7 9.5H17L7 15.5H17" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"></path><path d="M8.5 7.5V6M12 7.5V4.75M15.5 7.5V6" stroke="currentColor" stroke-width="1.5"></path></svg><span class="lp-lockup__text">Promptzilla</span></span>
-<p>MIT licence</p></div>
+<p>MIT license</p></div>
 <ul class="lp-footer__links">
-<li><a href="https://github.com/andymccutcheon/promptzilla">GitHub repository</a></li>
+<li><a href="https://github.com/andymccutcheon/promptzilla">GitHub</a></li>
 <li><a href="https://github.com/andymccutcheon/promptzilla#readme">README</a></li>
-<li><a href="https://www.npmjs.com/package/promptzilla">Install from npm</a></li>
-<li><a href="https://github.com/andymccutcheon/promptzilla/issues">Open an issue</a></li>
-<li><a href="https://github.com/andymccutcheon/promptzilla/blob/main/LICENSE">Licence</a></li>
+<li><a href="https://www.npmjs.com/package/promptzilla">npm package</a></li>
+<li><a href="https://github.com/andymccutcheon/promptzilla/issues">Issues</a></li>
+<li><a href="https://github.com/andymccutcheon/promptzilla/blob/main/LICENSE">License</a></li>
 <li><a href="https://github.com/andymccutcheon/promptzilla/blob/main/CLOUDFLARE.md">Self-hosting guide</a></li></ul>
 <div class="lp-footer__credit">
 <p>Promptzilla is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, any MCP client or model provider it can be connected to.</p>

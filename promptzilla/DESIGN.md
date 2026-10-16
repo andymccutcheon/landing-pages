@@ -86,8 +86,8 @@ it is the opposite of a generic AI SaaS template.
 **Materials**, all from the pinned Design System Pattern snapshot already in this
 repository. No new fonts, no new palette, no external assets:
 
-- Fraunces for display and for the stage names, Instrument Sans for prose, JetBrains Mono
-  for commands, indices, provenance and figures.
+- Instrument Sans for display, stage names and prose (the page reassigns the shared display
+  token; see section 8), JetBrains Mono for commands, indices, provenance and figures.
 - The warm-neutral surface and single teal accent from `vendor/pattern/generated/tokens.css`.
   Both themes ship; neither is an inversion of the other, because the Pattern defines both.
 - Hairline rules and a single strong rule for structural separation. No cards, no drop
@@ -117,7 +117,7 @@ repository. No new fonts, no new palette, no external assets:
 |---|---|---|
 | 1 | Hero | Asymmetric copy and stamp, then a full-width rail |
 | 2 | What each stage is allowed to do | Standing sticky heading, ruled index rows |
-| 3 | Three ways a run ends | Full-width three-up ledger band |
+| 3 | How a run ends | Ruled label-and-value rows (four end states) |
 | 4 | Modes | Content left, aside right |
 | 5 | Install | Mirrored: commands left, aside right, heading in flow |
 | 6 | Every run is a directory | Editorial stack over a full-width two-column index |
@@ -140,7 +140,7 @@ every transition are removed, which the aggregate render gate asserts.
 | Hero | Name the thing, state the loop, give the two actions, show the specification | README lines 7 to 15, 17 to 51 |
 | Pipeline rail | The loop as the central story, ending at the rubric gate | README "Execute a pipeline end to end" |
 | Stage specifications | What each of the five skills is allowed to do, and what it refuses | Brief "Five skills"; README "Tools" |
-| Three ways a run ends | Set the expectation that a run can end unapproved | Brief "Outcomes" |
+| How a run ends | Set the expectation that a run can end unapproved | Brief "Outcomes" |
 | Modes | `full` and `optimize-only`, including the byte-for-byte guarantee | README protocol flow |
 | Install | The one-line command, the client JSON, the offline check, the agent skill | README lines 17 to 51 |
 | Runs | The durable artifacts, by filename | README "Persistence and recovery" |
@@ -208,13 +208,14 @@ table, it should not be on the page.
 | 108 | "Interior whitespace, Unicode, trailing spaces and line endings are preserved" | `README.md:217` (Brian's output contract) |
 | 112 | Prompt Pipeline: Metapod, Judge Dredd, Brian Spillner until STOP at 9 or above, at most four scoring rounds; orchestrates only | `README.md:202-204`; `skills/prompt-pipeline/SKILL.md:8` |
 
-### Three ways a run ends
+### How a run ends
 
 | Page | Claim | Source |
 |---|---|---|
 | 122 | STOP at 9 or above: approved, written as the final artifact | `README.md:203-204`, `240`; `src/pipeline-engine.ts:129-130` writes `05-final.md` with `approved: true` |
 | 124 | Four-round cap: best scored candidate exported as provisional, `approved: false` | `README.md:196-197`; `src/pipeline-engine.ts:68-74` |
-| 126 | No improvement after two rewrites: the run pauses and asks you the actual question | `README.md:202-203`, `192` |
+| 126 | No improvement after two rewrites: the run pauses for your decision | `README.md:202-203`, `192` |
+| 128 | Blocked: a stage output rejected twice blocks the run; a best scored candidate, if any, may be exported as provisional | `README.md:188-190`, `196-197` |
 | 127 | "Pass 1 counts toward the four-round maximum" | `README.md:201-202` |
 
 ### Modes and server surface
@@ -313,7 +314,7 @@ repository conventions, accessibility and performance win. Each override is deli
 | `gpt-taste`, `high-end-visual-design`, the GSAP skills | Mandatory GSAP ScrollTrigger pinning, card stacking, scrubbed text reveals | **Rejected.** This repository ships no build step and no third-party runtime; the pages must stay readable without JavaScript and respect reduced motion. Scroll pinning also fights the sticky section headings. |
 | `gpt-taste` | Tailwind utility classes, `py-32 md:py-48` | **Rejected.** Styling goes through the `--lp-` and `--ds-` token layers; `tools/check_literals.py` rejects raw lengths outside `shared/lp-tokens.css`. |
 | `gpt-taste` | `picsum.photos` imagery with CSS filters | **Rejected.** No external requests and no trackers. The page ships zero raster images; the only graphic is an inline SVG. |
-| `gpt-taste` | Fonts must be Satoshi, Cabinet Grotesk, Outfit or Geist | **Rejected.** The pinned Pattern snapshot supplies Fraunces, Instrument Sans and JetBrains Mono, self-hosted with their licences. Consistency across the four pages outranks a font preference. |
+| `gpt-taste` | Fonts must be Satoshi, Cabinet Grotesk, Outfit or Geist | **Partly accepted.** No new font is added: the pinned Pattern snapshot's Instrument Sans and JetBrains Mono stay. Fraunces was dropped from this page in the section 8 revision (`design-taste-frontend` bans it as a default display serif). |
 | `high-end-visual-design` | Double-bezel nested cards, `backdrop-blur`, glass surfaces, floating pill navigation | **Rejected.** Wrong register for a spec sheet, and `impeccable-frontend-design` bans decorative glass outright. Depth here comes from hairline rules and one strong rule. |
 | `impeccable-frontend-design` | "Do not use monospace as lazy shorthand for technical vibes" | **Partly accepted.** Monospace is used only where it carries meaning: shell commands, JSON, filenames, stage indices, provenance and the specification values. Prose is never monospace. |
 | `design-taste-frontend`, `design-taste.md` | Never repeat a layout archetype | **Accepted**, with one deliberate rhyme: the rail and the outcomes band are both ledgers, which is system coherence rather than monotony. |
@@ -397,3 +398,37 @@ regression stage still requires byte-identical Acheron and Freewhirr captures, w
 what proves the `shared/common.css` change is inert for the published pages.
 
 Deployment packaging is documented in `promptzilla/cloudflare/README.md`.
+
+---
+
+## 8. Revision after the Taste pre-flight audit (2026-10-16)
+
+An independent `design-taste-frontend` audit scored the first build 7/10 for taste and 6/10 for
+conversion clarity. A separate claims audit against the public repository found no wrong claims.
+Changes:
+
+- **Hero leads with the outcome.** The H1 is now "Stop hand-writing your prompts." The lead is cut
+  from two paragraphs (56 words) to 20 words: "Your AI client drafts the prompt, scores it on a
+  locked rubric and rewrites it. Only a 9 or 10 passes." The client still does the work (README
+  lines 12 to 15), and "no API key" stays in the stamp.
+- **One label per intent.** Both primary CTAs read "Get it on GitHub". The hero's redundant
+  "Install" text link is gone, because the install bar sits directly beneath. Footer labels are
+  shortened to GitHub, README, npm package, Issues, License and Self-hosting guide.
+- **CTA label alignment.** `.lp-promptzilla a` set `display: inline-block` and overrode
+  `.lp-button`'s `inline-flex`, so the label sat high in the button. The rule now excludes
+  `.lp-button`.
+- **Hero install command on phones.** Below 48rem it wraps instead of clipping, so the whole
+  command is visible before copying.
+- **Single sans family.** The page reassigns `--ds-font-family-display` to the text face, and
+  headings use the semibold weight. The Fraunces preload is removed, so the page downloads one
+  font fewer. Other pages are unaffected, because the override is scoped to `.lp-promptzilla`.
+- **Outcomes are complete and no longer a three-up row.** The section is now "How a run ends",
+  with four ruled rows that include `blocked`, which was missing. This also removes the
+  three-equal-columns pattern.
+- **Copy.** "Asks you the actual question" becomes "pauses for your decision". Spelling is now
+  American throughout (License).
+- **Wordmark lockup gap.** The same `a` rule also turned the header lockup into `inline-block`,
+  so the mark touched the name. The rule now excludes `.lp-lockup`, and the lockup link keeps its
+  44px minimum target height.
+- **Wrap point.** On phones the command breaks only at the space before `--`. It used to split the
+  `--` flag separator across two lines. The copied text is unchanged.
