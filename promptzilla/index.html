@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" class="lp-promptzilla">
+<head>
+  <meta charset="utf-8">
+  <title>Promptzilla — prompts worth running</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Promptzilla turns rough requests into structured prompts, scores them with evidence, and iterates through a durable MCP pipeline.">
+  <meta property="og:title" content="Promptzilla — prompts with a process">
+  <meta property="og:description" content="An MCP server for generating, evaluating and refining prompts. The connected AI client executes the skills.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Promptzilla — prompts with a process">
+  <meta name="twitter:description" content="An MCP server for generating, evaluating and refining prompts.">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="preload" href="../vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../vendor/pattern/fonts/jetbrains-mono/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../vendor/pattern/generated/tokens.css">
+  <link rel="stylesheet" href="../shared/fonts.css">
+  <link rel="stylesheet" href="../shared/lp-tokens.css">
+  <link rel="stylesheet" href="../shared/base.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><a class="brand" href="#main"><img src="assets/mark.svg" alt=""><span>promptzilla</span></a><nav aria-label="Primary"><a href="#pipeline">Pipeline</a><a href="#setup">Install</a><a class="nav-github" href="https://github.com/andymccutcheon/promptzilla">GitHub <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main">
+<section class="hero wrap" aria-labelledby="hero-title">
+  <div class="hero-copy"><p class="eyebrow"><span class="signal"></span> MCP SERVER · PROMPT ENGINEERING</p><h1 id="hero-title">Prompts worth<br><em>running.</em></h1><p class="lede">Turn a rough request into a considered prompt, then put it through a scoring and rewrite loop. No prompt-engineering playbook required.</p><p class="honest"><span>TRUST BOUNDARY</span> Your AI client executes the skills. Promptzilla supplies the instructions and tracks the optimization loop. No API key required.</p>
+    <div class="hero-actions"><a class="button primary" href="https://github.com/andymccutcheon/promptzilla">Explore Promptzilla <span aria-hidden="true">↗</span></a><a class="text-link" href="#setup">Install in your MCP client <span aria-hidden="true">↓</span></a></div>
+  </div>
+  <div class="hero-visual" aria-label="Prompt pipeline scorecard illustration" role="img">
+    <div class="visual-head"><span>PIPELINE / FULL MODE</span><span class="live-dot">DURABLE RUN</span></div>
+    <div class="run-input"><small>INPUT</small><p>“Build me a reliable research agent”</p></div>
+    <div class="flow-line"><span></span><b>GENERATE</b></div>
+    <div class="stage"><div class="stage-index">01</div><div><h2>Metapod</h2><p>Request → System + Task prompts</p></div><span class="stage-state">GENERATE</span></div>
+    <div class="flow-line"><span></span><b>EVALUATE</b></div>
+    <div class="score-stage"><div class="stage"><div class="stage-index">02</div><div><h2>Judge Dredd</h2><p>Locked 0–10 rubric · quoted evidence · numbered recommendations</p></div></div><div class="score-row"><span>VERDICT FIELD</span><strong>STOP / CONTINUE</strong></div><div class="score-track"><span>Overall rating (0–10) · numbered recommendations</span></div></div>
+    <div class="flow-line"><span></span><b>REWRITE</b></div>
+    <div class="stage"><div class="stage-index">03</div><div><h2>Brian Spillner</h2><p>Applies each numbered recommendation</p></div><span class="stage-state">REWRITE</span></div>
+    <div class="loop-note"><span class="loop-icon" aria-hidden="true">↻</span><span>Repeat scoring · up to 4 rounds</span><span class="stop">STOP ≥9</span></div>
+    <p class="visual-foot">A controller tracks each stage and its saved artifacts.</p>
+  </div>
+  <div class="hero-index" aria-hidden="true"><span>01 / PROMPT CONTROL</span><span>BUILT FOR YOUR MCP CLIENT</span></div>
+</section>
+<section class="section wrap" id="pipeline" aria-labelledby="pipeline-title">
+  <div class="section-heading"><p class="eyebrow">THE WORKFLOW</p><h2 id="pipeline-title">A prompt gets a process.</h2><p>Each stage has one job. The controller keeps the run moving, records the work, and stops when the Judge says the prompt is ready.</p></div>
+  <div class="pipeline-list">
+    <article><span class="ordinal">01</span><div><h3>Metapod</h3><p>Shapes a raw request into a System Prompt and a Task Prompt. It prepares the work; it never performs it.</p></div><span class="tag">GENERATE</span></article>
+    <article><span class="ordinal">02</span><div><h3>Judge Dredd</h3><p>Scores a system prompt against a locked rubric, quotes evidence, then returns a verdict and numbered recommendations.</p></div><span class="tag">EVALUATE</span></article>
+    <article><span class="ordinal">03</span><div><h3>Brian Spillner</h3><p>Rewrites against every recommendation, then returns the full prompt with a checklist of what it applied.</p></div><span class="tag">REFINE</span></article>
+    <article class="stop-row"><span class="ordinal">↳</span><div><h3>STOP when overall is 9 or higher</h3><p>Continue through at most four scoring rounds. At the cap, a run is provisional; after two rewrites without improvement, it pauses for your decision.</p></div><span class="tag">CONTROLLED LOOP</span></article>
+  </div>
+</section>
+<section class="mode-section"><div class="wrap mode-grid"><div><p class="eyebrow">PICK UP WHERE YOU ARE</p><h2>Start from a request.<br>Or bring your prompt.</h2></div><div class="mode-copy"><article><span>FULL</span><p>Begin with a rough request. Metapod creates the first prompts, then the evaluation loop can take over.</p></article><article><span>OPTIMIZE-ONLY</span><p>Bring an existing prompt. It is saved byte-for-byte and goes straight to Judge Dredd for evaluation.</p></article></div></div></section>
+<section class="setup wrap" id="setup" aria-labelledby="setup-title">
+  <div class="setup-heading"><p class="eyebrow">LOCAL FIRST · STDIO</p><h2 id="setup-title">Add it to your client.</h2><p>Promptzilla is an MCP server. Install it from npm, then let your client connect.</p></div>
+  <div class="install-block"><div class="block-head"><span>CLAUDE CODE</span><span>NODE.JS 22.12+</span></div><div class="command"><code id="install-command">claude mcp add promptzilla -- npx -y promptzilla</code><button type="button" data-copy="install-command">Copy command</button></div><p class="subnote">Your MCP client must be configured and running. The AI client runs the skill instructions.</p></div>
+  <details class="config"><summary>Using Claude Desktop, Cursor, or another MCP client?</summary><div class="config-inner"><p>Merge this entry into your MCP client configuration:</p><div class="command json-command"><pre><code id="mcp-config">{
+  "mcpServers": {
+    "promptzilla": {
+      "command": "npx",
+      "args": ["-y", "promptzilla"]
+    }
+  }
+}</code></pre><button type="button" data-copy="mcp-config">Copy JSON</button></div></div></details>
+  <div class="end-cta"><div><p class="eyebrow">READY WHEN YOU ARE</p><h2>Give the next prompt a better starting point.</h2></div><a class="button primary" href="https://github.com/andymccutcheon/promptzilla">Get Promptzilla <span aria-hidden="true">↗</span></a></div>
+</section>
+</main>
+<footer class="footer wrap"><a class="brand" href="#main"><img src="assets/mark.svg" alt=""><span>promptzilla</span></a><p>MCP server · MIT license</p><a href="https://github.com/andymccutcheon/promptzilla">GitHub repository ↗</a></footer>
+<div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+<script src="page.js" defer></script>
+</body></html>
