@@ -3,3 +3,6 @@
 __pycache__/
 *.pyc
 
+/promptzilla/cloudflare/dist/
+/promptzilla/cloudflare/node_modules/
+/promptzilla/cloudflare/.cloudflare/
