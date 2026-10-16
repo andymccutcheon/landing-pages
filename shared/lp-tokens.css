@@ -84,3 +84,9 @@ html.lp-freewhirr { --lp-route-gate-color: var(--ds-color-text-secondary); }
 /* Shipwatch brief section 3.6: reading specimen width, design decision. */
 :root { --lp-brief-max: 36rem; }
 html.lp-shipwatch { --lp-route-gate-color: var(--ds-color-text-secondary); }
+
+/* Promptzilla design decisions: pipeline rail station and configuration-block widths. */
+:root {
+  --lp-rail-col-min: 15rem; /* 240px: four stations at 1024 and wider, two at tablet widths */
+  --lp-json-max: 32rem; /* widest MCP client configuration line without horizontal scrolling at 1280 */
+}

@@ -1,7 +1,7 @@
 /* Shared install, no-script, navigation and definition-list recipes. */
-:is(.lp-freewhirr, .lp-shipwatch) .lp-theme, :is(.lp-freewhirr, .lp-shipwatch) .lp-copy { display: none; }
-:is(.lp-freewhirr, .lp-shipwatch).js .lp-theme, :is(.lp-freewhirr, .lp-shipwatch).js .lp-copy { display: inline-flex; }
-:is(.lp-freewhirr, .lp-shipwatch) section, :is(.lp-freewhirr, .lp-shipwatch) #main { scroll-margin-block-start: var(--lp-sticky-offset); }
+:is(.lp-freewhirr, .lp-shipwatch, .lp-promptzilla) .lp-theme, :is(.lp-freewhirr, .lp-shipwatch, .lp-promptzilla) .lp-copy { display: none; }
+:is(.lp-freewhirr, .lp-shipwatch, .lp-promptzilla).js .lp-theme, :is(.lp-freewhirr, .lp-shipwatch, .lp-promptzilla).js .lp-copy { display: inline-flex; }
+:is(.lp-freewhirr, .lp-shipwatch, .lp-promptzilla) section, :is(.lp-freewhirr, .lp-shipwatch, .lp-promptzilla) #main { scroll-margin-block-start: var(--lp-sticky-offset); }
 .lp-install-actions { display: flex; flex-direction: column; gap: var(--ds-space-gap-inline); margin-block-start: var(--ds-space-gap-section); }
 .lp-install { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-space-gap-inline); inline-size: var(--lp-full); max-inline-size: var(--lp-install-max); min-block-size: var(--ds-button-height-lg); padding-inline: var(--ds-space-inset-card-compact) var(--lp-copy-offset); background: var(--ds-typography-code-bg); border: var(--ds-border-width-hairline) solid var(--ds-color-border-default); border-radius: var(--ds-radius-control); }
 .lp-install pre { margin: var(--lp-zero); font-size: var(--ds-text-base-size); white-space: nowrap; }
@@ -14,7 +14,7 @@
   .lp-install-actions { flex-direction: row; flex-wrap: wrap; align-items: center; }
 }
 @media (prefers-color-scheme: dark) {
-  html:is(.lp-freewhirr, .lp-shipwatch):not(.js) {
+  html:is(.lp-freewhirr, .lp-shipwatch, .lp-promptzilla):not(.js) {
     color-scheme: dark;
     --ds-button-ghost-bg-hover: var(--lp-system-button-ghost-bg-hover);
     --ds-button-ghost-fg: var(--lp-system-button-ghost-fg);

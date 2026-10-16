@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en" class="lp-promptzilla">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promptzilla: a prompt pipeline your AI client runs</title>
+  <meta name="description" content="An MCP server built from five prompt-engineering skills. It generates a prompt, scores it on a locked rubric, rewrites it against the recommendations, and stops when the score reaches 9. Your AI client does the work, so no API key is needed.">
+  <meta property="og:title" content="Promptzilla: a prompt pipeline your AI client runs">
+  <meta property="og:description" content="Generate, score, rewrite, stop at 9 or above. Five prompt-engineering skills as MCP tools, prompts and resources, with a durable controller and every stage on disk. MIT licensed.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.com/andymccutcheon/promptzilla">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Promptzilla: a prompt pipeline your AI client runs">
+  <meta name="twitter:description" content="Generate, score, rewrite, stop at 9 or above. Five prompt-engineering skills as MCP tools, prompts and resources. MIT licensed.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="../vendor/pattern/fonts/instrument-sans/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../vendor/pattern/fonts/fraunces/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../vendor/pattern/fonts/jetbrains-mono/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../vendor/pattern/generated/tokens.css">
+  <link rel="stylesheet" href="../shared/fonts.css">
+  <link rel="stylesheet" href="../shared/lp-tokens.css">
+  <link rel="stylesheet" href="../shared/base.css">
+  <link rel="stylesheet" href="../shared/motion.css">
+  <link rel="stylesheet" href="../shared/common.css">
+  <link rel="stylesheet" href="css/promptzilla.css">
+  <script>document.documentElement.classList.add('js');try{const t=localStorage.getItem('lp-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark')}</script>
+</head>
+<body>
+<a class="lp-skip" href="#main">Skip to main content</a>
+
+<header class="lp-header">
+<div class="lp-shell lp-header__inner"><a class="lp-wordmark lp-lockup" href="#main"><svg class="lp-mark" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false"><rect x="1.75" y="1.75" width="20.5" height="20.5" rx="2" stroke="currentColor" stroke-width="1.25"></rect><path d="M7 9.5H17L7 15.5H17" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"></path><path d="M8.5 7.5V6M12 7.5V4.75M15.5 7.5V6" stroke="currentColor" stroke-width="1.5"></path></svg><span class="lp-lockup__text">Promptzilla</span></a><nav class="lp-nav" aria-label="Primary navigation"><span class="lp-nav__anchors"><a class="lp-hover-tint" href="#pipeline">Pipeline</a><a class="lp-hover-tint" href="#install">Install</a><a class="lp-hover-tint" href="#limits">Limits</a></span><a class="lp-hover-tint" href="https://github.com/andymccutcheon/promptzilla">GitHub</a><button class="lp-theme lp-hover-tint lp-press" type="button" aria-label="Switch to dark theme" aria-pressed="false">Dark</button></nav></div></header>
+
+<main id="main" tabindex="-1">
+
+<section class="lp-hero lp-section" aria-labelledby="hero-title">
+<div class="lp-shell lp-grid">
+<p class="lp-kicker">MCP server · five prompt-engineering skills</p>
+<h1 id="hero-title">A prompt pipeline your AI client runs.</h1>
+<div class="lp-hero__copy">
+<p class="lp-lead">Write the request. Promptzilla generates the prompt, scores it on a locked rubric, rewrites it against the numbered recommendations, and stops when the score reaches 9. You do not build the loop.</p>
+<p>The connected AI client executes the skills, so there is no API key and no model-provider account.</p>
+<div class="lp-cta"><a class="lp-button lp-press" href="https://github.com/andymccutcheon/promptzilla">View on GitHub</a><a href="#install">Install</a></div>
+<div class="lp-hero__install"><pre class="lp-code" tabindex="0" aria-label="Install command for Claude Code"><code id="install-claude-code">claude mcp add promptzilla -- npx -y promptzilla</code></pre><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-claude-code" aria-label="Copy install command">Copy</button></div>
+<p class="lp-provenance">Claude Code. Other clients take the JSON in <a href="#install">Install</a>.</p></div>
+
+<aside class="lp-stamp" aria-labelledby="stamp-title">
+<h2 class="lp-stamp__title" id="stamp-title">At a glance</h2>
+<dl class="lp-stamp__list">
+<div>
+<dt>Transport</dt><dd>stdio, or self-hosted HTTP</dd></div>
+<div>
+<dt>Skills</dt><dd>5</dd></div>
+<div>
+<dt>Tools</dt><dd>13</dd></div>
+<div>
+<dt>Prompts</dt><dd>5</dd></div>
+<div>
+<dt>Runtime</dt><dd>Node.js 22.12+</dd></div>
+<div>
+<dt>Licence</dt><dd>MIT</dd></div>
+<div>
+<dt>API key</dt><dd>not required</dd></div></dl></aside>
+
+<figure class="lp-rail" aria-labelledby="rail-caption">
+<ol class="lp-rail__list">
+<li class="lp-rail__stage">
+<p class="lp-rail__index">01</p>
+<p class="lp-rail__name">Metapod</p>
+<p class="lp-rail__role">Generate</p>
+<p class="lp-rail__note">Two prompts out of one raw request: a System Prompt and a Task Prompt.</p></li>
+<li class="lp-rail__stage">
+<p class="lp-rail__index">02</p>
+<p class="lp-rail__name">Judge Dredd</p>
+<p class="lp-rail__role">Score</p>
+<p class="lp-rail__note">A locked 0 to 10 rubric, quoted evidence, a STOP or CONTINUE verdict, numbered recommendations.</p></li>
+<li class="lp-rail__stage">
+<p class="lp-rail__index">03</p>
+<p class="lp-rail__name">Brian Spillner</p>
+<p class="lp-rail__role">Rewrite</p>
+<p class="lp-rail__note">Applies every numbered recommendation and cuts nothing that was not asked for.</p></li>
+<li class="lp-rail__stage lp-rail__stage--loop">
+<p class="lp-rail__index">04</p>
+<p class="lp-rail__name">Back to 02</p>
+<p class="lp-rail__role">Re-score</p>
+<p class="lp-rail__note">Judge re-scores the exact rewritten body. At most four scoring rounds.</p></li></ol>
+<p class="lp-rail__gate"><span class="lp-rail__gate-label">Gate</span><span class="lp-rail__gate-rule">Only a valid STOP at an overall rating of 9 or 10 approves the prompt. The server never invents a score and never changes a verdict.</span></p>
+<figcaption id="rail-caption">The Prompt Pipeline orchestrates these stages. It does not execute them.</figcaption></figure></div></section>
+
+<section class="lp-section" id="pipeline" aria-labelledby="pipeline-title">
+<div class="lp-shell lp-grid">
+<h2 class="lp-spec-heading" id="pipeline-title">What each stage is allowed to do</h2>
+<div class="lp-specs">
+<article class="lp-spec">
+<h3>Tasker</h3>
+<p>Turns a rough free-form task into an execution-ready instruction for another agent. Unknowns become bracketed placeholders. It never performs the task.</p>
+<p class="lp-provenance">skills/tasker</p></article>
+<article class="lp-spec">
+<h3>Metapod</h3>
+<p>Turns a raw request into two prompts, a System Prompt and a Task Prompt, with all 11 System headings and all 4 Task headings from the source skill. It never executes the task.</p>
+<p class="lp-provenance">skills/metapod</p></article>
+<article class="lp-spec">
+<h3>Judge Dredd</h3>
+<p>Scores a system prompt on a locked 0 to 10 rubric with quoted evidence, then returns section ratings, one overall rating, a STOP or CONTINUE verdict and numbered recommendations. It evaluates only.</p>
+<p class="lp-provenance">skills/judge-dredd</p></article>
+<article class="lp-spec">
+<h3>Brian Spillner</h3>
+<p>Rewrites a prompt applying every numbered recommendation, cutting nothing that was not asked for, and returns the full rewrite plus a line for every recommendation marked applied or deferred.</p>
+<p class="lp-provenance">skills/brian-spillner</p></article>
+<article class="lp-spec">
+<h3>Prompt Pipeline</h3>
+<p>Runs Metapod, then Judge Dredd, then Brian Spillner until Judge says STOP at an overall rating of 9 or above, with at most four scoring rounds. It orchestrates only.</p>
+<p class="lp-provenance">skills/prompt-pipeline</p></article></div></div></section>
+
+<section class="lp-section" id="outcomes" aria-labelledby="outcomes-title">
+<div class="lp-shell lp-grid">
+<div class="lp-heading lp-outcomes-heading">
+<h2 id="outcomes-title">Three ways a run ends</h2>
+<p class="lp-lead">A run is finished when the rubric says so, when the loop limit is reached, or when the rewrite stops improving and the decision is yours. Promptzilla reports which of the three happened.</p></div>
+<dl class="lp-ends lp-ends--row">
+<div>
+<dt>STOP at 9 or above</dt><dd>The scored prompt is approved and written as the final artifact.</dd></div>
+<div>
+<dt>Four-round cap</dt><dd>The best scored candidate can be exported as provisional, with approved set to false.</dd></div>
+<div>
+<dt>No improvement</dt><dd>After two rewrites without improvement the run pauses and asks you the actual question.</dd></div></dl>
+<p class="lp-outcomes-note lp-provenance">Pass 1 counts toward the four-round maximum.</p></div></section>
+
+<section class="lp-section" id="modes" aria-labelledby="modes-title">
+<div class="lp-shell lp-grid">
+<div class="lp-modes">
+<div class="lp-heading">
+<h2 id="modes-title">Start from a request, or from the prompt you already have</h2></div>
+<div class="lp-mode">
+<h3><code>full</code></h3>
+<p>Starts at Metapod from a raw request. The request is saved as the run's first file, then generation, scoring and rewriting follow.</p></div>
+<div class="lp-mode">
+<h3><code>optimize-only</code></h3>
+<p>Saves your existing prompt byte for byte and starts at Judge. Interior whitespace, Unicode, trailing spaces and line endings are preserved.</p></div></div>
+<aside class="lp-surface-side">
+<h3>What the server exposes</h3>
+<dl class="lp-ends lp-ends--compact">
+<div>
+<dt>13 tools</dt><dd>Skill packets and the durable pipeline controller.</dd></div>
+<div>
+<dt>5 prompts</dt><dd>One per skill, using the source skill names.</dd></div>
+<div>
+<dt>promptzilla:// resources</dt><dd>The catalog, the exact original skill files, and each run's artifacts.</dd></div></dl></aside></div></section>
+
+<section class="lp-section" id="install" aria-labelledby="install-title">
+<div class="lp-shell lp-grid">
+<div class="lp-install-main">
+<div class="lp-heading">
+<h2 id="install-title">Install</h2>
+<p>You need Node.js 22.12 or newer. No API key and no account.</p></div>
+<div class="lp-command">
+<h3>Claude Code</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-cli" aria-label="Copy Claude Code command">Copy</button><pre class="lp-code" tabindex="0" aria-label="Claude Code command"><code id="install-cli">claude mcp add promptzilla -- npx -y promptzilla</code></pre></div></div>
+<div class="lp-command">
+<h3>Claude Desktop, Cursor, any MCP client</h3>
+<p>Merge this into the client's MCP configuration file, then restart or reconnect it.</p>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-json" aria-label="Copy client configuration">Copy</button><pre class="lp-code" tabindex="0" aria-label="MCP client configuration"><code id="install-json">{
+  "mcpServers": {
+    "promptzilla": {
+      "command": "npx",
+      "args": ["-y", "promptzilla"]
+    }
+  }
+}</code></pre></div></div>
+<div class="lp-command">
+<h3>Check it without a client</h3>
+<div class="lp-terminal"><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-validate" aria-label="Copy validate command">Copy</button><pre class="lp-code" tabindex="0" aria-label="Validate command"><code id="install-validate">npx -y promptzilla --validate</code></pre></div>
+<p>It prints <code>Validated 5 skills and 9 source assets.</code></p></div>
+<p>A connected client lists 13 tools, 5 prompts and the <code>promptzilla://</code> resources.</p></div>
+<aside class="lp-write-side">
+<h3>Let the agent do it</h3>
+<p>The repository ships a setup skill at <code>agent-skills/promptzilla-setup</code>. Copy it into your agent's skills directory and say "install Promptzilla". It walks through the Node check, the client configuration and optional Cloudflare self-hosting.</p>
+<p><a href="https://github.com/andymccutcheon/promptzilla#readme">Read the README</a></p></aside></div></section>
+
+<section class="lp-section" id="runs" aria-labelledby="runs-title">
+<div class="lp-shell lp-grid">
+<div class="lp-heading lp-runs-copy">
+<h2 id="runs-title">Every run is a directory you can read</h2>
+<p class="lp-lead">A run is not a chat log. It is a folder of Markdown stage files plus <code>run.json</code>, written with private permissions as the pipeline advances.</p>
+<p>Artifacts are immutable. Changed stage files are detected, and missing derived files are reconstructed from <code>run.json</code>. Call <code>pipeline_status</code> with the run's identifier to pick a run up after a server restart.</p>
+<p class="lp-provenance">Runs are stored under your home directory by default.</p></div>
+<figure class="lp-manifest">
+<figcaption>A full run, stage by stage</figcaption>
+<dl class="lp-manifest-list">
+<div>
+<dt>00-request.md</dt><dd>the raw request, or <code>00-original.md</code> for an optimize-only run</dd></div>
+<div>
+<dt>01-metapod.md</dt><dd>the generated System and Task Prompts</dd></div>
+<div>
+<dt>02-judge-pass1.md</dt><dd>the first scorecard and its verdict</dd></div>
+<div>
+<dt>03-brian-rewrite.md</dt><dd>the rewrite and its recommendation checklist</dd></div>
+<div>
+<dt>04-judge-pass2.md</dt><dd>the re-score of the rewritten body</dd></div>
+<div>
+<dt>05-final.md</dt><dd>the approved prompt, or <code>05-provisional.md</code> at a cap</dd></div></dl></figure></div></section>
+
+<section class="lp-section" id="limits" aria-labelledby="limits-title">
+<div class="lp-shell lp-grid">
+<h2 class="lp-limits-heading" id="limits-title">What Promptzilla does not do</h2>
+<div class="lp-limits-lead">
+<article class="lp-answer lp-answer--egress">
+<p class="lp-lead"><strong>It does not run an agent for you.</strong> Standalone tools return instructions and input packets. They do not secretly call an LLM, and the server cannot create isolated AI workers itself.</p></article></div>
+<div class="lp-limits">
+<article class="lp-answer">
+<h3>Fresh context is your host's job.</h3>
+<p>Running each stage in a genuinely fresh worker is the host's obligation. The server records what the host attests, validates returned output, enforces the loop limits and rejects reused execution identifiers.</p>
+<p>A unique identifier and a fresh-context flag are recorded attestations. They are not a technical sandbox, and they are not proof of separate model execution. A host without fresh-context workers has to pause the run with a blocker.</p></article>
+<article class="lp-answer">
+<h3>It checks structure, not truth.</h3>
+<p>Scorecards are validated for structure and consistency. They are not validated for semantic truth, completeness of evidence or model quality. Structural acceptance does not verify that a rewrite preserved every fact or implemented its recommendations: those remain duties of the worker and of Judge.</p></article>
+<article class="lp-answer">
+<h3>Fixes are explicit.</h3>
+<p>Exact fixes are never inferred from a scorecard. Each pair has to match a quoted replacement in a Judge recommendation and occur exactly once. All of them succeed or none are written, and the result stays unapproved until a fresh Judge confirms the diff.</p></article>
+<article class="lp-answer">
+<h3>Your prompt text stays on your disk.</h3>
+<p>Run data stays on disk until you remove it, and it can contain your prompt text. The server itself does not send prompt data to external services. This is a single-user service over standard input and output, with filesystem permissions as its access boundary.</p></article></div></div></section>
+
+<section class="lp-section lp-status" id="status" aria-labelledby="status-title">
+<div class="lp-shell lp-grid">
+<div class="lp-status__copy">
+<h2 id="status-title">Status</h2>
+<p class="lp-lead">Promptzilla is version 1.0.0 on npm under the MIT licence. Continuous integration runs on Node 22, 24 and 26.</p>
+<p>It can also run as a private, authenticated HTTP server on your own Cloudflare account, using Workers and Durable Objects with no database and no model API. The repository's Cloudflare guide covers that path.</p>
+<div class="lp-cta"><a class="lp-button lp-press" href="https://github.com/andymccutcheon/promptzilla">View on GitHub</a><a href="https://github.com/andymccutcheon/promptzilla/issues">Open an issue</a></div></div></div></section></main>
+
+<footer class="lp-footer">
+<div class="lp-shell lp-grid">
+<div class="lp-footer__about"><span class="lp-wordmark lp-lockup"><svg class="lp-mark" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false"><rect x="1.75" y="1.75" width="20.5" height="20.5" rx="2" stroke="currentColor" stroke-width="1.25"></rect><path d="M7 9.5H17L7 15.5H17" stroke="currentColor" stroke-width="2" stroke-linejoin="miter"></path><path d="M8.5 7.5V6M12 7.5V4.75M15.5 7.5V6" stroke="currentColor" stroke-width="1.5"></path></svg><span class="lp-lockup__text">Promptzilla</span></span>
+<p>MIT licence</p></div>
+<ul class="lp-footer__links">
+<li><a href="https://github.com/andymccutcheon/promptzilla">GitHub repository</a></li>
+<li><a href="https://github.com/andymccutcheon/promptzilla#readme">README</a></li>
+<li><a href="https://www.npmjs.com/package/promptzilla">Install from npm</a></li>
+<li><a href="https://github.com/andymccutcheon/promptzilla/issues">Open an issue</a></li>
+<li><a href="https://github.com/andymccutcheon/promptzilla/blob/main/LICENSE">Licence</a></li>
+<li><a href="https://github.com/andymccutcheon/promptzilla/blob/main/CLOUDFLARE.md">Self-hosting guide</a></li></ul>
+<div class="lp-footer__credit">
+<p>Promptzilla is an independent open-source project by Andy McCutcheon. It is not affiliated with, or endorsed by, any MCP client or model provider it can be connected to.</p>
+<p>Product names belong to their owners. The skill names are the project's own.</p></div></div></footer>
+<div class="lp-visually-hidden" aria-live="polite" id="copy-status"></div><script src="../shared/page.js" defer></script></body></html>
