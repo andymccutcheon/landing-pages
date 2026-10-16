@@ -6,7 +6,8 @@
     "assemble": "node assemble.mjs",
     "build": "npm run assemble && cf build",
     "deploy": "npm run build && cf deploy",
-    "verify": "cf workers deployments list --name promptzilla-site"
+    "verify": "node verify.mjs",
+    "deployments": "cf workers deployments list --name promptzilla-site"
   },
   "devDependencies": {
     "cf": "^1.0.0-beta.17",
