@@ -8,7 +8,7 @@ async def run(browser, failures):
     root = Path(__file__).resolve().parents[1]
     out = root / '.review/promptzilla'
     out.mkdir(parents=True, exist_ok=True)
-    url = os.environ.get('LP_PROMPTZILLA_URL', 'http://127.0.0.1:8766/')
+    url = os.environ.get('LP_PROMPTZILLA_URL', 'http://127.0.0.1:8766/promptzilla/')
     for width in (360, 390, 768, 1024, 1280, 1440):
         page = await browser.new_page(viewport={'width': width, 'height': 900}, color_scheme='dark', reduced_motion='reduce')
         errors = []
@@ -50,8 +50,14 @@ async def run(browser, failures):
             if await config_button.text_content() != 'Copied':
                 failures.append('Promptzilla: JSON copy feedback did not appear')
             copied_json = await page.evaluate('navigator.clipboard.readText()')
-            if '"mcpServers"' not in copied_json or '"promptzilla"' not in copied_json:
-                failures.append('Promptzilla: copied MCP JSON mismatch')
+            expected_config = {'mcpServers': {'promptzilla': {'command': 'npx', 'args': ['-y', 'promptzilla']}}}
+            try:
+                parsed_config = json.loads(copied_json)
+            except json.JSONDecodeError as error:
+                failures.append(f'Promptzilla: copied MCP config is not valid JSON: {error}')
+            else:
+                if parsed_config != expected_config:
+                    failures.append(f'Promptzilla: copied MCP JSON mismatch: {parsed_config}')
         await page.close()
 
     keyboard = await browser.new_page(viewport={'width': 1280, 'height': 900}, color_scheme='dark')

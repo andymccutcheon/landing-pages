@@ -9,7 +9,7 @@ async def main():
     async with async_playwright() as p:
         browser = await p.chromium.launch(executable_path=installed_chromium())
         page = await browser.new_page(viewport={"width": 1280, "height": 900})
-        await page.goto(os.environ.get("LP_PROMPTZILLA_URL", "http://127.0.0.1:8766/"), wait_until="networkidle")
+        await page.goto(os.environ.get("LP_PROMPTZILLA_URL", "http://127.0.0.1:8766/promptzilla/"), wait_until="networkidle")
         await page.locator('.config').evaluate('(e) => e.open = true')
         values = await page.evaluate("""() => {
           const lum = c => { const x=document.createElement('canvas').getContext('2d');x.fillStyle=c;x.fillRect(0,0,1,1);return [...x.getImageData(0,0,1,1).data].slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4}).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0) };

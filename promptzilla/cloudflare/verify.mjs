@@ -15,15 +15,24 @@ async function get(url) {
   const response = await fetch(url);
   checked.add(url);
   console.log(`${response.status} ${url}`);
-  if (!response.ok) failures.push(`${url} returned ${response.status}`);
+  if (response.status !== 200) failures.push(`${url} returned ${response.status}; expected 200`);
   return response;
 }
 
 const rootUrl = new URL('/', origin);
 const rootResponse = await get(rootUrl);
 const html = await rootResponse.text();
-if (!html.includes('https://github.com/andymccutcheon/promptzilla')) {
-  failures.push('Root response does not contain the Promptzilla GitHub CTA');
+const expectedCta = 'https://github.com/andymccutcheon/promptzilla';
+const ctaRegions = [
+  ['.hero-actions', html.match(/<div class="hero-actions">([\s\S]*?)<\/div>/i)?.[1] ?? ''],
+  ['.end-cta', html.match(/<div class="end-cta">([\s\S]*?)<\/section>/i)?.[1] ?? ''],
+];
+for (const [name, region] of ctaRegions) {
+  const hasCtaAnchor = [...region.matchAll(/<a\b[^>]*>/gi)].some(([tag]) => {
+    const href = tag.match(/\bhref=["']([^"']+)["']/i)?.[1];
+    return href === expectedCta;
+  });
+  if (!hasCtaAnchor) failures.push(`Root response is missing the Promptzilla CTA anchor in ${name}`);
 }
 
 const references = new Set();

@@ -2,6 +2,12 @@
 
 This project builds the static Promptzilla landing page as Worker assets using Cloudflare's `cf` CLI. `assemble.mjs` creates a root `dist/index.html` plus its local stylesheet/script/SVG, the shared font/token/base styles, and only the two font files it references. The root route serves the landing page directly; its asset URLs are rewritten for that root layout. The Vite plugin copies this public asset tree into the static-assets Worker output; `cloudflare.config.ts` supplies the Worker name, compatibility date, and Workers.dev setting.
 
+## Browser checks by layout
+
+The repository render and contrast checks target the source page at `/promptzilla/` by default. Serve the worktree root and set `LP_PROMPTZILLA_URL=http://127.0.0.1:<port>/promptzilla/` when running `tools/render_check.py` and `tools/promptzilla_contrast_check.py`. The full repository render command also needs the corresponding `LP_TEST_URL`, `LP_FREEWHIRR_URL`, and `LP_SHIPWATCH_URL` source paths when using a non-default port.
+
+To test the assembled Cloudflare root layout instead, build and serve `dist/`, then set `LP_PROMPTZILLA_URL=http://127.0.0.1:<port>/` explicitly. The `npm run verify -- http://127.0.0.1:<port>` script checks that assembled root and all referenced assets; against a deployment, pass its base URL instead.
+
 ## Build locally
 
 Requires Node.js 22+ and npm. From this directory:
