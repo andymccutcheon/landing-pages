@@ -22,14 +22,19 @@ def permitted_media_query(line: str, match: re.Match[str]) -> bool:
 
 def main() -> int:
     failures = []
-    paths = sorted((ROOT / "shared").glob("*.css")) + [ROOT / "acheron/index.html", ROOT / "freewhirr/index.html", ROOT / "shipwatch/index.html"]
+    paths = sorted((ROOT / "shared").glob("*.css")) + sorted((ROOT / "promptzilla/css").glob("*.css")) + [
+        ROOT / "acheron/index.html",
+        ROOT / "freewhirr/index.html",
+        ROOT / "shipwatch/index.html",
+        ROOT / "promptzilla/index.html",
+    ]
     for path in paths:
         if path == EXEMPT or path.name == "fonts.css":
             continue
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             for kind, pattern in PATTERNS.items():
                 matches = list(pattern.finditer(line))
-                if kind == "length" and path.name in {"base.css", "freewhirr.css", "shipwatch.css", "common.css"}:
+                if kind == "length" and path.name in {"base.css", "freewhirr.css", "shipwatch.css", "common.css", "promptzilla.css"}:
                     matches = [match for match in matches if not permitted_media_query(line, match)]
                 if matches:
                     values = ", ".join(match.group(0) for match in matches)

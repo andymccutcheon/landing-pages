@@ -33,7 +33,7 @@ class TextLines(HTMLParser):
 
 def main() -> int:
     failures = []
-    for name in ("acheron", "freewhirr", "shipwatch"):
+    for name in ("acheron", "freewhirr", "shipwatch", "promptzilla"):
         parser = TextLines()
         parser.feed((ROOT / name / "index.html").read_text(encoding="utf-8"))
         failures.extend((name, line, text) for line, text in parser.lines if text.count("·") > 1)
