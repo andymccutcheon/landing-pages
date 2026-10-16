@@ -64,12 +64,33 @@ async function assertAllowlistIsComplete(html) {
   }
 }
 
-/** Move the page to the Worker root: `../shared/x` becomes `shared/x`. */
-const rootRelative = (html) => html.replaceAll('"../shared/', '"shared/').replaceAll('"../vendor/', '"vendor/');
+/**
+ * Move the page to the Worker root. Every local reference becomes root-relative, so
+ * the page resolves the same way whatever path serves it: `../shared/x` and `css/x`
+ * both become `/shared/x` and `/css/x`.
+ */
+const ROOT_RELATIVE_REWRITES = [
+  ['"../shared/', '"/shared/'],
+  ['"../vendor/', '"/vendor/'],
+  ['"css/', '"/css/'],
+  ['"assets/', '"/assets/'],
+];
 
-async function assertNoEscapingReferences(html) {
-  if (html.includes('"../')) {
-    throw new Error('The staged page still contains a reference above its own root.');
+function rootRelative(html) {
+  let staged = html;
+  for (const [from, to] of ROOT_RELATIVE_REWRITES) {
+    if (!staged.includes(from)) throw new Error(`The page no longer references ${from}; update ROOT_RELATIVE_REWRITES.`);
+    staged = staged.replaceAll(from, to);
+  }
+  return staged;
+}
+
+/** Every href/src must now be root-relative, absolute, or a fragment. */
+function assertEveryReferenceIsRootRelative(html) {
+  const offenders = references(html, /(?:href|src)="([^"]+)"/g)
+    .filter((reference) => !/^(?:\/|#|https?:|data:|mailto:)/.test(reference));
+  if (offenders.length > 0) {
+    throw new Error(`The staged page keeps non-root-relative references: ${offenders.join(', ')}`);
   }
 }
 
@@ -77,7 +98,7 @@ async function stageDist(html) {
   await rm(DIST, { recursive: true, force: true });
   await mkdir(DIST, { recursive: true });
   const staged = rootRelative(html);
-  await assertNoEscapingReferences(staged);
+  assertEveryReferenceIsRootRelative(staged);
   await writeFile(path.join(DIST, 'index.html'), staged, 'utf8');
   for (const directory of PAGE_DIRECTORIES) {
     await cp(path.join(REPO, 'promptzilla', directory), path.join(DIST, directory), { recursive: true });

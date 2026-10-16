@@ -24,8 +24,11 @@ There is no Wrangler configuration. `cf` is the CLI for this project, per
    `SHARED_ASSETS` allowlist, and fails if one does not;
 2. replaces `dist/` with the page, its `css/` and `assets/` directories, and only those
    allowlisted shared and vendored files;
-3. rewrites the page's `../shared/` and `../vendor/` references to root-relative ones so
-   the page can be served from `/`, and fails if any reference above the root survives;
+3. rewrites every local reference in the page to a root-relative one, so the page
+   resolves the same way whatever path serves it: `../shared/x` becomes `/shared/x`,
+   `../vendor/x` becomes `/vendor/x`, `css/x` becomes `/css/x` and `assets/x` becomes
+   `/assets/x`. It then re-reads every `href` and `src` in the staged page and fails
+   unless each one is root-relative, absolute, or a fragment;
 4. writes the Cloudflare Build Output Specification tree in `.cloudflare/output/v0/` as an
    assets-only Worker: a `worker.config.json` with no bundle and no `manifest`, plus the
    staged `assets/` directory.
@@ -72,15 +75,33 @@ instead of signing in, as described in [Use `cf` in CI](https://developers.cloud
 
 ## Verify a deploy
 
+Reachability is one command. It requests the page and all twelve assets it references,
+requires `200` from each, and asserts that the served HTML still carries two primary calls
+to action pointing at the Promptzilla repository and references its stylesheet, script and
+favicon at their root-relative paths. It exits non-zero on the first problem, deploys
+nothing and needs no credentials.
+
+```sh
+cd promptzilla/cloudflare
+npm run verify -- https://promptzilla-site.<your-subdomain>.workers.dev
+```
+
+The same command works against the staged bundle before you deploy:
+
+```sh
+npm run build
+python3 -m http.server 8792 --bind 127.0.0.1 --directory dist &
+npm run verify -- http://127.0.0.1:8792
+```
+
+To check the Worker itself rather than its responses:
+
 ```sh
 npx cf workers list                                         # promptzilla-site is listed
 npx cf workers versions list --worker-id promptzilla-site   # the version just uploaded
-curl -sS -o /dev/null -w '%{http_code}\n' https://promptzilla-site.<your-subdomain>.workers.dev/
-curl -sS -o /dev/null -w '%{http_code}\n' https://promptzilla-site.<your-subdomain>.workers.dev/css/promptzilla.css
-curl -sS -o /dev/null -w '%{http_code}\n' https://promptzilla-site.<your-subdomain>.workers.dev/vendor/pattern/fonts/fraunces/fraunces-latin.woff2
 ```
 
-Each request should answer `200`. `workersDev` is `true`, so the Worker gets a
+`workersDev` is `true`, so the Worker gets a
 `workers.dev` address; `previewUrls` is `false`, so per-version preview URLs are not
 published. Run `npx cf workers list` or open the Cloudflare dashboard to read the
 subdomain. A custom domain is not configured; see the GAPS section of the pull request.

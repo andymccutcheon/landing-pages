@@ -158,7 +158,152 @@ claim that Promptzilla runs or sandboxes agents for you.
 
 ---
 
-## 5. Where a loaded skill was overruled
+## 5. Claim ledger
+
+Every product claim the page makes, with the line in `promptzilla/index.html` that carries
+it and the source that supports it. Sources are paths inside the Promptzilla repository at
+`/Users/andymccutcheon/Desktop/promptzilla-mcp`. `README.md` is the published contract;
+`src/` and `skills/` are cited where they are the stronger evidence, or where the README
+summarises what the code enforces.
+
+Line numbers were read at commit time. If a claim on the page cannot be found in this
+table, it should not be on the page.
+
+### Hero and specification stamp
+
+| Page | Claim | Source |
+|---|---|---|
+| 38 | "MCP server", five prompt-engineering skills | `README.md:7-10`; `skills/` has 5 directories |
+| 39, 41 | Generates, scores on a locked rubric, rewrites against the numbered recommendations | `README.md:7-10`, `199-204` |
+| 41 | "stops only when the rubric scores it 9 or 10" | `README.md:203-204`; `src/validation.ts:40` enforces `(score >= 9) !== (verdict === 'STOP')` |
+| 42 | "The connected AI client executes the skills, so there is no API key and no model-provider account" | `README.md:12-15` |
+| 44, 158 | `claude mcp add promptzilla -- npx -y promptzilla` | `README.md:38` (client table) |
+| 51 | Transport: "stdio, or self-hosted HTTP" | `README.md:9-10`, `96-97` |
+| 53 | Skills: 5 | `README.md:49`; `skills/` directory listing |
+| 55, 144, 174 | Tools: 13 | `README.md:43`; tools table `README.md:111-125` has 13 rows |
+| 57, 146, 174 | Prompts: 5 | `README.md:43`, `135` |
+| 59, 155 | Runtime: Node.js 22.12+ | `README.md:19` |
+| 61, 229, 236 | Licence: MIT | `package.json:38`; `README.md:310` |
+| 63, 155 | API key: not required | `README.md:15` |
+
+### Pipeline rail
+
+| Page | Claim | Source |
+|---|---|---|
+| 69-71 | Metapod generates a System Prompt and a Task Prompt from one raw request | `README.md:208-209`; `skills/metapod/SKILL.md:40-60` |
+| 74-76 | Judge Dredd: locked 0 to 10 rubric, quoted evidence, STOP or CONTINUE verdict, numbered recommendations | `skills/judge-dredd/SKILL.md:3`, `55-57`; `README.md:210-214` |
+| 79-81 | Brian Spillner applies every numbered recommendation and cuts nothing that was not asked for | `skills/brian-spillner/SKILL.md:3`, `58` |
+| 84-86 | Judge re-scores the exact rewritten body; at most four scoring rounds | `README.md:200-202` |
+| 87 | "Only a valid STOP at an overall rating of 9 or 10 approves the prompt. The server never invents a score and never changes a verdict." | `README.md:203-204`; `src/validation.ts:40` |
+| 88 | "The Prompt Pipeline orchestrates these stages. It does not execute them." | `skills/prompt-pipeline/SKILL.md:8` |
+
+### Stage specifications
+
+| Page | Claim | Source |
+|---|---|---|
+| 96 | Tasker: execution-ready instruction for another agent; unknowns become bracketed placeholders; never performs the task | `skills/tasker/SKILL.md:3`, `8`, `12`, `41-42` |
+| 100 | Metapod: "all 11 System headings and all 4 Task headings"; never executes the task | `README.md:209`; `src/validation.ts:26` lists exactly 11 System headings and `:29` exactly 4 Task headings; `skills/metapod/SKILL.md:8` |
+| 104 | Judge Dredd: section ratings, one overall rating, a STOP or CONTINUE verdict, numbered recommendations; evaluates only | `README.md:210-214`; `src/validation.ts:41` requires `^Section Ratings$`, `:37` exactly one `Overall Rating`, `:48` sequential recs; `skills/judge-dredd/SKILL.md:3`, `91` |
+| 108 | Brian Spillner: full rewrite plus a line for every recommendation marked applied or deferred | `README.md:215-216`; `src/validation.ts:60-63` |
+| 108 | "Interior whitespace, Unicode, trailing spaces and line endings are preserved" | `README.md:217` (Brian's output contract) |
+| 112 | Prompt Pipeline: Metapod, Judge Dredd, Brian Spillner until STOP at 9 or above, at most four scoring rounds; orchestrates only | `README.md:202-204`; `skills/prompt-pipeline/SKILL.md:8` |
+
+### Three ways a run ends
+
+| Page | Claim | Source |
+|---|---|---|
+| 122 | STOP at 9 or above: approved, written as the final artifact | `README.md:203-204`, `240`; `src/pipeline-engine.ts:129-130` writes `05-final.md` with `approved: true` |
+| 124 | Four-round cap: best scored candidate exported as provisional, `approved: false` | `README.md:196-197`; `src/pipeline-engine.ts:68-74` |
+| 126 | No improvement after two rewrites: the run pauses and asks you the actual question | `README.md:202-203`, `192` |
+| 127 | "Pass 1 counts toward the four-round maximum" | `README.md:201-202` |
+
+### Modes and server surface
+
+| Page | Claim | Source |
+|---|---|---|
+| 136 | `full`: starts at Metapod from a raw request, saved as the run's first file | `README.md:199`; `src/pipeline-engine.ts:50` writes `00-request.md` |
+| 139 | `optimize-only`: saves your prompt to `00-original.md` byte for byte, unchanged, and starts at Judge | `README.md:199-200`; `skills/prompt-pipeline/SKILL.md:31`; `src/pipeline-engine.ts:49` |
+| 144 | 13 tools: skill packets and the durable pipeline controller | `README.md:111-125` |
+| 146 | 5 prompts, one per skill, using the source skill names | `README.md:135-136` |
+| 148 | `promptzilla://` resources: the catalog, the exact original skill files, each run's artifacts | `README.md:143-147` |
+
+### Install
+
+| Page | Claim | Source |
+|---|---|---|
+| 155 | Node.js 22.12 or newer; no API key and no account | `README.md:19`, `15` |
+| 162 | The `mcpServers` JSON block, verbatim | `README.md:26-35` |
+| 172-173 | `npx -y promptzilla --validate` prints "Validated 5 skills and 9 source assets." | `README.md:49` |
+| 174 | A connected client lists 13 tools, 5 prompts and the `promptzilla://` resources | `README.md:43` |
+| 177 | Setup skill at `agent-skills/promptzilla-setup`; walks the Node check, client configuration and optional Cloudflare self-hosting | `README.md:60-65` |
+
+### Durable runs
+
+| Page | Claim | Source |
+|---|---|---|
+| 184 | A folder of Markdown stage files plus `run.json` | `README.md:247-257` |
+| 184 | "written with private permissions" | `README.md:248`; `src/file-run-store.ts:14` creates directories `0o700`, `:21` and `:33` create files `0o600` |
+| 185 | "Artifacts are immutable" | `README.md:147`, `240`; `src/file-run-store.ts:19-26` writes each artifact with `'wx'` and refuses to overwrite |
+| 185 | "Changed stage files are detected" | `src/file-run-store.ts:25` throws `Artifact was modified outside the pipeline`; `README.md:259-261` |
+| 185 | "missing derived files are reconstructed from `run.json`" | `README.md:260-261`; `src/file-run-store.ts:58` re-materializes artifacts from parsed state on every read |
+| 185 | `pipeline_status` resumes a run after a server restart | `README.md:259`; `README.md:121` |
+| 186 | "Runs are stored under your home directory by default" | `README.md:53`, `71`, `247` |
+| 191 | `00-request.md`, or `00-original.md` for optimize-only | `README.md:252`; `src/pipeline-engine.ts:49-50` |
+| 193 | `01-metapod.md` | `README.md:253`; `src/pipeline-engine.ts:61` |
+| 195 | `02-judge-pass1.md` | `README.md:253`; `src/pipeline-engine.ts:64` (round 0) |
+| 197 | `03-brian-rewrite.md` | `README.md:253`; `src/pipeline-engine.ts:63` (round 1) |
+| 199 | `04-judge-pass2.md` | `README.md:254`; `src/pipeline-engine.ts:64` (round 1) |
+| 201 | `05-final.md`, or `05-provisional.md` at a cap | `README.md:256-257`; `src/pipeline-engine.ts:129`, `:72` |
+
+### What Promptzilla does not do
+
+| Page | Claim | Source |
+|---|---|---|
+| 208-209 | Standalone tools return instructions and input packets; they do not secretly call an LLM; the server cannot create isolated AI workers itself | `README.md:12-14`, `160` |
+| 213 | Fresh worker per stage is the host's obligation; the server records attestations, validates returned output, enforces loop limits | `README.md:13-15` |
+| 213 | "rejects reused execution identifiers" | `README.md:190` ("Stale dispatches and reused worker IDs are rejected") |
+| 214 | Unique identifier and fresh-context flag are recorded attestations, not a sandbox or proof of separate model execution | `README.md:162-163` |
+| 214 | "A host without fresh-context workers has to pause the run with a blocker" | `README.md:160-161` |
+| 217 | Scorecards validated for structure and consistency, not semantic truth, completeness of evidence or model quality | `README.md:130-131` |
+| 217 | Structural acceptance does not verify a rewrite preserved every fact or implemented its recommendations; those remain worker and Judge duties | `README.md:221-223` |
+| 220 | Exact fixes are never inferred from a scorecard | `README.md:228`, `237-238` |
+| 220 | Each pair must match a quoted replacement in a Judge recommendation | `README.md:238-239`; `src/validation.ts:52-55` (`isAuthorizedFix`); `src/pipeline-engine.ts:179-181` |
+| 220 | Each old string must occur exactly once | `README.md:239`; `src/validation.ts:69` |
+| 220 | "All of them succeed or none are written" | `README.md:240`; `src/validation.ts:67-73` replaces into a local copy and throws before anything is persisted |
+| 220 | "stays unapproved until a fresh Judge confirms the diff" | `README.md:241`; `src/pipeline-engine.ts:185` sets `approved: false, label: 'Pending fresh Judge diff-only confirmation.'` and `:120-124` only approves after a passing confirm stage |
+| 223 | Run data stays on disk until you remove it and can contain your prompt text; the server does not send prompt data to external services | `README.md:271-273` |
+| 223 | "a single-user service over standard input and output, with filesystem permissions as its access boundary" | `README.md:270-271` |
+
+### Status and footer
+
+| Page | Claim | Source |
+|---|---|---|
+| 229 | Version 1.0.0 on npm under the MIT licence | `package.json:3`, `:38`; `README.md:308` |
+| 229 | Continuous integration runs on Node 22, 24 and 26 | `README.md:291` |
+| 230 | Optional private, authenticated HTTP server on your own Cloudflare account, Workers and Durable Objects, no database and no model API | `README.md:96-98` |
+| 240 | "Install from npm" links to the npm package | `README.md:308` |
+| 243 | "Self-hosting guide" links to `CLOUDFLARE.md` | `README.md:99` |
+
+### Corrections this ledger forced
+
+Building the ledger caught one misattribution and one loose number, both now fixed:
+
+- **Rewritten.** The `optimize-only` row carried "Interior whitespace, Unicode, trailing
+  spaces and line endings are preserved". That sentence is `README.md:217`, which is
+  **Brian's output contract** for the rewritten body, not a statement about how an
+  optimize-only run stores your input. The mode row now says only what
+  `README.md:199-200` and `skills/prompt-pipeline/SKILL.md:31` support, and the
+  preservation guarantee moved to the Brian Spillner specification row where it belongs.
+- **Tightened.** The hero said the pipeline "stops when the score reaches 9". The enforced
+  condition is a STOP verdict at an overall rating of 9 or 10
+  (`src/validation.ts:40`), so the hero now says "stops only when the rubric scores it
+  9 or 10", matching the gate row.
+
+Nothing was removed: every other claim audited is literally supported by the cited source.
+
+---
+
+## 6. Where a loaded skill was overruled
 
 The taste skills disagree with each other and with this repository. Where they conflict,
 repository conventions, accessibility and performance win. Each override is deliberate:
@@ -180,7 +325,7 @@ repository conventions, accessibility and performance win. Each override is deli
 
 ---
 
-## 6. Self-critique against the taste checklists
+## 7. Self-critique against the taste checklists
 
 Checked against the pre-flight list in `ux-ui-agent-skills/taste/design-taste.md` and the
 DON'T list in `impeccable-frontend-design`:
@@ -212,7 +357,7 @@ Known soft spots, left as they are:
 
 ---
 
-## 7. Verification
+## 8. Verification
 
 Source and copy gates, from the repository root:
 
@@ -229,6 +374,17 @@ Browser gates, with a preview server on the repository root:
 python3 -m http.server 8766
 PATH="$PWD/.venv/bin:$PATH" python3 tools/render_check.py
 PATH="$PWD/.venv/bin:$PATH" python3 tools/promptzilla_contrast_check.py
+```
+
+Every gate resolves its URL the same way: `LP_TEST_URL` names the one preview server
+(default `http://127.0.0.1:8766/acheron/`), and each page gate derives its own page from
+that, or takes an explicit `LP_PROMPTZILLA_URL`, `LP_FREEWHIRR_URL` or `LP_SHIPWATCH_URL`.
+If port 8766 is taken, serve on another port and point every gate at it with one variable:
+
+```sh
+python3 -m http.server 8790 --bind 127.0.0.1
+LP_TEST_URL=http://127.0.0.1:8790/acheron/ PATH="$PWD/.venv/bin:$PATH" python3 tools/render_check.py
+LP_TEST_URL=http://127.0.0.1:8790/acheron/ PATH="$PWD/.venv/bin:$PATH" python3 tools/promptzilla_contrast_check.py
 ```
 
 `tools/promptzilla_render_check.py` is hooked into the aggregate `render_check.py` the same

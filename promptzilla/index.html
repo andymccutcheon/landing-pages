@@ -38,7 +38,7 @@
 <p class="lp-kicker">MCP server · five prompt-engineering skills</p>
 <h1 id="hero-title">A prompt pipeline your AI client runs.</h1>
 <div class="lp-hero__copy">
-<p class="lp-lead">Write the request. Promptzilla generates the prompt, scores it on a locked rubric, rewrites it against the numbered recommendations, and stops when the score reaches 9. You do not build the loop.</p>
+<p class="lp-lead">Write the request. Promptzilla generates the prompt, scores it on a locked rubric, rewrites it against the numbered recommendations, and stops only when the rubric scores it 9 or 10. You do not build the loop.</p>
 <p>The connected AI client executes the skills, so there is no API key and no model-provider account.</p>
 <div class="lp-cta"><a class="lp-button lp-press" href="https://github.com/andymccutcheon/promptzilla">View on GitHub</a><a href="#install">Install</a></div>
 <div class="lp-hero__install"><pre class="lp-code" tabindex="0" aria-label="Install command for Claude Code"><code id="install-claude-code">claude mcp add promptzilla -- npx -y promptzilla</code></pre><button class="lp-copy lp-hover-tint lp-press" type="button" data-copy-target="install-claude-code" aria-label="Copy install command">Copy</button></div>
@@ -105,7 +105,7 @@
 <p class="lp-provenance">skills/judge-dredd</p></article>
 <article class="lp-spec">
 <h3>Brian Spillner</h3>
-<p>Rewrites a prompt applying every numbered recommendation, cutting nothing that was not asked for, and returns the full rewrite plus a line for every recommendation marked applied or deferred.</p>
+<p>Rewrites a prompt applying every numbered recommendation, cutting nothing that was not asked for, and returns the full rewrite plus a line for every recommendation marked applied or deferred. Interior whitespace, Unicode, trailing spaces and line endings are preserved.</p>
 <p class="lp-provenance">skills/brian-spillner</p></article>
 <article class="lp-spec">
 <h3>Prompt Pipeline</h3>
@@ -136,7 +136,7 @@
 <p>Starts at Metapod from a raw request. The request is saved as the run's first file, then generation, scoring and rewriting follow.</p></div>
 <div class="lp-mode">
 <h3><code>optimize-only</code></h3>
-<p>Saves your existing prompt byte for byte and starts at Judge. Interior whitespace, Unicode, trailing spaces and line endings are preserved.</p></div></div>
+<p>Saves your existing prompt to <code>00-original.md</code> byte for byte, unchanged, and starts at Judge instead of Metapod.</p></div></div>
 <aside class="lp-surface-side">
 <h3>What the server exposes</h3>
 <dl class="lp-ends lp-ends--compact">
@@ -205,7 +205,8 @@
 <h2 class="lp-limits-heading" id="limits-title">What Promptzilla does not do</h2>
 <div class="lp-limits-lead">
 <article class="lp-answer lp-answer--egress">
-<p class="lp-lead"><strong>It does not run an agent for you.</strong> Standalone tools return instructions and input packets. They do not secretly call an LLM, and the server cannot create isolated AI workers itself.</p></article></div>
+<h3>It does not run an agent for you.</h3>
+<p class="lp-lead">Standalone tools return instructions and input packets. They do not secretly call an LLM, and the server cannot create isolated AI workers itself.</p></article></div>
 <div class="lp-limits">
 <article class="lp-answer">
 <h3>Fresh context is your host's job.</h3>

@@ -83,6 +83,11 @@ PATH="$PWD/.venv/bin:$PATH" python3 tools/shipwatch_contrast_check.py
 PATH="$PWD/.venv/bin:$PATH" python3 tools/promptzilla_contrast_check.py
 ```
 
+Each browser gate reads the preview server from `LP_TEST_URL`, defaulting to
+`http://127.0.0.1:8766/acheron/`, and derives its own page from it. Set that one variable
+to move every gate to a different port, or override a single page with
+`LP_FREEWHIRR_URL`, `LP_SHIPWATCH_URL` or `LP_PROMPTZILLA_URL`.
+
 The aggregate render gate produces:
 
 - Acheron: 6 widths × 2 themes = 12 captures.
