@@ -11,6 +11,7 @@ export default defineConfig({
     compatibilityDate: '2026-10-01',
     workersDev: true,
     previewUrls: false,
+    domains: ['promptzilla.amccutcheon.com'],
     assets: {
       htmlHandling: 'auto-trailing-slash',
       notFoundHandling: 'none',
