@@ -1,0 +1,21 @@
+{
+  "name": "promptzilla-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static-assets Worker packaging for the Promptzilla landing page.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "npm run build && cf deploy --dry-run --prebuilt",
+    "deploy": "npm run build && cf deploy --prebuilt",
+    "verify": "node scripts/verify.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/build-output-utils": "0.9.2",
+    "@cloudflare/config": "0.26.0",
+    "cf": "^1.0.0-beta.17"
+  }
+}
