@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <title>Promptzilla — prompts, refined</title>
-  <meta name="description" content="Five prompt-engineering skills and a durable loop: Metapod generates, Judge Dredd scores, Brian Spillner rewrites. STOP at 9. Install from the CLI or your agent.">
+  <meta name="description" content="Five prompt-engineering skills and a durable loop: Compose generates, Judge scores, Revise rewrites. STOP at 9. Install from the CLI or your agent.">
   <link rel="canonical" href="https://promptzilla.amccutcheon.com/">
   <meta property="og:title" content="Promptzilla — prompts, refined">
-  <meta property="og:description" content="Five prompt-engineering skills and a durable loop. Metapod generates, Judge Dredd scores, Brian Spillner rewrites. Only a 9 or 10 approves.">
+  <meta property="og:description" content="Five prompt-engineering skills and a durable loop. Compose generates, Judge scores, Revise rewrites. Only a 9 or 10 approves.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://promptzilla.amccutcheon.com/">
   <meta property="og:image" content="https://promptzilla.amccutcheon.com/assets/og.png">
@@ -16,10 +16,10 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Promptzilla — prompts, refined">
-  <meta name="twitter:description" content="Five prompt-engineering skills and a durable loop. Metapod generates, Judge Dredd scores, Brian Spillner rewrites. Only a 9 or 10 approves.">
+  <meta name="twitter:description" content="Five prompt-engineering skills and a durable loop. Compose generates, Judge scores, Revise rewrites. Only a 9 or 10 approves.">
   <meta name="twitter:image" content="https://promptzilla.amccutcheon.com/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/instrument-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/pz-tokens.css">
@@ -51,7 +51,7 @@
     <div class="pz-hero__copy">
       <p class="pz-label">Prompt-engineering skills for AI builders</p>
       <h1 id="hero-title">Stop <span class="pz-nowrap">hand-writing</span> <em>your prompts.</em></h1>
-      <p class="pz-lead">Five prompt-engineering skills. One loop that generates, scores, and rewrites a prompt until Judge Dredd stops at 9. Install them into your agent, or run it from the terminal.</p>
+      <p class="pz-lead">Five prompt-engineering skills. One loop that generates, scores, and rewrites a prompt until Judge stops at 9. Install them into your agent, or run it from the terminal.</p>
       <div class="pz-cta">
         <a class="pz-button pz-primary" href="https://github.com/andymccutcheon/promptzilla">Get Promptzilla on GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
         <a class="pz-button pz-secondary" href="#loop">See the loop <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v11M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
@@ -74,10 +74,10 @@
         <p class="pz-specimen__request">“Summarize these meeting notes into five bullets.”</p>
       </div>
       <ol class="pz-specimen__stages">
-        <li><span class="pz-specimen__idx">01</span><span class="pz-specimen__name">Metapod</span><span class="pz-specimen__result">two prompts</span></li>
-        <li><span class="pz-specimen__idx">02</span><span class="pz-specimen__name">Judge Dredd</span><span class="pz-specimen__result">8 / CONTINUE</span></li>
-        <li><span class="pz-specimen__idx">03</span><span class="pz-specimen__name">Brian Spillner</span><span class="pz-specimen__result">rewrite</span></li>
-        <li><span class="pz-specimen__idx">04</span><span class="pz-specimen__name">Judge Dredd</span><span class="pz-specimen__result pz-specimen__result--stop">9 / STOP</span></li>
+        <li><span class="pz-specimen__idx">01</span><span class="pz-specimen__name">Compose</span><span class="pz-specimen__result">two prompts</span></li>
+        <li><span class="pz-specimen__idx">02</span><span class="pz-specimen__name">Judge</span><span class="pz-specimen__result">8 / CONTINUE</span></li>
+        <li><span class="pz-specimen__idx">03</span><span class="pz-specimen__name">Revise</span><span class="pz-specimen__result">rewrite</span></li>
+        <li><span class="pz-specimen__idx">04</span><span class="pz-specimen__name">Judge</span><span class="pz-specimen__result pz-specimen__result--stop">9 / STOP</span></li>
       </ol>
       <div class="pz-specimen__score">
         <span class="pz-label">Overall rating</span>
@@ -85,7 +85,7 @@
         <span class="pz-chip pz-chip--success">STOP</span>
       </div>
       <div class="pz-specimen__foot"><code>prompts/meeting-notes.md</code><span>approved</span></div>
-      <figcaption id="specimen-caption">An illustration of a run. Judge Dredd decides when it stops.</figcaption>
+      <figcaption id="specimen-caption">An illustration of a run. Judge decides when it stops.</figcaption>
     </figure>
   </div>
 </section>
@@ -96,12 +96,12 @@
     <header class="pz-section__head pz-section__head--inverse">
       <p class="pz-label">01 / The loop</p>
       <h2 id="loop-title">Four passes. <em>One gate.</em></h2>
-      <p class="pz-lead">A raw request becomes a System Prompt and a Task Prompt. Judge Dredd scores them. Brian Spillner rewrites. Judge scores again. Only a 9 or 10 stops the loop.</p>
+      <p class="pz-lead">A raw request becomes a System Prompt and a Task Prompt. Judge scores them. Revise rewrites. Judge scores again. Only a 9 or 10 stops the loop.</p>
     </header>
 
     <div class="pz-loop__panel" data-loop>
       <div class="pz-loop__readout">
-        <span class="pz-label">Judge Dredd</span>
+        <span class="pz-label">Judge</span>
         <div class="pz-loop__score"><span data-loop-score>09</span><span class="pz-loop__denom">/10</span></div>
         <p class="pz-loop__status" data-loop-status aria-live="polite">STOP / approved</p>
         <button class="pz-button pz-button--light pz-loop__run" type="button" data-loop-run>Run the loop</button>
@@ -113,28 +113,28 @@
         <li class="pz-stage" data-loop-stage="0" data-state="done">
           <span class="pz-stage__idx">01</span>
           <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Metapod</h3>
+          <h3 class="pz-stage__name">Compose</h3>
           <p class="pz-stage__role">Generate</p>
           <p class="pz-stage__note">One request becomes two prompts: a System Prompt and a Task Prompt.</p>
         </li>
         <li class="pz-stage" data-loop-stage="1" data-state="done">
           <span class="pz-stage__idx">02</span>
           <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Judge Dredd</h3>
+          <h3 class="pz-stage__name">Judge</h3>
           <p class="pz-stage__role">Score</p>
           <p class="pz-stage__note">A locked 0 to 10 rubric, quoted evidence, and numbered recommendations.</p>
         </li>
         <li class="pz-stage" data-loop-stage="2" data-state="done">
           <span class="pz-stage__idx">03</span>
           <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Brian Spillner</h3>
+          <h3 class="pz-stage__name">Revise</h3>
           <p class="pz-stage__role">Rewrite</p>
           <p class="pz-stage__note">Applies every recommendation and cuts nothing that was not asked for.</p>
         </li>
         <li class="pz-stage" data-loop-stage="3" data-state="done">
           <span class="pz-stage__idx">04</span>
           <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Judge Dredd</h3>
+          <h3 class="pz-stage__name">Judge</h3>
           <p class="pz-stage__role">Re-score</p>
           <p class="pz-stage__note">Scores the exact rewritten body. At 9 or above, the loop stops.</p>
         </li>
@@ -142,13 +142,18 @@
     </div>
 
     <p class="pz-loop__gate">The pipeline caps at four scoring rounds. A plateau pauses for your decision. It never invents a score.</p>
+
+    <div class="pz-diagram__frame">
+      <iframe src="diagrams/loop.html" title="Animated refinement loop diagram" loading="lazy"></iframe>
+    </div>
+    <p class="pz-diagram__caption">The same loop, drawn. Play it here or <a class="pz-diagram__link" href="diagrams/loop.html">open it full screen</a>.</p>
   </div>
 </section>
 
 <section class="pz-skills pz-section" id="skills" aria-labelledby="skills-title">
   <div class="pz-shell">
     <header class="pz-section__head">
-      <p class="pz-label">02 / The cast</p>
+      <p class="pz-label">02 / The method</p>
       <h2 id="skills-title">Five skills, <em>each with a narrow job.</em></h2>
       <p class="pz-lead">Every skill has a boundary. None of them does the others' work.</p>
     </header>
@@ -156,27 +161,27 @@
     <ol class="pz-skills__list">
       <li class="pz-skill">
         <span class="pz-skill__idx">01</span>
-        <div class="pz-skill__main"><h3>Tasker</h3><p>Turns a rough free-form task into an execution-ready instruction for another agent. Unknowns become bracketed placeholders.</p></div>
+        <div class="pz-skill__main"><h3>Brief</h3><p>Turns a rough free-form task into an execution-ready instruction for another agent. Unknowns become bracketed placeholders.</p></div>
         <p class="pz-skill__boundary"><span>Refuses</span> to perform the task.</p>
       </li>
       <li class="pz-skill">
         <span class="pz-skill__idx">02</span>
-        <div class="pz-skill__main"><h3>Metapod</h3><p>Turns a raw request into two prompts, a System Prompt and a Task Prompt, with every required heading from the source skill.</p></div>
+        <div class="pz-skill__main"><h3>Compose</h3><p>Turns a raw request into two prompts, a System Prompt and a Task Prompt, with every required heading from the source skill.</p></div>
         <p class="pz-skill__boundary"><span>Refuses</span> to execute the task.</p>
       </li>
       <li class="pz-skill">
         <span class="pz-skill__idx">03</span>
-        <div class="pz-skill__main"><h3>Judge Dredd</h3><p>Scores a prompt on a locked 0 to 10 rubric with quoted evidence, one overall rating, a STOP or CONTINUE verdict, and numbered recommendations.</p></div>
+        <div class="pz-skill__main"><h3>Judge</h3><p>Scores a prompt on a locked 0 to 10 rubric with quoted evidence, one overall rating, a STOP or CONTINUE verdict, and numbered recommendations.</p></div>
         <p class="pz-skill__boundary"><span>Refuses</span> to rewrite the prompt.</p>
       </li>
       <li class="pz-skill">
         <span class="pz-skill__idx">04</span>
-        <div class="pz-skill__main"><h3>Brian Spillner</h3><p>Rewrites a prompt by applying every numbered recommendation. It returns the complete rewrite and a checklist for every recommendation.</p></div>
+        <div class="pz-skill__main"><h3>Revise</h3><p>Rewrites a prompt by applying every numbered recommendation. It returns the complete rewrite and a checklist for every recommendation.</p></div>
         <p class="pz-skill__boundary"><span>Refuses</span> to cut what was not asked for.</p>
       </li>
       <li class="pz-skill">
         <span class="pz-skill__idx">05</span>
-        <div class="pz-skill__main"><h3>Prompt Pipeline</h3><p>Runs Metapod, Judge Dredd, and Brian Spillner in order until Judge says STOP, within four scoring rounds.</p></div>
+        <div class="pz-skill__main"><h3>Loop</h3><p>Runs Compose, Judge, and Revise in order until Judge says STOP, within four scoring rounds.</p></div>
         <p class="pz-skill__boundary"><span>Refuses</span> to score or rewrite itself.</p>
       </li>
     </ol>
@@ -201,9 +206,9 @@ release-notes.md            <span class="pz-file__warn">8/10  provisional</span>
 
 runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
   00-request.md
-  01-metapod.md
+  01-compose.md
   02-judge-pass1.md
-  03-brian-rewrite.md
+  03-revise.md
   04-judge-pass2.md
   05-final.md</code></pre>
         </div>

@@ -25,15 +25,16 @@ ASSETS = (
     'promptzilla/css/pz-tokens.css',
     'promptzilla/css/promptzilla.css',
     'promptzilla/js/page.js',
+    'promptzilla/diagrams/loop.html',
     'promptzilla/assets/favicon.svg',
-    'promptzilla/assets/fonts/instrument-serif-regular.woff2',
-    'promptzilla/assets/fonts/instrument-serif-italic.woff2',
+    'promptzilla/assets/fonts/fraunces-normal.woff2',
+    'promptzilla/assets/fonts/fraunces-italic.woff2',
     'promptzilla/assets/fonts/geist.woff2',
     'promptzilla/assets/fonts/geist-mono.woff2',
 )
 # The page is small: HTML, three stylesheets, one script, the favicon and four
 # Latin-subset WOFF2 files. The budget leaves room for copy edits, not a redesign.
-GZIP_BUDGET = 150000
+GZIP_BUDGET = 240000
 
 
 async def run(browser, failures, warm):
@@ -66,7 +67,8 @@ async def run(browser, failures, warm):
             tabs: document.querySelectorAll('[role="tab"]').length,
             panels,
             marks: document.querySelectorAll('.pz-mark').length,
-            media: document.querySelectorAll('iframe, video, img').length,
+            media: document.querySelectorAll('video, img').length,
+            iframes: [...document.querySelectorAll('iframe')].map(frame => frame.getAttribute('src')),
             primaryCtas: [...document.querySelectorAll('.pz-primary')].map(link => link.href),
             smallTargets: [...document.querySelectorAll('a, button, summary')]
               .filter(element => { const rect = element.getBoundingClientRect(); return rect.width && (rect.width < 24 || rect.height < 24); })
@@ -87,7 +89,7 @@ async def run(browser, failures, warm):
             failures.append(f'{label}: component counts {state}')
         if state['panels'] != ['grid', 'none', 'none']:
             failures.append(f'{label}: worker tabs start open {state["panels"]}')
-        if state['marks'] != 2 or state['media']:
+        if state['marks'] != 2 or state['media'] or state['iframes'] != ['diagrams/loop.html']:
             failures.append(f'{label}: wordmark/media {state}')
         if state['scheme'] != 'light':
             failures.append(f'{label}: colour scheme {state["scheme"]}')
