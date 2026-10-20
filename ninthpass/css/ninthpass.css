@@ -346,6 +346,19 @@ main:focus { outline: none; }
 .pz-diagram__link:hover { color: var(--accent-bright); }
 @media (width < 48rem) { .pz-diagram__frame iframe { block-size: var(--diagram-height-sm); } }
 
+/* The run/data-flow diagram is taller than the loop diagram, so it carries its
+   own frame height. It sits in a paper section, so it uses the paper rules
+   rather than the chamber's. */
+.pz-diagram__frame--light { border-color: var(--rule-strong); background: var(--paper-raised); }
+.pz-diagram__frame--flow iframe { block-size: var(--diagram-height-flow); }
+.pz-diagram__caption--light { color: var(--ink-faint); }
+.pz-diagram__link--light { color: var(--accent-deep); }
+.pz-diagram__link--light:hover { color: var(--ink); text-decoration-thickness: var(--rule-width-strong); }
+/* The bright accent is the focus colour on the dark chamber; on paper it is
+   too close to the ground to read as a ring, so the deep accent takes over. */
+.pz-output :focus-visible { outline-color: var(--accent-deep); }
+@media (width < 48rem) { .pz-diagram__frame--flow iframe { block-size: var(--diagram-height-flow-sm); } }
+
 /* ---------- Skills ---------- */
 .pz-skills__list { margin: 0; padding: 0; list-style: none; border-block-start: var(--rule-width-strong) solid var(--ink); }
 .pz-skill {

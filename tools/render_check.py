@@ -379,9 +379,9 @@ async def main() -> None:
         if (ROOT / 'shipwatch/index.html').exists():
             from shipwatch_render_check import run as shipwatch_run
             await shipwatch_run(browser, failures, warm_page_for_capture)
-        if (ROOT / 'promptzilla/index.html').exists():
-            from promptzilla_render_check import run as promptzilla_run
-            await promptzilla_run(browser, failures, warm_page_for_capture)
+        if (ROOT / 'ninthpass/index.html').exists():
+            from ninthpass_render_check import run as ninthpass_run
+            await ninthpass_run(browser, failures, warm_page_for_capture)
         await browser.close()
     audit_path = OUT.parent / "grid-audit.json"
     audit_path.write_text(json.dumps(grid_audit, indent=2) + "\n", encoding="utf-8")

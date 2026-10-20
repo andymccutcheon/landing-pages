@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Ninth Pass refinement loop</title>
+  <title>How a Ninth Pass run executes</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     @font-face {
@@ -43,7 +43,9 @@
       --color-accent: #a84b4b;
       --color-accent-tint: rgba(168,75,75,0.08);
       --color-rule: #d8cdbe;
+      --color-rule-strong: #b6a793;
       --color-success: #2e6a4b;
+      --color-chamber-soft: #c2b6a4;
       --font-sans: 'Geist', system-ui, sans-serif;
       --font-serif: 'Fraunces', Georgia, serif;
       --font-mono: 'Geist Mono', ui-monospace, monospace;
@@ -95,30 +97,6 @@
     .motion-ready[data-frame="static"] [data-motion-item] {
       opacity: 1;
       transform: none;
-    }
-    .draw-path {
-      fill: none;
-      stroke: var(--color-accent);
-      stroke-width: 3;
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      pointer-events: none;
-    }
-    .motion-ready .draw-path.is-visible {
-      animation: draw-path var(--motion-step) linear forwards;
-    }
-    .flow-token { opacity: 0; pointer-events: none; }
-    .motion-ready.is-playing .flow-token.is-visible {
-      opacity: 1;
-      animation: token-flow 3.2s linear 1 forwards;
-    }
-    .motion-ready[data-motion-mode="loop"].is-playing .flow-token.is-visible {
-      animation-iteration-count: infinite;
-    }
-    @keyframes draw-path { to { stroke-dashoffset: 0; } }
-    @keyframes token-flow {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(240px); }
     }
 
     [data-motion-controls] {
@@ -213,100 +191,138 @@
   </style>
 </head>
 <body>
-  <!-- Replace template-motion in IDs and prose when copying this file. -->
   <main data-motion-root data-motion-mode="reveal" data-step-count="5" data-step-current="5" data-frame="static" data-static-frame="complete">
-    <p class="eyebrow">Process · three skills · one gate</p>
-    <h1>The refinement loop</h1>
+    <p class="eyebrow">Run, a fresh process per stage</p>
+    <h1>What crosses the boundary is a file</h1>
 
     <div class="diagram-container">
-      <svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pz-loop-title pz-loop-desc">
-        <title id="pz-loop-title">The Ninth Pass refinement loop</title>
-        <desc id="pz-loop-desc">A request is composed into a System Prompt and a Task Prompt, judged on a locked rubric, revised, and judged again. A score of 9 or 10 stops the loop and approves the prompt. Four passes without STOP produce a provisional prompt; two rewrites without improvement pause the run.</desc>
+      <svg viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pz-df-title pz-df-desc">
+        <title id="pz-df-title">How a Ninth Pass run executes</title>
+        <desc id="pz-df-desc">A request is handed to a fresh process for each stage, in this case the offline test worker, which makes no model call. Compose, Judge, Revise and a second Judge each run in their own process, and each writes one file into the run directory. Nothing is carried in memory between stages; the file the previous stage wrote is the only thing that crosses the boundary. A score of 9 or 10 writes the approved prompt to the prompts directory.</desc>
         <defs>
-          <pattern id="pz-loop-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <pattern id="pz-df-dots" width="22" height="22" patternUnits="userSpaceOnUse">
             <circle cx="11" cy="11" r="0.8" fill="#1a1513" opacity="0.08"/>
           </pattern>
-          <marker id="pz-loop-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <marker id="pz-df-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
             <polygon points="0 0, 8 3, 0 6" fill="#4e4641"/>
           </marker>
-          <marker id="pz-loop-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#a84b4b"/>
-          </marker>
-          <marker id="pz-loop-arrow-soft" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#6e625b"/>
-          </marker>
         </defs>
-        <rect width="960" height="600" fill="#f3efe6"/>
-        <rect width="960" height="600" fill="url(#pz-loop-dots)"/>
+        <rect width="960" height="640" fill="#f3efe6"/>
+        <rect width="960" height="640" fill="url(#pz-df-dots)"/>
 
-        <!-- Semantic connectors are always visible. The nodes reveal in order. -->
-        <path d="M480 106 V140" fill="none" stroke="#4e4641" marker-end="url(#pz-loop-arrow)"/>
-        <path d="M480 204 V230" fill="none" stroke="#4e4641" marker-end="url(#pz-loop-arrow)"/>
-        <path d="M610 300 H740" fill="none" stroke="#a84b4b" stroke-width="1.2" marker-end="url(#pz-loop-arrow-accent)"/>
-        <path d="M480 370 V430" fill="none" stroke="#4e4641" marker-end="url(#pz-loop-arrow)"/>
-        <path d="M370 462 H300 V300 H350" fill="none" stroke="#6e625b" stroke-dasharray="5,4" marker-end="url(#pz-loop-arrow-soft)"/>
-
-        <!-- Decision labels sit on opaque masks, clear of their strokes. -->
-        <rect x="645" y="282" width="92" height="16" fill="#f3efe6"/>
-        <text x="691" y="294" text-anchor="middle" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">YES · 9 OR 10</text>
-        <rect x="494" y="386" width="78" height="16" fill="#f3efe6"/>
-        <text x="533" y="398" text-anchor="middle" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">NO · CONTINUE</text>
-        <rect x="234" y="404" width="60" height="16" fill="#f3efe6"/>
-        <text x="290" y="416" text-anchor="end" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">NEXT PASS</text>
-
-        <!-- Run scorecard: a static annotation; its two rows reveal with the two Judge passes. -->
-        <rect x="60" y="160" width="220" height="104" rx="4" fill="#fbf8f2" stroke="#d8cdbe"/>
-        <text x="72" y="184" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.14em">RUN 0042 / MEETING NOTES</text>
-        <path d="M72 196 H268" stroke="#d8cdbe"/>
-        <g data-motion-item data-step="2" aria-label="Step 2: first Judge pass, 8 out of 10, CONTINUE">
-          <text x="72" y="220" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">PASS 1</text>
-          <text x="268" y="220" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9">8 / CONTINUE</text>
+        <!-- The request enters the first process. -->
+        <g data-motion-item data-step="1" aria-label="Step 1: the request, one sentence">
+          <rect x="56" y="24" width="396" height="58" rx="6" fill="#fbf8f2" stroke="#d8cdbe"/>
+          <text x="76" y="46" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.14em">REQUEST</text>
+          <text x="76" y="68" fill="#1a1513" font-family="'Geist', sans-serif" font-size="14" font-weight="600">Write a prompt for a meeting-notes summarizer</text>
         </g>
-        <g data-motion-item data-step="4" aria-label="Step 4: second Judge pass, 9 out of 10, STOP">
-          <text x="72" y="244" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">PASS 2</text>
-          <text x="268" y="244" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="9">9 / STOP</text>
+        <path d="M254 82 V102" fill="none" stroke="#4e4641" marker-end="url(#pz-df-arrow)"/>
+
+        <!-- Stage processes. A dashed edge is a process boundary. -->
+        <g data-motion-item data-step="1" aria-label="Step 1: Compose runs in a fresh process and writes 01-compose.md">
+          <rect x="56" y="108" width="396" height="86" rx="8" fill="#f3efe6" stroke="#b6a793" stroke-dasharray="5,4"/>
+          <text x="76" y="132" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.14em">FRESH PROCESS · OFFLINE TEST WORKER</text>
+          <text x="76" y="158" fill="#1a1513" font-family="'Geist', sans-serif" font-size="17" font-weight="600">Compose</text>
+          <text x="76" y="180" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">writes the System Prompt and the Task Prompt</text>
         </g>
 
-        <g data-motion-item data-step="1" aria-label="Step 1: a raw request">
-          <rect x="370" y="34" width="220" height="72" rx="36" fill="#f3efe6" stroke="#1a1513" stroke-width="1.2"/>
-          <text x="480" y="66" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="16" font-weight="600">Raw request</text>
-          <text x="480" y="86" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="10">one sentence</text>
+        <g data-motion-item data-step="2" aria-label="Step 2: Judge runs in a fresh process and writes 02-judge-pass1.md">
+          <rect x="56" y="220" width="396" height="86" rx="8" fill="#f3efe6" stroke="#b6a793" stroke-dasharray="5,4"/>
+          <text x="76" y="244" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.14em">FRESH PROCESS · OFFLINE TEST WORKER</text>
+          <text x="76" y="270" fill="#1a1513" font-family="'Geist', sans-serif" font-size="17" font-weight="600">Judge</text>
+          <text x="76" y="292" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">scores the prompt against the locked rubric</text>
         </g>
 
-        <g data-motion-item data-step="1" aria-label="Step 1: Compose writes the System and Task Prompts">
-          <rect x="370" y="140" width="220" height="64" rx="6" fill="#f3efe6" stroke="#1a1513" stroke-width="1.2"/>
-          <text x="480" y="170" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="16" font-weight="600">Compose</text>
-          <text x="480" y="190" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="10">System + Task Prompt</text>
+        <g data-motion-item data-step="3" aria-label="Step 3: Revise runs in a fresh process and writes 03-revise.md">
+          <rect x="56" y="332" width="396" height="86" rx="8" fill="#f3efe6" stroke="#b6a793" stroke-dasharray="5,4"/>
+          <text x="76" y="356" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.14em">FRESH PROCESS · OFFLINE TEST WORKER</text>
+          <text x="76" y="382" fill="#1a1513" font-family="'Geist', sans-serif" font-size="17" font-weight="600">Revise</text>
+          <text x="76" y="404" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">applies every recommendation and returns the rewrite</text>
         </g>
 
-        <g data-motion-item data-step="2" aria-label="Step 2: Judge scores against the locked rubric">
-          <path d="M480 230 L610 300 L480 370 L350 300 Z" fill="rgba(168,75,75,0.08)" stroke="#a84b4b" stroke-width="1.4"/>
-          <text x="480" y="294" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="16" font-weight="600">Judge</text>
-          <text x="480" y="314" text-anchor="middle" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="10">locked rubric</text>
-          <text x="480" y="332" text-anchor="middle" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">9 OR 10?</text>
+        <g data-motion-item data-step="4" aria-label="Step 4: the second Judge runs in a fresh process and writes 04-judge-pass2.md">
+          <rect x="56" y="444" width="396" height="86" rx="8" fill="#f3efe6" stroke="#b6a793" stroke-dasharray="5,4"/>
+          <text x="76" y="468" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.14em">FRESH PROCESS · OFFLINE TEST WORKER</text>
+          <text x="76" y="494" fill="#1a1513" font-family="'Geist', sans-serif" font-size="17" font-weight="600">Judge</text>
+          <text x="76" y="516" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">scores the rewritten prompt — 9 out of 10 — STOP</text>
         </g>
 
-        <g data-motion-item data-step="3" aria-label="Step 3: Revise applies every recommendation and the loop returns">
-          <rect x="370" y="430" width="220" height="64" rx="6" fill="#f3efe6" stroke="#1a1513" stroke-width="1.2"/>
-          <text x="480" y="460" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="16" font-weight="600">Revise</text>
-          <text x="480" y="480" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="10">apply every recommendation</text>
+        <!-- The file is the payload. Each label names the file that crosses. -->
+        <g data-motion-item data-step="1" aria-label="01-compose.md crosses into the next process">
+          <path d="M254 194 V216" fill="none" stroke="#4e4641" marker-end="url(#pz-df-arrow)"/>
+          <text x="270" y="210" fill="#7a2b2b" font-family="'Geist Mono', monospace" font-size="9">01-compose.md</text>
+        </g>
+        <g data-motion-item data-step="2" aria-label="02-judge-pass1.md crosses into the next process">
+          <path d="M254 306 V328" fill="none" stroke="#4e4641" marker-end="url(#pz-df-arrow)"/>
+          <text x="270" y="322" fill="#7a2b2b" font-family="'Geist Mono', monospace" font-size="9">02-judge-pass1.md</text>
+        </g>
+        <g data-motion-item data-step="3" aria-label="03-revise.md crosses into the next process">
+          <path d="M254 418 V440" fill="none" stroke="#4e4641" marker-end="url(#pz-df-arrow)"/>
+          <text x="270" y="434" fill="#7a2b2b" font-family="'Geist Mono', monospace" font-size="9">03-revise.md</text>
+        </g>
+        <g data-motion-item data-step="4" aria-label="04-judge-pass2.md crosses into the next process">
+          <path d="M254 530 V552" fill="none" stroke="#4e4641" marker-end="url(#pz-df-arrow)"/>
+          <text x="270" y="546" fill="#7a2b2b" font-family="'Geist Mono', monospace" font-size="9">04-judge-pass2.md</text>
         </g>
 
-        <g data-motion-item data-step="4" aria-label="Step 4: the second Judge pass returns STOP">
-          <rect x="645" y="282" width="92" height="16" fill="#f3efe6"/>
-          <text x="691" y="294" text-anchor="middle" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">YES · 9 OR 10</text>
+        <!-- Each process deposits one file in the run directory. -->
+        <path d="M452 151 H492" fill="none" stroke="#b6a793" stroke-dasharray="2,3"/>
+        <path d="M452 263 H492" fill="none" stroke="#b6a793" stroke-dasharray="2,3"/>
+        <path d="M452 375 H492" fill="none" stroke="#b6a793" stroke-dasharray="2,3"/>
+        <path d="M452 487 H492" fill="none" stroke="#b6a793" stroke-dasharray="2,3"/>
+
+        <!-- The run directory accumulates the run. -->
+        <g data-motion-item data-step="1" aria-label="The run directory">
+          <text x="500" y="32" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.14em">RUN DIRECTORY</text>
+          <rect x="500" y="44" width="404" height="248" rx="6" fill="#fbf8f2" stroke="#d8cdbe"/>
         </g>
 
-        <g data-motion-item data-step="5" aria-label="Step 5: the prompt is approved">
-          <rect x="740" y="268" width="180" height="64" rx="32" fill="#1a1513" stroke="#1a1513"/>
-          <text x="830" y="294" text-anchor="middle" fill="#f3efe6" font-family="'Geist', sans-serif" font-size="16" font-weight="600">Approved</text>
-          <text x="830" y="314" text-anchor="middle" fill="#c2b6a4" font-family="'Geist Mono', monospace" font-size="9">prompts/&lt;slug&gt;.md</text>
+        <g data-motion-item data-step="1" aria-label="File 00-request.md, the input">
+          <text x="516" y="76" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="10">00-request.md</text>
+          <text x="888" y="76" text-anchor="end" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.1em">INPUT</text>
+        </g>
+        <g data-motion-item data-step="1" aria-label="File 01-compose.md, written by Compose">
+          <text x="516" y="108" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="10">01-compose.md</text>
+          <text x="888" y="108" text-anchor="end" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.1em">WRITTEN</text>
+        </g>
+        <g data-motion-item data-step="2" aria-label="File 02-judge-pass1.md, scored 8 out of 10, CONTINUE">
+          <text x="516" y="140" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="10">02-judge-pass1.md</text>
+          <text x="888" y="140" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.1em">8 / CONTINUE</text>
+        </g>
+        <g data-motion-item data-step="3" aria-label="File 03-revise.md, the rewritten prompt">
+          <text x="516" y="172" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="10">03-revise.md</text>
+          <text x="888" y="172" text-anchor="end" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.1em">WRITTEN</text>
+        </g>
+        <g data-motion-item data-step="4" aria-label="File 04-judge-pass2.md, scored 9 out of 10, STOP">
+          <text x="516" y="204" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="10">04-judge-pass2.md</text>
+          <text x="888" y="204" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.1em">9 / STOP</text>
+        </g>
+        <g data-motion-item data-step="5" aria-label="The approved prompt, written to prompts/meeting-notes.md">
+          <path d="M516 226 H888" stroke="#d8cdbe"/>
+          <text x="516" y="254" fill="#1a1513" font-family="'Geist Mono', monospace" font-size="10" font-weight="600">prompts/meeting-notes.md</text>
+          <text x="888" y="254" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.1em">APPROVED</text>
         </g>
 
-        <g data-motion-item data-step="5" aria-label="Step 5: the cap and plateau outcomes">
-          <path d="M60 522 H360" stroke="#d8cdbe"/>
-          <text x="60" y="544" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">4 passes without STOP → provisional</text>
-          <text x="60" y="564" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">2 rewrites without improvement → paused</text>
+        <!-- The point of the diagram. -->
+        <g data-motion-item data-step="1" aria-label="Nothing is carried in memory between stages">
+          <text x="500" y="336" fill="#1a1513" font-family="'Geist', sans-serif" font-size="15" font-weight="600">Nothing is carried in memory.</text>
+          <text x="500" y="358" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">Each stage starts a new process and reads the</text>
+          <text x="500" y="374" fill="#4e4641" font-family="'Geist Mono', monospace" font-size="9">file the previous stage wrote.</text>
+        </g>
+
+        <!-- The three end states, as the run directory records them. -->
+        <g data-motion-item data-step="5" aria-label="The end states: approved, provisional, paused">
+          <path d="M500 402 H904" stroke="#d8cdbe"/>
+          <text x="500" y="428" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">9 or 10 → approved</text>
+          <text x="500" y="450" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">4 rounds without STOP → provisional</text>
+          <text x="500" y="472" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">2 rewrites without improvement → paused</text>
+        </g>
+
+        <!-- The approved artifact. -->
+        <g data-motion-item data-step="5" aria-label="Step 5: the approved prompt is written to prompts/meeting-notes.md">
+          <rect x="56" y="556" width="396" height="68" rx="6" fill="#1a1513"/>
+          <text x="76" y="584" fill="#f3efe6" font-family="'Geist', sans-serif" font-size="16" font-weight="600">Approved prompt</text>
+          <text x="76" y="606" fill="#c2b6a4" font-family="'Geist Mono', monospace" font-size="9">prompts/meeting-notes.md</text>
         </g>
       </svg>
     </div>
@@ -317,7 +333,7 @@
       <button type="button" data-motion-action="pause" aria-pressed="true">Pause</button>
       <button type="button" data-motion-action="next">Next</button>
       <button type="button" data-motion-action="replay">Replay</button>
-      <span class="keyboard-help">←/→ step · Space play/pause · R replay · Home/End jump</span>
+      <span class="keyboard-help">←/→ step, Space play/pause, R replay, Home/End jump</span>
       <span data-motion-status-visible aria-hidden="true">Step <span data-motion-step-label>5</span> of 5</span>
     </div>
     <p class="sr-only" data-motion-status role="status" aria-live="polite" aria-atomic="true"></p>

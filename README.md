@@ -1,27 +1,33 @@
 # Landing pages
 
-Three standalone, progressively enhanced product pages published through GitHub Pages. There is no
-root landing page and no build step.
+Four standalone, progressively enhanced product pages. Three publish through GitHub Pages; the
+fourth, Ninth Pass, publishes through its own Cloudflare Worker so it can answer on a custom
+domain. There is no root landing page and no build step.
 
 | Product | Source | Published page |
 | --- | --- | --- |
 | Acheron | [`acheron/index.html`](acheron/index.html) | <https://andymccutcheon.github.io/landing-pages/acheron/> |
 | Freewhirr | [`freewhirr/index.html`](freewhirr/index.html) | <https://andymccutcheon.github.io/landing-pages/freewhirr/> |
 | Shipwatch | [`shipwatch/index.html`](shipwatch/index.html) | <https://andymccutcheon.github.io/landing-pages/shipwatch/> |
+| Ninth Pass | [`ninthpass/index.html`](ninthpass/index.html) | <https://ninthpass.amccutcheon.com/> |
 
 ## Repository map
 
 - `acheron/`, `freewhirr/`, `shipwatch/` — page HTML and product-local assets.
+- `ninthpass/` — the Ninth Pass page: HTML, its own token and layout CSS, its own script and fonts,
+  and its two standalone diagrams. It is a standalone design and does not use the shared Pattern
+  layer; its design record is `ninthpass/DESIGN.md`.
 - `shared/` — the shared Pattern layer: generated fonts, `--lp-` tokens, base and motion rules,
   `common.css`, page-specific `freewhirr.css` and `shipwatch.css`, and `page.js`.
 - `vendor/pattern/` — immutable Design System Pattern snapshot pinned in `SNAPSHOT.md`.
 - `tools/` — dependency-free source/copy audits and Playwright browser gates.
 - `docs/` — implementation reports; these are source documentation, not deployed site content.
 
-All three pages use the same header, footer and copyable install-bar pattern. The shared script adds
-remembered theme selection, clipboard behavior, keyboard scrolling and reveal/media enhancement.
-The underlying content remains readable without JavaScript. Landing-page additions use the `lp-`
-selector namespace and `--lp-` custom-property namespace.
+Acheron, Freewhirr and Shipwatch use the same header, footer and copyable install-bar pattern. The
+shared script adds remembered theme selection, clipboard behavior, keyboard scrolling and
+reveal/media enhancement. The underlying content remains readable without JavaScript. Landing-page
+additions use the `lp-` selector namespace and `--lp-` custom-property namespace. Ninth Pass has its
+own script and its own light-only palette.
 
 ## Preview
 
@@ -31,7 +37,7 @@ From the repository root:
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000/acheron/`, `/freewhirr/` or `/shipwatch/`.
+Open `http://localhost:8000/acheron/`, `/freewhirr/`, `/shipwatch/` or `/ninthpass/`.
 
 There is no dependency installation or compilation step. `shared/fonts.css` is generated from the
 pinned Pattern snapshot; regenerate it with `python3 tools/generate_fonts.py` instead of editing it.
@@ -52,6 +58,7 @@ Copy audit, once per page, using the binding Marketing Engineering draft:
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-acheron-landing-copy-draft1.md
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-freewhirr-landing-copy-draft1.md
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-shipwatch-landing-copy-draft1.md
+python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-19-ninthpass-landing-copy-draft1.md
 ```
 
 The audit lists visible page/copy differences for human classification; it does not require verbatim
@@ -67,6 +74,7 @@ Then, in another terminal:
 PATH="$PWD/.venv/bin:$PATH" python3 tools/render_check.py
 PATH="$PWD/.venv/bin:$PATH" python3 tools/freewhirr_contrast_check.py
 PATH="$PWD/.venv/bin:$PATH" python3 tools/shipwatch_contrast_check.py
+PATH="$PWD/.venv/bin:$PATH" python3 tools/ninthpass_contrast_check.py
 ```
 
 The aggregate render gate produces:
@@ -74,22 +82,24 @@ The aggregate render gate produces:
 - Acheron: 6 widths × 2 themes = 12 captures.
 - Freewhirr: 4 widths × 2 themes = 8 captures.
 - Shipwatch: 6 widths × 2 themes = 12 captures, plus 2 no-JavaScript captures.
+- Ninth Pass: 6 widths, plus its no-JavaScript, loop, tabs, clipboard, keyboard, reduced-motion and
+  boundary checks.
 
 It also exercises responsive layout, clipboard and fallback behavior, keyboard scrolling, theme and
 skip controls, reduced motion, long strings and asset budgets. The final regression gate compares
 Acheron and Freewhirr at 4 widths × 2 themes and requires all 16 before/after PNG pairs to be
 byte-identical to baseline commit `d42fe89`. Acheron's external iframe pixels are masked during the
-byte comparison and validated separately by the render gate. Browser evidence is written under the
-ignored `.review/` directory.
+byte comparison and validated separately by the render gate. Browser evidence is written under
+the ignored `.review/` directory.
 
-The two contrast scripts are the explicit contrast gates for Freewhirr and Shipwatch. Do not install
-packages or download browsers just to run optional local browser checks; use the existing `.venv` and
-Chromium installation.
+The three contrast scripts are the explicit contrast gates for Freewhirr, Shipwatch and Ninth Pass.
+Do not install packages or download browsers just to run optional local browser checks; use the
+existing `.venv` and Chromium installation.
 
 ## Deployment
 
-[`.github/workflows/pages.yml`](.github/workflows/pages.yml) deploys relevant changes from `main`.
-It stages a fresh artifact from an explicit file allowlist containing:
+**GitHub Pages.** [`.github/workflows/pages.yml`](.github/workflows/pages.yml) deploys relevant
+changes from `main`. It stages a fresh artifact from an explicit file allowlist containing:
 
 - the three page entry points and required Acheron media;
 - shared tokens, styles, fonts and `page.js`;
@@ -97,7 +107,13 @@ It stages a fresh artifact from an explicit file allowlist containing:
 - a generated `.nojekyll` marker.
 
 The workflow does not publish tools, implementation reports, agent memory or review evidence. When a
-page gains a runtime asset, that file must also be added to the staging allowlist.
+page gains a runtime asset, that file must also be added to the staging allowlist. Ninth Pass is not
+in this allowlist.
+
+**Cloudflare Worker.** Ninth Pass publishes from [`ninthpass/cloudflare/`](ninthpass/cloudflare/),
+which stages the page and its directories into an assets-only Worker named `ninthpass-site` and
+attaches the custom domains. See [`ninthpass/cloudflare/README.md`](ninthpass/cloudflare/README.md)
+for the build, the deploy and the reachability check.
 
 ## New-page workflow
 

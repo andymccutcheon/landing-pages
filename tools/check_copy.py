@@ -42,7 +42,7 @@ def main() -> int:
     source_text = Path(sys.argv[1]).read_text(encoding="utf-8")
     source = normalize(source_text)
     parser = VisibleText()
-    name = next((name for name in ("shipwatch", "freewhirr") if name in Path(sys.argv[1]).name.lower()), "acheron")
+    name = next((name for name in ("shipwatch", "freewhirr", "ninthpass") if name in Path(sys.argv[1]).name.lower()), "acheron")
     page_path = ROOT / name / "index.html"
     print(f"Auditing {page_path.relative_to(ROOT)}")
     parser.feed(page_path.read_text(encoding="utf-8"))

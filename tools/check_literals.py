@@ -7,7 +7,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 # Token files: the only places raw literals may live (one per design system in use).
-EXEMPTS = {ROOT / "shared/lp-tokens.css", ROOT / "promptzilla/css/pz-tokens.css"}
+EXEMPTS = {ROOT / "shared/lp-tokens.css", ROOT / "ninthpass/css/pz-tokens.css"}
 PATTERNS = {
     "colour": re.compile(r"(?<![\w-])(?:#[0-9a-fA-F]{3,8}|(?:rgb|hsl|oklch|lab|lch)\s*\()"),
     "length": re.compile(r"(?<![\w.-])-?(?:\d*\.\d+|\d+)(?:px|rem|em|ch|vw|vh|dvw|dvh)\b"),
@@ -23,11 +23,11 @@ def permitted_media_query(line: str, match: re.Match[str]) -> bool:
 
 def main() -> int:
     failures = []
-    paths = sorted((ROOT / "shared").glob("*.css")) + sorted((ROOT / "promptzilla/css").glob("*.css")) + [
+    paths = sorted((ROOT / "shared").glob("*.css")) + sorted((ROOT / "ninthpass/css").glob("*.css")) + [
         ROOT / "acheron/index.html",
         ROOT / "freewhirr/index.html",
         ROOT / "shipwatch/index.html",
-        ROOT / "promptzilla/index.html",
+        ROOT / "ninthpass/index.html",
     ]
     for path in paths:
         if path in EXEMPTS or path.name == "fonts.css":
@@ -44,7 +44,7 @@ def main() -> int:
         print("Literal lint failed")
         print("\n".join(failures))
         return 1
-    print("Literal lint passed: no raw colour, length or duration values outside the token files (shared/lp-tokens.css, promptzilla/css/pz-tokens.css) or the five reviewed base.css media-query boundaries")
+    print("Literal lint passed: no raw colour, length or duration values outside the token files (shared/lp-tokens.css, ninthpass/css/pz-tokens.css) or the five reviewed base.css media-query boundaries")
     return 0
 
 

@@ -96,6 +96,8 @@
   --hero-card-offset: 2rem;
   --diagram-height: 900px;
   --diagram-height-sm: 760px;
+  --diagram-height-flow: 940px;
+  --diagram-height-flow-sm: 1080px;
   --score-ring: 7.5rem;
 
   /* Motion */
