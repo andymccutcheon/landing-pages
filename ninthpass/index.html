@@ -66,12 +66,12 @@
 
     <figure class="pz-specimen" aria-labelledby="specimen-caption">
       <div class="pz-specimen__head">
-        <span class="pz-label">Run 0042 / Meeting notes</span>
+        <span class="pz-label">Run bc993584 · Meeting notes</span>
         <span class="pz-chip pz-chip--success">Approved</span>
       </div>
       <div class="pz-specimen__prompt">
         <span class="pz-label">Request</span>
-        <p class="pz-specimen__request">“Summarize these meeting notes into five bullets.”</p>
+        <p class="pz-specimen__request">“Write a prompt for a meeting-notes summarizer.”</p>
       </div>
       <ol class="pz-specimen__stages">
         <li><span class="pz-specimen__idx">01</span><span class="pz-specimen__name">Compose</span><span class="pz-specimen__result">two prompts</span></li>
@@ -85,7 +85,7 @@
         <span class="pz-chip pz-chip--success">STOP</span>
       </div>
       <div class="pz-specimen__foot"><code>prompts/meeting-notes.md</code><span>approved</span></div>
-      <figcaption id="specimen-caption">An illustration of a run. Judge decides when it stops.</figcaption>
+      <figcaption id="specimen-caption">A real run of the engine, with the offline test worker. Judge decides when it stops.</figcaption>
     </figure>
   </div>
 </section>
@@ -200,11 +200,10 @@
     <div class="pz-output__grid">
       <div class="pz-output__file">
         <div class="pz-file">
-          <div class="pz-file__head"><span>./prompts/</span><span>final output</span></div>
-          <pre class="pz-code pz-code--dark" tabindex="0" aria-label="Example output directory"><code>meeting-notes.md            <span class="pz-file__ok">9/10  approved</span>
-release-notes.md            <span class="pz-file__warn">8/10  provisional</span>
+          <div class="pz-file__head"><span>prompts/ and runs/</span><span>one real run</span></div>
+          <pre class="pz-code pz-code--dark" tabindex="0" aria-label="Example output directory"><code>prompts/meeting-notes.md    <span class="pz-file__ok">9/10  approved</span>
 
-runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
+runs/bc993584-d18e-4d03-94cd-762e8685d56f/
   00-request.md
   01-compose.md
   02-judge-pass1.md
@@ -212,7 +211,23 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
   04-judge-pass2.md
   05-final.md</code></pre>
         </div>
-        <p class="pz-note">The filename comes from your request. The file contains the prompt itself, with no frontmatter and no commentary.</p>
+        <p class="pz-note">The filename comes from your request, or from <code>--name</code> if you set one. The file contains the prompt itself, with no frontmatter and no commentary.</p>
+
+        <div class="pz-file">
+          <div class="pz-file__head"><span>02-judge-pass1.md</span><span>8 / CONTINUE</span></div>
+          <pre class="pz-code" tabindex="0" aria-label="A Judge scorecard from the run above"><code>Section Ratings
+- Clarity: 8/10 — contains "notes".
+
+Overall Rating: 8/10 — evidence reviewed.
+
+Verdict: CONTINUE
+
+Recommendations
+1. Replace "notes" → "meeting notes".
+2. Preserve "[TBD]".
+3. Preserve the review gate.</code></pre>
+        </div>
+        <p class="pz-note">The scorecard is the artifact, not a summary of it. Quoted evidence, one overall rating, a verdict, and numbered recommendations Revise can apply one by one.</p>
       </div>
 
       <div class="pz-output__ends">
@@ -233,6 +248,11 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
         </article>
       </div>
     </div>
+
+    <div class="pz-diagram__frame pz-diagram__frame--light pz-diagram__frame--flow">
+      <iframe src="diagrams/dataflow.html" title="Animated diagram of how a run executes" loading="lazy"></iframe>
+    </div>
+    <p class="pz-diagram__caption pz-diagram__caption--light">How the run actually executes. Every stage is a fresh process, and the file is the only thing that crosses the boundary. <a class="pz-diagram__link pz-diagram__link--light" href="diagrams/dataflow.html">Open it full screen</a>.</p>
   </div>
 </section>
 
@@ -351,7 +371,7 @@ ninthpass status &lt;run-id&gt;</code></pre>
     </nav>
     <div class="pz-footer__credit">
       <p>Skill names are the project's own and imply no affiliation with any character or rights holder.</p>
-      <p>Instrument Serif, Geist, and Geist Mono are used under the SIL Open Font License.</p>
+      <p>Fraunces, Geist, and Geist Mono are used under the SIL Open Font License.</p>
       <p>© 2026 Ninth Pass</p>
     </div>
   </div>

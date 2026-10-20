@@ -6,7 +6,7 @@ type: note
 
 # Landing pages handoff
 
-All three pages are LIVE on GitHub Pages (Acheron, Freewhirr, Shipwatch) from `main` of the public repository `andymccutcheon/landing-pages`; Shipwatch 0.1.1 released 2026-10-12. Docs (`CLAUDE.md`, `README.md`, commit `d54b469`) cover the three pages, the shared Pattern system (`shared/`, `--lp-` tokens), the render/contrast/copy/regression gates, the Pages allowlist, and the step-by-step "add a page" guide.
+Four pages now. Acheron, Freewhirr and Shipwatch are LIVE on GitHub Pages (Shipwatch 0.1.1 released 2026-10-12) from `main` of the public repository `andymccutcheon/landing-pages`. The fourth, Ninth Pass, is a standalone design that does not use the shared Pattern layer: it lives in `ninthpass/` (renamed from `promptzilla/` on 2026-10-19), publishes through its own Cloudflare Worker `ninthpass-site` rather than the Pages workflow, and answers on `ninthpass.amccutcheon.com` and `promptzilla.amccutcheon.com`. Docs (`CLAUDE.md`, `README.md`) cover the four pages, the two publication paths, the shared Pattern system (`shared/`, `--lp-` tokens), the render/contrast/copy/regression gates, the Pages allowlist, and the step-by-step "add a page" guide.
 
 Authoritative close-out: `hellDivers/.agent/handoffs/2026-10-12-shipwatch-landing-publication.md` (completion + backlog with owners). Full dispatch history: `hellDivers/.agent/inbox/2026-10-11-vanguard-landing-pages-routing-log.md`. Session notes: `sessions/2026-10-12-freewhirr.md`, `sessions/2026-10-12-publication-preparation.md`.
 

@@ -14,10 +14,12 @@ import { fileURLToPath } from 'node:url';
 
 const PROJECT = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const REPO = path.resolve(PROJECT, '../..');
-const PAGE_DIR = path.join(REPO, 'promptzilla');
+const PAGE_DIR = path.join(REPO, 'ninthpass');
 const PAGE = path.join(PAGE_DIR, 'index.html');
 const DIST = path.join(PROJECT, 'dist');
 const PAGE_DIRECTORIES = ['css', 'js', 'assets', 'diagrams'];
+// Root-level files served from the site root rather than from a directory.
+const PAGE_ROOT_FILES = ['robots.txt', 'sitemap.xml'];
 
 const references = (source, pattern) => [...source.matchAll(pattern)].map((match) => match[1]);
 
@@ -48,7 +50,7 @@ async function assertCssReferencesExist() {
     const css = await readFile(path.join(directory, file), 'utf8');
     for (const url of references(css, /url\(['"]?([^'")]+)['"]?\)/g)) {
       if (/^(?:data|https?):/.test(url)) continue;
-      const target = path.posix.normalize(path.posix.join('promptzilla/css', url));
+      const target = path.posix.normalize(path.posix.join('ninthpass/css', url));
       if (!(await exists(path.join(REPO, target)))) {
         throw new Error(`Referenced stylesheet asset is missing: ${url} (from css/${file})`);
       }
@@ -84,6 +86,9 @@ async function stageDist(html) {
   const staged = rootRelative(html);
   assertEveryReferenceIsRootRelative(staged);
   await writeFile(path.join(DIST, 'index.html'), staged, 'utf8');
+  for (const file of PAGE_ROOT_FILES) {
+    await cp(path.join(PAGE_DIR, file), path.join(DIST, file));
+  }
   for (const directory of PAGE_DIRECTORIES) {
     await cp(path.join(PAGE_DIR, directory), path.join(DIST, directory), { recursive: true });
   }

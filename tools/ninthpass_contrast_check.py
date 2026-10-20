@@ -15,7 +15,7 @@ from render_check import installed_chromium
 from playwright.async_api import async_playwright
 
 BASE = os.environ.get('LP_TEST_URL', 'http://127.0.0.1:8766/acheron/').removesuffix('acheron/')
-PAGE_URL = os.environ.get('LP_PROMPTZILLA_URL', BASE + 'promptzilla/')
+PAGE_URL = os.environ.get('LP_NINTHPASS_URL', BASE + 'ninthpass/')
 RULES = ('.pz-loop__gate',)
 
 
@@ -131,8 +131,8 @@ async def main():
         await page.close()
         await browser.close()
 
-    Path('.review/promptzilla').mkdir(parents=True, exist_ok=True)
-    Path('.review/promptzilla/contrast.json').write_text(json.dumps(results, indent=2) + '\n')
+    Path('.review/ninthpass').mkdir(parents=True, exist_ok=True)
+    Path('.review/ninthpass/contrast.json').write_text(json.dumps(results, indent=2) + '\n')
     print(json.dumps(results, indent=2))
     if any(result['textFailures'] or result['stateFailures'] or result['focusFailures'] or result['ruleFailures'] for result in results):
         raise SystemExit('Contrast check failed')

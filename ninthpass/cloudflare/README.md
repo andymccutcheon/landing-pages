@@ -66,7 +66,7 @@ instead of signing in, as described in [Use `cf` in CI](https://developers.cloud
 
 ## Verify a deploy
 
-Reachability is one command. It requests the page and all fourteen published assets,
+Reachability is one command. It requests the page and all fifteen published assets,
 requires `200` from each, and asserts that the served HTML still carries two primary calls
 to action pointing at the Ninth Pass repository and references its stylesheet, page
 script and favicon.

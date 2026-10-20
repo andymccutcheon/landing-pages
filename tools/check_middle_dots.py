@@ -33,14 +33,21 @@ class TextLines(HTMLParser):
 
 def main() -> int:
     failures = []
-    for name in ("acheron", "freewhirr", "shipwatch", "promptzilla"):
+    pages = [(name, ROOT / name / "index.html") for name in ("acheron", "freewhirr", "shipwatch", "ninthpass")]
+    # The standalone diagrams are their own documents and carry visible text too.
+    pages += [
+        (f"{name}/diagrams/{diagram.name}", diagram)
+        for name in ("ninthpass",)
+        for diagram in sorted((ROOT / name / "diagrams").glob("*.html"))
+    ]
+    for label, path in pages:
         parser = TextLines()
-        parser.feed((ROOT / name / "index.html").read_text(encoding="utf-8"))
-        failures.extend((name, line, text) for line, text in parser.lines if text.count("·") > 1)
+        parser.feed(path.read_text(encoding="utf-8"))
+        failures.extend((label, line, text) for line, text in parser.lines if text.count("·") > 1)
     if failures:
         print("Middle-dot check failed")
-        for name, line, text in failures:
-            print(f"{name}/index.html:{line}: {text}")
+        for label, line, text in failures:
+            print(f"{label}:{line}: {text}")
         return 1
     print("Middle-dot check passed: no visible text line contains more than one middle dot")
     return 0
