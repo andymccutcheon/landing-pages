@@ -4,26 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Promptzilla — prompts, refined</title>
+  <title>Ninth Pass — prompts, refined</title>
   <meta name="description" content="Five prompt-engineering skills and a durable loop: Compose generates, Judge scores, Revise rewrites. STOP at 9. Install from the CLI or your agent.">
-  <link rel="canonical" href="https://promptzilla.amccutcheon.com/">
-  <meta property="og:title" content="Promptzilla — prompts, refined">
+  <link rel="canonical" href="https://ninthpass.amccutcheon.com/">
+  <meta property="og:title" content="Ninth Pass — prompts, refined">
   <meta property="og:description" content="Five prompt-engineering skills and a durable loop. Compose generates, Judge scores, Revise rewrites. Only a 9 or 10 approves.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://promptzilla.amccutcheon.com/">
-  <meta property="og:image" content="https://promptzilla.amccutcheon.com/assets/og.png">
+  <meta property="og:url" content="https://ninthpass.amccutcheon.com/">
+  <meta property="og:image" content="https://ninthpass.amccutcheon.com/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Promptzilla — prompts, refined">
+  <meta name="twitter:title" content="Ninth Pass — prompts, refined">
   <meta name="twitter:description" content="Five prompt-engineering skills and a durable loop. Compose generates, Judge scores, Revise rewrites. Only a 9 or 10 approves.">
-  <meta name="twitter:image" content="https://promptzilla.amccutcheon.com/assets/og.png">
+  <meta name="twitter:image" content="https://ninthpass.amccutcheon.com/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/pz-tokens.css">
-  <link rel="stylesheet" href="css/promptzilla.css">
+  <link rel="stylesheet" href="css/ninthpass.css">
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
 </head>
 <body>
@@ -31,15 +31,15 @@
 
 <header class="pz-header" data-header>
   <div class="pz-shell pz-header__inner">
-    <a class="pz-lockup" href="#main" aria-label="Promptzilla home">
+    <a class="pz-lockup" href="#main" aria-label="Ninth Pass home">
       <svg class="pz-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5c0 5.8 4.7 10.5 10.5 10.5C16.7 12 12 16.7 12 22.5 12 16.7 7.3 12 1.5 12 7.3 12 12 7.3 12 1.5Z" fill="currentColor"/></svg>
-      <span class="pz-lockup__word">Promptzilla</span>
+      <span class="pz-lockup__word">Ninth Pass</span>
     </a>
     <nav class="pz-nav" aria-label="Primary">
       <a href="#loop" data-nav>Loop</a>
       <a href="#skills" data-nav>Skills</a>
       <a href="#install" data-nav>Install</a>
-      <a class="pz-nav__github" href="https://github.com/andymccutcheon/promptzilla">GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+      <a class="pz-nav__github" href="https://github.com/andymccutcheon/ninthpass">GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
     </nav>
   </div>
 </header>
@@ -53,12 +53,12 @@
       <h1 id="hero-title">Stop <span class="pz-nowrap">hand-writing</span> <em>your prompts.</em></h1>
       <p class="pz-lead">Five prompt-engineering skills. One loop that generates, scores, and rewrites a prompt until Judge stops at 9. Install them into your agent, or run it from the terminal.</p>
       <div class="pz-cta">
-        <a class="pz-button pz-primary" href="https://github.com/andymccutcheon/promptzilla">Get Promptzilla on GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        <a class="pz-button pz-primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
         <a class="pz-button pz-secondary" href="#loop">See the loop <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v11M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
       </div>
       <div class="pz-command pz-command--hero">
         <div class="pz-command__meta"><span>Install the skills</span><span>one command</span></div>
-        <pre class="pz-code" tabindex="0" aria-label="Install command"><code id="install-hero">npx promptzilla install</code></pre>
+        <pre class="pz-code" tabindex="0" aria-label="Install command"><code id="install-hero">npx ninthpass install</code></pre>
         <button class="pz-copy" type="button" data-copy-target="install-hero" aria-label="Copy install command">Copy</button>
       </div>
       <p class="pz-note">Node 22.12+. No API key. MIT.</p>
@@ -241,7 +241,7 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
     <header class="pz-section__head">
       <p class="pz-label">04 / Bring your own model</p>
       <h2 id="install-title">Use the model <em>you already trust.</em></h2>
-      <p class="pz-lead">Each stage runs in a fresh process. Promptzilla stores no credentials; the worker you choose handles its own authentication.</p>
+      <p class="pz-lead">Each stage runs in a fresh process. Ninth Pass stores no credentials; the worker you choose handles its own authentication.</p>
     </header>
 
     <div class="pz-install__grid">
@@ -254,7 +254,7 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
 
         <div class="pz-tab-panel" role="tabpanel" id="panel-opencode" aria-labelledby="tab-opencode">
           <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="OpenCode command"><code id="cmd-opencode">npx promptzilla run --prompt ./prompt.md --worker opencode</code></pre>
+            <pre class="pz-code" tabindex="0" aria-label="OpenCode command"><code id="cmd-opencode">npx ninthpass run --prompt ./prompt.md --worker opencode</code></pre>
             <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-opencode" aria-label="Copy OpenCode command">Copy</button>
           </div>
           <p class="pz-note">The default worker. Add <code>--model</code> to choose a model.</p>
@@ -262,7 +262,7 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
 
         <div class="pz-tab-panel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude" hidden>
           <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="Claude Code command"><code id="cmd-claude">npx promptzilla run --prompt ./prompt.md --worker claude --model claude-sonnet-4-5</code></pre>
+            <pre class="pz-code" tabindex="0" aria-label="Claude Code command"><code id="cmd-claude">npx ninthpass run --prompt ./prompt.md --worker claude --model claude-sonnet-4-5</code></pre>
             <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-claude" aria-label="Copy Claude Code command">Copy</button>
           </div>
           <p class="pz-note">Uses <code>claude -p</code> in a fresh process for every stage.</p>
@@ -270,7 +270,7 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
 
         <div class="pz-tab-panel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" hidden>
           <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="Codex command"><code id="cmd-codex">npx promptzilla run --prompt ./prompt.md --worker codex</code></pre>
+            <pre class="pz-code" tabindex="0" aria-label="Codex command"><code id="cmd-codex">npx ninthpass run --prompt ./prompt.md --worker codex</code></pre>
             <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-codex" aria-label="Copy Codex command">Copy</button>
           </div>
           <p class="pz-note">Uses <code>codex exec</code> in a fresh process for every stage.</p>
@@ -280,7 +280,7 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
       <aside class="pz-install__aside">
         <p class="pz-label">Install the five skills</p>
         <div class="pz-command pz-command--install">
-          <pre class="pz-code" tabindex="0" aria-label="Install command"><code id="install-skills">npx promptzilla install</code></pre>
+          <pre class="pz-code" tabindex="0" aria-label="Install command"><code id="install-skills">npx ninthpass install</code></pre>
           <button class="pz-copy" type="button" data-copy-target="install-skills" aria-label="Copy install command">Copy</button>
         </div>
         <p class="pz-note">Detects Claude Code, OpenCode, and shared agents. Use <code>--target</code> or <code>--dir</code> when you want control.</p>
@@ -288,9 +288,9 @@ runs/4cd2abf2-51ec-462d-a4eb-6155be65f94c/
         <details class="pz-details">
           <summary>Prefer to drive each stage yourself?</summary>
           <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="Manual pipeline commands"><code id="cmd-manual">promptzilla start --request "Write a prompt for a meeting-notes summarizer"
-promptzilla submit &lt;run-id&gt; --dispatch &lt;id&gt; --output stage.md
-promptzilla status &lt;run-id&gt;</code></pre>
+            <pre class="pz-code" tabindex="0" aria-label="Manual pipeline commands"><code id="cmd-manual">ninthpass start --request "Write a prompt for a meeting-notes summarizer"
+ninthpass submit &lt;run-id&gt; --dispatch &lt;id&gt; --output stage.md
+ninthpass status &lt;run-id&gt;</code></pre>
             <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-manual" aria-label="Copy manual pipeline commands">Copy</button>
           </div>
           <p class="pz-note">The run records every stage, scorecard, and retry. <code>status --json</code> returns the next dispatch.</p>
@@ -309,7 +309,7 @@ promptzilla status &lt;run-id&gt;</code></pre>
     </header>
 
     <div class="pz-boundaries__list">
-      <article><span class="pz-boundaries__idx">01</span><h3>It does not call a model.</h3><p>The worker does. Promptzilla needs no API key and stores no credentials.</p></article>
+      <article><span class="pz-boundaries__idx">01</span><h3>It does not call a model.</h3><p>The worker does. Ninth Pass needs no API key and stores no credentials.</p></article>
       <article><span class="pz-boundaries__idx">02</span><h3>It does not run an agent.</h3><p>It prepares packets, validates the returned output, and records the run. In manual mode, your host provides the isolation.</p></article>
       <article><span class="pz-boundaries__idx">03</span><h3>It checks structure, not truth.</h3><p>Scorecards are validated for shape and consistency, not semantic truth, completeness of evidence, or model quality.</p></article>
       <article><span class="pz-boundaries__idx">04</span><h3>It does not apply fixes silently.</h3><p>Exact replacements are explicit, all-or-nothing, and confirmed by a fresh Judge before approval.</p></article>
@@ -323,12 +323,12 @@ promptzilla status &lt;run-id&gt;</code></pre>
     <h2 id="start-title">Install the skills. Run the loop. <em>Read the prompt.</em></h2>
     <div class="pz-command pz-command--hero">
       <div class="pz-command__meta"><span>Install the skills</span><span>one command</span></div>
-      <pre class="pz-code" tabindex="0" aria-label="Install command"><code id="install-final">npx promptzilla install</code></pre>
+      <pre class="pz-code" tabindex="0" aria-label="Install command"><code id="install-final">npx ninthpass install</code></pre>
       <button class="pz-copy" type="button" data-copy-target="install-final" aria-label="Copy install command">Copy</button>
     </div>
     <div class="pz-cta">
-      <a class="pz-button pz-primary" href="https://github.com/andymccutcheon/promptzilla">Get Promptzilla on GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
-      <a class="pz-button pz-secondary" href="https://github.com/andymccutcheon/promptzilla#readme">Read the README</a>
+      <a class="pz-button pz-primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+      <a class="pz-button pz-secondary" href="https://github.com/andymccutcheon/ninthpass#readme">Read the README</a>
     </div>
     <p class="pz-note">MIT. Node 22.12+. No API key required.</p>
   </div>
@@ -339,20 +339,20 @@ promptzilla status &lt;run-id&gt;</code></pre>
 <footer class="pz-footer">
   <div class="pz-shell pz-footer__grid">
     <div class="pz-footer__about">
-      <span class="pz-lockup"><svg class="pz-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5c0 5.8 4.7 10.5 10.5 10.5C16.7 12 12 16.7 12 22.5 12 16.7 7.3 12 1.5 12 7.3 12 12 7.3 12 1.5Z" fill="currentColor"/></svg><span class="pz-lockup__word">Promptzilla</span></span>
+      <span class="pz-lockup"><svg class="pz-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5c0 5.8 4.7 10.5 10.5 10.5C16.7 12 12 16.7 12 22.5 12 16.7 7.3 12 1.5 12 7.3 12 12 7.3 12 1.5Z" fill="currentColor"/></svg><span class="pz-lockup__word">Ninth Pass</span></span>
       <p>An independent open-source project by Andy McCutcheon.</p>
     </div>
     <nav class="pz-footer__links" aria-label="Footer">
-      <a href="https://github.com/andymccutcheon/promptzilla">GitHub</a>
-      <a href="https://github.com/andymccutcheon/promptzilla#readme">README</a>
-      <a href="https://www.npmjs.com/package/promptzilla">npm</a>
-      <a href="https://github.com/andymccutcheon/promptzilla/issues">Issues</a>
-      <a href="https://github.com/andymccutcheon/promptzilla/blob/main/LICENSE">License</a>
+      <a href="https://github.com/andymccutcheon/ninthpass">GitHub</a>
+      <a href="https://github.com/andymccutcheon/ninthpass#readme">README</a>
+      <a href="https://www.npmjs.com/package/ninthpass">npm</a>
+      <a href="https://github.com/andymccutcheon/ninthpass/issues">Issues</a>
+      <a href="https://github.com/andymccutcheon/ninthpass/blob/main/LICENSE">License</a>
     </nav>
     <div class="pz-footer__credit">
       <p>Skill names are the project's own and imply no affiliation with any character or rights holder.</p>
       <p>Instrument Serif, Geist, and Geist Mono are used under the SIL Open Font License.</p>
-      <p>© 2026 Promptzilla</p>
+      <p>© 2026 Ninth Pass</p>
     </div>
   </div>
 </footer>

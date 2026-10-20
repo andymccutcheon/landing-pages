@@ -1,10 +1,10 @@
-# Promptzilla landing page — The Refinery
+# Ninth Pass landing page — The Refinery
 
 **Status:** branch `redesign/fraunces-oxblood`, 2026-10-19. Verified locally and packaged
-with a Cloudflare dry run; **not deployed**. The live page is the previous
+with a Cloudflare dry run; **not deployed**. The live page is the previous Promptzilla
 Vermilion/Instrument redesign. This branch adds Fraunces + Oxblood, the professional skill
-names and the loop diagram. Deploy only after `promptzilla@2.0.0` is on npm, because the
-page's install command is the v2 command.
+names, the loop diagram and the **Ninth Pass** rebrand. Deploy only after
+`ninthpass@2.0.0` is on npm and the new domain is attached.
 
 ## 1. Read and dials
 
@@ -27,7 +27,7 @@ a warm editorial refinery:
 - **System.** Warm paper and ink, one oxblood accent, Fraunces for display, Geist for body
   and UI, Geist Mono for commands and labels. All faces are self-hosted, Latin-subset
   WOFF2, and used under the SIL Open Font License.
-- **Content.** The page now sells Promptzilla v2 — five skills, one install command, a CLI
+- **Content.** The page now sells Ninth Pass v2 — five skills, one install command, a CLI
   that runs each stage in a fresh process, and a Markdown prompt at the end. The v1 MCP
   story (13 tools, 5 prompts, resources, Cloudflare self-hosting, the setup skill) is gone.
   The skills are **Brief, Compose, Judge, Revise, Loop**.
@@ -143,10 +143,10 @@ Run from the worktree root with the repository's Playwright environment:
 
 ```sh
 python3 tools/check_literals.py
-LP_PROMPTZILLA_URL=http://127.0.0.1:8777/promptzilla/ \
-  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/promptzilla_render_check.py
-LP_PROMPTZILLA_URL=http://127.0.0.1:8777/promptzilla/ \
-  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/promptzilla_contrast_check.py
+LP_NINTHPASS_URL=http://127.0.0.1:8777/ninthpass/ \
+  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/ninthpass_render_check.py
+LP_NINTHPASS_URL=http://127.0.0.1:8777/ninthpass/ \
+  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/ninthpass_contrast_check.py
 ```
 
 Measured on 2026-10-19:
@@ -167,15 +167,17 @@ Measured on 2026-10-19:
 
 ## 8. Open items
 
-- **Deploy after npm 2.0.0.** The page's install command is `npx promptzilla install`.
+- **Deploy after npm 2.0.0.** The page's install command is `npx ninthpass install`.
   Until the v2 package is published, that command installs the v1 MCP package. Publish
   first, then deploy.
 - **OG image.** `assets/og.png` is a 1200×630 paper/ink/oxblood card, wired into the
   Open Graph and Twitter metadata.
-- **Product naming sprint.** The product remains Promptzilla for this release; the five
-  skills are now professional. A cleared product-name sprint is queued.
+- **Product name.** Ninth Pass is chosen. The package will be `ninthpass`, the CLI
+  `ninthpass`, and the interim site `ninthpass.amccutcheon.com`; `ninthpass.com` is free to
+  register. The five skills are Brief, Compose, Judge, Revise and Loop.
 - **A second diagram.** The run/data-flow diagram (fresh worker per stage, stage files,
   final prompt) is the next visual; the loop diagram is shipped.
 - **Social proof and a before/after prompt.** Still absent, deliberately. Add only with
   real material.
-- **Custom domain.** Already live on `promptzilla.amccutcheon.com`; keep it.
+- **Domain.** Attach `ninthpass.amccutcheon.com` and keep the old Promptzilla domain during
+  the transition, or register `ninthpass.com`; the DNS/Worker cutover is pending.

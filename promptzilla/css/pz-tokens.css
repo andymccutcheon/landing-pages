@@ -1,4 +1,4 @@
-/* Promptzilla design tokens. This is the only page stylesheet that may hold raw
+/* Ninth Pass design tokens. This is the only page stylesheet that may hold raw
    colour, length and duration values; tools/check_literals.py exempts it. */
 :root {
   color-scheme: light;

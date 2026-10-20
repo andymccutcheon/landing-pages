@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 // Post-deploy reachability check. Does not deploy and needs no credentials.
 //
-//   npm run verify -- https://promptzilla-site.<your-subdomain>.workers.dev
+//   npm run verify -- https://ninthpass-site.<your-subdomain>.workers.dev
 
-const REPO_URL = 'https://github.com/andymccutcheon/promptzilla';
+const REPO_URL = 'https://github.com/andymccutcheon/ninthpass';
 
 /** Paths that must answer 200, in the order a browser asks for them. */
 const PATHS = [
   '/',
   '/css/fonts.css',
   '/css/pz-tokens.css',
-  '/css/promptzilla.css',
+  '/css/ninthpass.css',
   '/js/page.js',
   '/diagrams/loop.html',
   '/assets/favicon.svg',
@@ -57,7 +57,7 @@ if (page) {
   }
   for (const [label, needle] of [
     ['fonts stylesheet', '"/css/fonts.css"'],
-    ['stylesheet', '"/css/promptzilla.css"'],
+    ['stylesheet', '"/css/ninthpass.css"'],
     ['page script', '"/js/page.js"'],
     ['favicon', '"/assets/favicon.svg"'],
   ]) {

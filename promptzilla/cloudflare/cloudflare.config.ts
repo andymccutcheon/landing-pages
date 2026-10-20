@@ -7,11 +7,11 @@ export default defineConfig({
   // cf login has access to exactly one account.
   ...(process.env.CLOUDFLARE_ACCOUNT_ID ? { accountId: process.env.CLOUDFLARE_ACCOUNT_ID } : {}),
   worker: {
-    name: 'promptzilla-site',
+    name: 'ninthpass-site',
     compatibilityDate: '2026-10-01',
     workersDev: true,
     previewUrls: false,
-    domains: ['promptzilla.amccutcheon.com'],
+    domains: ['ninthpass.amccutcheon.com', 'promptzilla.amccutcheon.com'],
     assets: {
       htmlHandling: 'auto-trailing-slash',
       notFoundHandling: 'none',

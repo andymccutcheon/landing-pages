@@ -1,4 +1,4 @@
-/* Promptzilla page styles. Every colour, length and duration resolves through
+/* Ninth Pass page styles. Every colour, length and duration resolves through
    css/pz-tokens.css, which tools/check_literals.py treats as the token file.
    The only raw lengths here are the reviewed media-query boundaries. */
 

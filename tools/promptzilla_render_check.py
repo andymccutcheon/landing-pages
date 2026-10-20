@@ -1,4 +1,4 @@
-"""Promptzilla responsive, interaction and resilience contract.
+"""Ninth Pass responsive, interaction and resilience contract.
 
 The page is light-only. It is captured at six widths, then checked for the
 structure, the install command above the fold, the loop interaction, the worker
@@ -17,13 +17,13 @@ SECTIONS = 7
 STAGES = 4
 SKILLS = 5
 TABS = 3
-REPO_URL = 'https://github.com/andymccutcheon/promptzilla'
-INSTALL_COMMAND = 'npx promptzilla install'
+REPO_URL = 'https://github.com/andymccutcheon/ninthpass'
+INSTALL_COMMAND = 'npx ninthpass install'
 ASSETS = (
     'promptzilla/index.html',
     'promptzilla/css/fonts.css',
     'promptzilla/css/pz-tokens.css',
-    'promptzilla/css/promptzilla.css',
+    'promptzilla/css/ninthpass.css',
     'promptzilla/js/page.js',
     'promptzilla/diagrams/loop.html',
     'promptzilla/assets/favicon.svg',
@@ -134,7 +134,7 @@ async def run(browser, failures, warm):
     if sum(sizes.values()) > GZIP_BUDGET:
         failures.append(f'Promptzilla budget {sum(sizes.values())} > {GZIP_BUDGET}: {sizes}')
     (out / 'results.json').write_text(json.dumps({'views': measurements, 'gzip': sizes}, indent=2) + '\n', encoding='utf-8')
-    print(f'Promptzilla: {len(WIDTHS)} captures, no-JavaScript, loop, tabs, clipboard, keyboard, reduced-motion and boundary checks; gzip {sum(sizes.values())} of {GZIP_BUDGET} bytes.')
+    print(f'Ninth Pass: {len(WIDTHS)} captures, no-JavaScript, loop, tabs, clipboard, keyboard, reduced-motion and boundary checks; gzip {sum(sizes.values())} of {GZIP_BUDGET} bytes.')
 
 
 async def check_loop_and_tabs(browser, url, failures):
