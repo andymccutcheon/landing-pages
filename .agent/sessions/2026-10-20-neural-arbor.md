@@ -92,17 +92,22 @@ three numbered recommendations are the real ones, already quoted on the page.
 - The Cloudflare build now stages 19 files, 18 before this diagram.
 - The live reachability check runs against the deployed site, so a new asset cannot join
   `verify.mjs` until it is actually live.
-- A peer session worked in this tree on the same day and left uncommitted edits to the same five
-  files this work touched. Read `git log` and `git status` before assuming authorship.
+- A peer session worked in this tree on the same day. It committed `660b8c5`, which re-pointed
+  this diagram at a newer run and repositioned the page around it; see "Open work" below. Read
+  `git log` and `git status` before assuming authorship.
 
 ## Open work / next steps
 
-1. **Verify and commit the peer's arbor revision.** The working tree holds uncommitted changes that
-   re-point the diagram at run `0becaacc` (Claude Code worker, three Judge passes, 8 then 8 then
-   9/STOP) with five recommendations. They need the same treatment the first version got: the
-   render gate, the capture tool and the design note brought into line, then the build and the
-   dry-run deploy re-run.
-2. **Update `docs/ninthpass-neural-arbor.md` to the new run.** It still quotes run `bc993584`,
-   three recommendations and two Judge passes.
-3. **Deploy is the owner's call.** The build is clean and staged; nothing has been deployed. Add
-   `/diagrams/arbor.html` to `verify.mjs` at the deploy step, not before.
+1. **The shipped diagram is the peer's revision, not the one described above.** Commit `660b8c5`
+   re-pointed it at run `0becaacc` (Claude Code worker, three Judge passes: 8, then 8, then
+   9/STOP) with five recommendations and two Revise passes, and repositioned the page around it.
+   The gates pass on that state: `npm run check` stages 19 files and the dry-run deploy passes, and
+   the render gate passes at six widths with gzip 230,857 of 240,000 bytes. What is left is the
+   record and the review: `docs/ninthpass-neural-arbor.md` still describes the earlier version
+   (run `bc993584`, three recommendations, two Judge passes), and the capture tool in
+   `.review/arbor/` holds the earlier renders. Re-capture and rewrite the note against the shipped
+   file.
+2. **Deploy is the owner's call.** The build is clean and staged; nothing has been deployed. The
+   peer has already added `/diagrams/arbor.html` to the live reachability list in `verify.mjs`, so
+   that check will fail until the asset is actually deployed — expected, and the reason to deploy
+   rather than to run the check again.

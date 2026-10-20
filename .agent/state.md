@@ -31,9 +31,11 @@ deployed assets. Nothing has been deployed; the owner approves before anything g
 design note is `docs/ninthpass-neural-arbor.md`; the session record is
 `sessions/2026-10-20-neural-arbor.md`.
 
-Open: a peer session left uncommitted edits re-pointing the diagram at a newer run (`0becaacc`,
-five recommendations, three Judge passes) which need the render gate, the capture tool and the
-design note brought into line before they are committed.
+A peer session then committed `660b8c5`, which re-pointed the diagram at a newer run
+(`0becaacc`, five recommendations, three Judge passes, two Revise passes) and repositioned the page
+around it; the gates pass on that state. Open: the design note `docs/ninthpass-neural-arbor.md` and
+the captures in `.review/arbor/` still describe the earlier version and need re-taking against the
+shipped file. Nothing is deployed.
 
 
 Operational: use `.venv/bin/python3` for Playwright checks; system Python for source checks; preview on 8769 if 8766 is occupied; `.review/` is ignored.
