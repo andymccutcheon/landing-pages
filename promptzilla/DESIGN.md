@@ -1,9 +1,10 @@
-# Promptzilla landing page — The Refinery
+# Ninth Pass landing page — The Refinery
 
-**Status:** redesign branch `redesign/promptzilla`, 2026-10-19. Verified locally and
-packaged with a Cloudflare dry run; **not deployed**. The live page is still the Alien UI
-build. Deploy only after `promptzilla@2.0.0` is on npm, because the page's install command
-is the v2 command.
+**Status:** branch `redesign/fraunces-oxblood`, 2026-10-19. Verified locally and packaged
+with a Cloudflare dry run; **not deployed**. The live page is the previous Promptzilla
+Vermilion/Instrument redesign. This branch adds Fraunces + Oxblood, the professional skill
+names, the loop diagram and the **Ninth Pass** rebrand. Deploy only after
+`ninthpass@2.0.0` is on npm and the new domain is attached.
 
 ## 1. Read and dials
 
@@ -18,19 +19,22 @@ have a model and an agent, and want the prompt craft to stop being manual.
 
 ## 2. What changed from the Alien build
 
-The page is a full redesign, not a reskin. It moves from used-future instrument panels,
-phosphor CRT, Michroma and Share Tech Mono to a warm editorial refinery:
+The page is a full redesign, not a reskin. A second pass then replaced Instrument Serif
+with Fraunces and Vermilion with Oxblood, renamed the skills, and added the loop diagram.
+It moves from used-future instrument panels, phosphor CRT, Michroma and Share Tech Mono to
+a warm editorial refinery:
 
-- **System.** Paper and ink, one vermilion accent, Instrument Serif for display, Geist for
-  body and UI, Geist Mono for commands and labels. All faces are self-hosted, Latin-subset
+- **System.** Warm paper and ink, one oxblood accent, Fraunces for display, Geist for body
+  and UI, Geist Mono for commands and labels. All faces are self-hosted, Latin-subset
   WOFF2, and used under the SIL Open Font License.
-- **Content.** The page now sells Promptzilla v2 — five skills, one install command, a CLI
+- **Content.** The page now sells Ninth Pass v2 — five skills, one install command, a CLI
   that runs each stage in a fresh process, and a Markdown prompt at the end. The v1 MCP
   story (13 tools, 5 prompts, resources, Cloudflare self-hosting, the setup skill) is gone.
+  The skills are **Brief, Compose, Judge, Revise, Loop**.
 - **Interaction.** The register switch, CRT type-on, stage lamps and the fake-readout are
   gone. In their place: a loop stepper that starts at 08/CONTINUE and reaches 09/STOP, a
-  keyboard-operable worker tab set, copy controls on every command, and a dark chamber
-  that gives the loop a physical pause in the page.
+  keyboard-operable worker tab set, copy controls on every command, a step-controlled loop
+  diagram, and a dark chamber that gives the loop a physical pause in the page.
 - **Dependency.** `vendor/alien-ui/` is deleted. The page carries only its own CSS, JS,
   fonts and favicon. The Cloudflare build allowlist is now the page's own directories.
 
@@ -42,24 +46,24 @@ All values live in `css/pz-tokens.css`; `tools/check_literals.py` exempts that o
 
 | Role | Value | Use |
 | --- | --- | --- |
-| Paper | `#f5f0e6` | page ground |
-| Raised paper | `#fbf8f1` | specimen, command strips, file card |
-| Deep paper | `#ece4d4` | the output section |
-| Ink | `#171410` | text, primary button, dark chamber |
-| Ink soft / faint | `#4f493f` / `#6f6557` | body and labels |
-| Rule | `#d9cfbd` | hairlines |
-| Accent | `#b8401f` | display italics, rules, focus |
-| Accent deep | `#8f2c18` | small accent text on paper |
-| Accent bright | `#e58a6c` | small accent text on the chamber |
-| Chamber soft / faint | `#bcb19d` / `#8d8270` | body and labels on dark |
+| Paper | `#f3efe6` | page ground |
+| Raised paper | `#fbf8f2` | specimen, command strips, file card |
+| Deep paper | `#e9e2d6` | the output section |
+| Ink | `#1a1513` | text, primary button, dark chamber |
+| Ink soft / faint | `#4e4641` / `#6e625b` | body and labels |
+| Rule | `#d8cdbe` | hairlines |
+| Accent | `#a84b4b` | display italics, rules, focus |
+| Accent deep | `#7a2b2b` | small accent text on paper |
+| Accent bright | `#d98a7a` | small accent text on the chamber |
+| Chamber soft / faint | `#c2b6a4` / `#968a76` | body and labels on dark |
 | Success / warning | `#2e6a4b` / `#855416` | status chips on paper |
-| Success / warning bright | `#7fbf9a` / `#d8a45b` | status text on dark |
+| Success / warning bright | `#8fbf9f` / `#d8a45b` | status text on dark |
 
 ### Type
 
 | Role | Face | Size and behaviour |
 | --- | --- | --- |
-| Display | Instrument Serif | `h1` `clamp(3.9rem, 10vw, 8rem)`, line-height 0.88; `h2` up to 5rem |
+| Display | Fraunces | `h1` `clamp(3.4rem, 10vw, 8rem)`, line-height 0.88; `h2` up to 5rem |
 | Body | Geist | `clamp(1rem, 0.96rem + 0.18vw, 1.125rem)`, line-height 1.6, 64ch measure |
 | Command and label | Geist Mono | 0.7–0.82rem, uppercase labels with 0.16em tracking |
 
@@ -76,7 +80,7 @@ The italic display phrase is the page's recurring accent: “your prompts”, �
   the four stages share the right side; below 64rem they stack, and below 48rem the
   stages become a 2×2 grid.
 - Skills are an ordered ledger, not a card grid: index, job, boundary. Hover adds a
-  vermilion inset rule.
+  oxblood inset rule.
 - Output is a split between a dark file card and three end states.
 - Install is a split between the worker tabs and the install aside.
 - Boundaries are a short, heavy dark band. Start is the one centred moment.
@@ -85,8 +89,9 @@ The italic display phrase is the page's recurring accent: “your prompts”, �
 
 1. **Claim: prompts should not be hand-written.** Proof: the headline, the specimen card
    (a request, four stages, 09/STOP, the output path) and the install command.
-2. **Claim: the loop is the product.** Proof: the interactive four-stage loop, the gate
-   rule, the 08 → 09 score change, and the cap/plateau note.
+2. **Claim: the loop is the product.** Proof: the interactive four-stage loop, the
+   step-controlled diagram, the gate rule, the 08 → 09 score change, and the cap/plateau
+   note.
 3. **Claim: each skill has a narrow job.** Proof: the five-row ledger with explicit
    refusals.
 4. **Claim: the output is a readable artifact.** Proof: the file card, the stage manifest,
@@ -102,8 +107,8 @@ The italic display phrase is the page's recurring accent: “your prompts”, �
 **Preserve**
 
 - The primary conversion path: the GitHub repository, reached twice (hero and final CTA).
-- The real product vocabulary: Metapod, Judge Dredd, Brian Spillner, Tasker, Prompt
-  Pipeline; `STOP`, `CONTINUE`, `full`, `optimize-only`, `approved`, `provisional`.
+- The real product vocabulary: Brief, Compose, Judge, Revise, Loop; `STOP`, `CONTINUE`,
+  `full`, `optimize-only`, `approved`, `provisional`.
 - No fabricated claims: no customers, counts, benchmarks, testimonials or “try it live”.
 - No-JavaScript readability, keyboard operation, reduced motion, visible focus.
 - The page's own Cloudflare packaging and reachability check.
@@ -124,6 +129,9 @@ The italic display phrase is the page's recurring accent: “your prompts”, �
   Judge pass; the track fills; the stage borders and dots move from pending to active to
   done. “Run again” is always available. Under reduced motion the page loads at 09/STOP
   and the button completes instantly.
+- **Diagram:** the embedded loop diagram autoplays a five-step reveal once on load, ends
+  complete, and offers Play, Pause, Replay, Previous and Next. It has a complete no-JS
+  frame and a complete reduced-motion frame.
 - **Tabs:** `role="tablist"` with arrow, Home and End support. Only one panel is open.
 - **Copy:** 2s “Copied” feedback with an `aria-live` announcement and a manual-selection
   fallback when the Clipboard API refuses.
@@ -135,10 +143,10 @@ Run from the worktree root with the repository's Playwright environment:
 
 ```sh
 python3 tools/check_literals.py
-LP_PROMPTZILLA_URL=http://127.0.0.1:8777/promptzilla/ \
-  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/promptzilla_render_check.py
-LP_PROMPTZILLA_URL=http://127.0.0.1:8777/promptzilla/ \
-  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/promptzilla_contrast_check.py
+LP_NINTHPASS_URL=http://127.0.0.1:8777/ninthpass/ \
+  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/ninthpass_render_check.py
+LP_NINTHPASS_URL=http://127.0.0.1:8777/ninthpass/ \
+  ~/Documents/GitHub/landing-pages/.venv/bin/python tools/ninthpass_contrast_check.py
 ```
 
 Measured on 2026-10-19:
@@ -152,18 +160,24 @@ Measured on 2026-10-19:
 - Reduced motion: no hero or stage animations; loop at 09/STOP.
 - Contrast: no text failures; minimum large-display ratio 3.38:1; minimum interactive
   state 4.83:1; minimum focus ratio 3.31:1; gate rule 3.38:1.
-- Gzip: 96,808 bytes of the 150,000-byte budget.
-- Cloudflare: `npm run check` stages 14 files and `cf deploy --dry-run --prebuilt` passes.
-- Built output: `verify.mjs` passes 14 reachability checks against a local `dist/` server;
-  all three fonts load with no console or network errors.
+- Gzip: 221,691 bytes of the 240,000-byte budget.
+- Cloudflare: `npm run check` stages 15 files and `cf deploy --dry-run --prebuilt` passes.
+- Built output: `verify.mjs` passes 15 reachability checks against a local `dist/` server;
+  all three fonts and the diagram page load with no console or network errors.
 
 ## 8. Open items
 
-- **Deploy after npm 2.0.0.** The page's install command is `npx promptzilla install`.
+- **Deploy after npm 2.0.0.** The page's install command is `npx ninthpass install`.
   Until the v2 package is published, that command installs the v1 MCP package. Publish
   first, then deploy.
-- **OG image.** `assets/og.png` is a 1200×630 paper/ink/vermilion card, wired into
-  the Open Graph and Twitter metadata.
+- **OG image.** `assets/og.png` is a 1200×630 paper/ink/oxblood card, wired into the
+  Open Graph and Twitter metadata.
+- **Product name.** Ninth Pass is chosen. The package will be `ninthpass`, the CLI
+  `ninthpass`, and the interim site `ninthpass.amccutcheon.com`; `ninthpass.com` is free to
+  register. The five skills are Brief, Compose, Judge, Revise and Loop.
+- **A second diagram.** The run/data-flow diagram (fresh worker per stage, stage files,
+  final prompt) is the next visual; the loop diagram is shipped.
 - **Social proof and a before/after prompt.** Still absent, deliberately. Add only with
   real material.
-- **Custom domain.** Already live on `promptzilla.amccutcheon.com`; keep it.
+- **Domain.** Attach `ninthpass.amccutcheon.com` and keep the old Promptzilla domain during
+  the transition, or register `ninthpass.com`; the DNS/Worker cutover is pending.

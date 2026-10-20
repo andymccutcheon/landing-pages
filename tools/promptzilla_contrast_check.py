@@ -1,4 +1,4 @@
-"""Measure Promptzilla text, interactive state and focus contrast in Chromium.
+"""Measure Ninth Pass text, interactive state and focus contrast in Chromium.
 
 Text needs 4.5:1 (3:1 at 24px, or 18.66px bold and larger). Focus indicators and
 the gate rule need 3:1. The page is light-only, so one pass covers it.

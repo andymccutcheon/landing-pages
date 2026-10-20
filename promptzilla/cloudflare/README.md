@@ -1,7 +1,7 @@
-# Promptzilla site: Cloudflare packaging
+# Ninth Pass site: Cloudflare packaging
 
-This directory deploys `promptzilla/index.html` and its page-local `css/`, `js/` and
-`assets/` as a static-assets Worker named `promptzilla-site`, using the
+This directory deploys `ninthpass/index.html` and its page-local `css/`, `js/` and
+`assets/` as a static-assets Worker named `ninthpass-site`, using the
 [`cf`](https://developers.cloudflare.com/cf/) CLI. It is self-contained: nothing here
 changes the page, and nothing here is used by the GitHub Pages workflow that publishes
 the other pages.
@@ -20,7 +20,7 @@ There is no Wrangler configuration. `cf` is the CLI for this project, per
 
 `npm run build` runs `scripts/build.mjs`, which:
 
-1. checks that every `css/`, `js/` and `assets/` reference in `promptzilla/index.html`
+1. checks that every `css/`, `js/` and `assets/` reference in `ninthpass/index.html`
    resolves to a real file, and that every non-data `url(...)` in the page stylesheets
    resolves to a real asset;
 2. replaces `dist/` with the page and its three page-local directories, then rewrites
@@ -37,7 +37,7 @@ recreates `dist/`, which is a generated directory owned by this script.
 ## Check the build without deploying
 
 ```sh
-cd promptzilla/cloudflare
+cd ninthpass/cloudflare
 npm install
 npm run check
 ```
@@ -49,11 +49,11 @@ from the assets directory and exits with `--dry-run: exiting now.`
 
 ## Deploy
 
-Sign in once, then deploy. **Publish `promptzilla@2.0.0` first**: the page's install
+Sign in once, then deploy. **Publish `ninthpass@2.0.0` first**: the page's install
 command is the v2 command, and the current npm package is still the v1 MCP server.
 
 ```sh
-cd promptzilla/cloudflare
+cd ninthpass/cloudflare
 npx cf auth login            # add --no-browser over SSH or in a container
 npx cf auth whoami           # confirms the account the deploy will use
 npm install
@@ -68,9 +68,9 @@ instead of signing in, as described in [Use `cf` in CI](https://developers.cloud
 
 Reachability is one command. It requests the page and all fourteen published assets,
 requires `200` from each, and asserts that the served HTML still carries two primary calls
-to action pointing at the Promptzilla repository and references its stylesheet, page
+to action pointing at the Ninth Pass repository and references its stylesheet, page
 script and favicon.
 
 ```sh
-npm run verify -- https://promptzilla.amccutcheon.com
+npm run verify -- https://ninthpass.amccutcheon.com
 ```

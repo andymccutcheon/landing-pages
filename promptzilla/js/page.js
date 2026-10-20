@@ -1,4 +1,4 @@
-// Promptzilla page behaviour. Progressive enhancement only: every command and
+// Ninth Pass page behaviour. Progressive enhancement only: every command and
 // every section is present and readable with JavaScript off.
 (() => {
   const COPY_FEEDBACK_MS = 2000;

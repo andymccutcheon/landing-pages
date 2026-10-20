@@ -1,4 +1,4 @@
-/* Promptzilla page styles. Every colour, length and duration resolves through
+/* Ninth Pass page styles. Every colour, length and duration resolves through
    css/pz-tokens.css, which tools/check_literals.py treats as the token file.
    The only raw lengths here are the reviewed media-query boundaries. */
 
@@ -336,6 +336,15 @@ main:focus { outline: none; }
   line-height: var(--line-body);
   color: var(--chamber-soft);
 }
+
+
+/* ---------- The loop diagram ---------- */
+.pz-diagram__frame { margin-block-start: var(--space-6); border: var(--rule-width) solid var(--chamber-rule); background: var(--paper); }
+.pz-diagram__frame iframe { display: block; inline-size: 100%; block-size: var(--diagram-height); border: 0; }
+.pz-diagram__caption { margin-block-start: var(--space-3); color: var(--chamber-faint); font-family: var(--font-mono); font-size: var(--size-small); }
+.pz-diagram__link { display: inline-flex; align-items: center; min-block-size: var(--tap); color: var(--chamber-ink); text-decoration: underline; text-underline-offset: var(--space-1); }
+.pz-diagram__link:hover { color: var(--accent-bright); }
+@media (width < 48rem) { .pz-diagram__frame iframe { block-size: var(--diagram-height-sm); } }
 
 /* ---------- Skills ---------- */
 .pz-skills__list { margin: 0; padding: 0; list-style: none; border-block-start: var(--rule-width-strong) solid var(--ink); }

@@ -1,4 +1,4 @@
-"""Promptzilla responsive, interaction and resilience contract.
+"""Ninth Pass responsive, interaction and resilience contract.
 
 The page is light-only. It is captured at six widths, then checked for the
 structure, the install command above the fold, the loop interaction, the worker
@@ -17,23 +17,24 @@ SECTIONS = 7
 STAGES = 4
 SKILLS = 5
 TABS = 3
-REPO_URL = 'https://github.com/andymccutcheon/promptzilla'
-INSTALL_COMMAND = 'npx promptzilla install'
+REPO_URL = 'https://github.com/andymccutcheon/ninthpass'
+INSTALL_COMMAND = 'npx ninthpass install'
 ASSETS = (
     'promptzilla/index.html',
     'promptzilla/css/fonts.css',
     'promptzilla/css/pz-tokens.css',
-    'promptzilla/css/promptzilla.css',
+    'promptzilla/css/ninthpass.css',
     'promptzilla/js/page.js',
+    'promptzilla/diagrams/loop.html',
     'promptzilla/assets/favicon.svg',
-    'promptzilla/assets/fonts/instrument-serif-regular.woff2',
-    'promptzilla/assets/fonts/instrument-serif-italic.woff2',
+    'promptzilla/assets/fonts/fraunces-normal.woff2',
+    'promptzilla/assets/fonts/fraunces-italic.woff2',
     'promptzilla/assets/fonts/geist.woff2',
     'promptzilla/assets/fonts/geist-mono.woff2',
 )
 # The page is small: HTML, three stylesheets, one script, the favicon and four
 # Latin-subset WOFF2 files. The budget leaves room for copy edits, not a redesign.
-GZIP_BUDGET = 150000
+GZIP_BUDGET = 240000
 
 
 async def run(browser, failures, warm):
@@ -66,7 +67,8 @@ async def run(browser, failures, warm):
             tabs: document.querySelectorAll('[role="tab"]').length,
             panels,
             marks: document.querySelectorAll('.pz-mark').length,
-            media: document.querySelectorAll('iframe, video, img').length,
+            media: document.querySelectorAll('video, img').length,
+            iframes: [...document.querySelectorAll('iframe')].map(frame => frame.getAttribute('src')),
             primaryCtas: [...document.querySelectorAll('.pz-primary')].map(link => link.href),
             smallTargets: [...document.querySelectorAll('a, button, summary')]
               .filter(element => { const rect = element.getBoundingClientRect(); return rect.width && (rect.width < 24 || rect.height < 24); })
@@ -87,7 +89,7 @@ async def run(browser, failures, warm):
             failures.append(f'{label}: component counts {state}')
         if state['panels'] != ['grid', 'none', 'none']:
             failures.append(f'{label}: worker tabs start open {state["panels"]}')
-        if state['marks'] != 2 or state['media']:
+        if state['marks'] != 2 or state['media'] or state['iframes'] != ['diagrams/loop.html']:
             failures.append(f'{label}: wordmark/media {state}')
         if state['scheme'] != 'light':
             failures.append(f'{label}: colour scheme {state["scheme"]}')
@@ -132,7 +134,7 @@ async def run(browser, failures, warm):
     if sum(sizes.values()) > GZIP_BUDGET:
         failures.append(f'Promptzilla budget {sum(sizes.values())} > {GZIP_BUDGET}: {sizes}')
     (out / 'results.json').write_text(json.dumps({'views': measurements, 'gzip': sizes}, indent=2) + '\n', encoding='utf-8')
-    print(f'Promptzilla: {len(WIDTHS)} captures, no-JavaScript, loop, tabs, clipboard, keyboard, reduced-motion and boundary checks; gzip {sum(sizes.values())} of {GZIP_BUDGET} bytes.')
+    print(f'Ninth Pass: {len(WIDTHS)} captures, no-JavaScript, loop, tabs, clipboard, keyboard, reduced-motion and boundary checks; gzip {sum(sizes.values())} of {GZIP_BUDGET} bytes.')
 
 
 async def check_loop_and_tabs(browser, url, failures):

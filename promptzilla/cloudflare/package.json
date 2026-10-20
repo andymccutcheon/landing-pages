@@ -1,8 +1,8 @@
 {
-  "name": "promptzilla-site",
+  "name": "ninthpass-site",
   "version": "1.0.0",
   "private": true,
-  "description": "Static-assets Worker packaging for the Promptzilla landing page.",
+  "description": "Static-assets Worker packaging for the Ninth Pass landing page.",
   "type": "module",
   "engines": {
     "node": ">=22.18.0"

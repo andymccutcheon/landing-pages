@@ -17,7 +17,7 @@ const REPO = path.resolve(PROJECT, '../..');
 const PAGE_DIR = path.join(REPO, 'promptzilla');
 const PAGE = path.join(PAGE_DIR, 'index.html');
 const DIST = path.join(PROJECT, 'dist');
-const PAGE_DIRECTORIES = ['css', 'js', 'assets'];
+const PAGE_DIRECTORIES = ['css', 'js', 'assets', 'diagrams'];
 
 const references = (source, pattern) => [...source.matchAll(pattern)].map((match) => match[1]);
 
@@ -31,7 +31,7 @@ async function exists(target) {
 }
 
 function localPageReferences(html) {
-  return [...new Set(references(html, /(?:href|src)="((?:css|js|assets)\/[^"]+)"/g))];
+  return [...new Set(references(html, /(?:href|src)="((?:css|js|assets|diagrams)\/[^"]+)"/g))];
 }
 
 async function assertPageReferencesExist(html) {
@@ -60,6 +60,7 @@ const ROOT_RELATIVE_REWRITES = [
   ['"css/', '"/css/'],
   ['"js/', '"/js/'],
   ['"assets/', '"/assets/'],
+  ['"diagrams/', '"/diagrams/'],
 ];
 
 function rootRelative(html) {

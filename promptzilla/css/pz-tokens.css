@@ -1,40 +1,40 @@
-/* Promptzilla design tokens. This is the only page stylesheet that may hold raw
+/* Ninth Pass design tokens. This is the only page stylesheet that may hold raw
    colour, length and duration values; tools/check_literals.py exempts it. */
 :root {
   color-scheme: light;
 
   /* Colour */
-  --paper: #f5f0e6;
-  --paper-raised: #fbf8f1;
-  --paper-deep: #ece4d4;
-  --ink: #171410;
-  --ink-soft: #4f493f;
-  --ink-faint: #6f6557;
-  --rule: #d9cfbd;
-  --rule-strong: #b8ab95;
-  --accent: #b8401f;
-  --accent-deep: #8f2c18;
-  --accent-wash: #f2d9cf;
-  --accent-bright: #e58a6c;
-  --chamber: #14120e;
-  --chamber-raised: #1d1a14;
-  --chamber-ink: #f4efe4;
-  --chamber-soft: #bcb19d;
-  --chamber-faint: #8d8270;
-  --chamber-rule: #3d372c;
+  --paper: #f3efe6;
+  --paper-raised: #fbf8f2;
+  --paper-deep: #e9e2d6;
+  --ink: #1a1513;
+  --ink-soft: #4e4641;
+  --ink-faint: #6e625b;
+  --rule: #d8cdbe;
+  --rule-strong: #b6a793;
+  --accent: #a84b4b;
+  --accent-deep: #7a2b2b;
+  --accent-wash: #efd9d4;
+  --accent-bright: #d98a7a;
+  --chamber: #171311;
+  --chamber-raised: #211b17;
+  --chamber-ink: #f3efe6;
+  --chamber-soft: #c2b6a4;
+  --chamber-faint: #968a76;
+  --chamber-rule: #3d352f;
   --success: #2e6a4b;
-  --success-bright: #7fbf9a;
+  --success-bright: #8fbf9f;
   --warning: #855416;
   --warning-bright: #d8a45b;
   --danger: #a13726;
-  --focus: #b8401f;
-  --focus-inverse: #f4efe4;
+  --focus: #a84b4b;
+  --focus-inverse: #f3efe6;
 
   /* Type */
-  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-body: "Geist", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Geist Mono", "SFMono-Regular", Consolas, monospace;
-  --size-h1: clamp(3.9rem, 10vw, 8rem);
+  --size-h1: clamp(3.4rem, 10vw, 8rem);
   --size-h2: clamp(2.6rem, 5.8vw, 5rem);
   --size-h3: clamp(1.35rem, 2.3vw, 1.9rem);
   --size-h4: clamp(1.05rem, 1.4vw, 1.25rem);
@@ -90,10 +90,12 @@
   --progress: 1;
   --shadow-y: 2px;
   --shadow-blur: 18px;
-  --shadow-color: rgba(23, 20, 16, 0.08);
-  --shadow-color-strong: rgba(23, 20, 16, 0.16);
-  --overlay: rgba(20, 18, 14, 0.04);
+  --shadow-color: rgba(26, 21, 19, 0.08);
+  --shadow-color-strong: rgba(26, 21, 19, 0.16);
+  --overlay: rgba(26, 21, 19, 0.04);
   --hero-card-offset: 2rem;
+  --diagram-height: 900px;
+  --diagram-height-sm: 760px;
   --score-ring: 7.5rem;
 
   /* Motion */
