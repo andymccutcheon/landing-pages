@@ -17,6 +17,7 @@ SECTIONS = 7
 STAGES = 4
 SKILLS = 5
 TABS = 3
+DIAGRAMS = ['diagrams/loop.html', 'diagrams/arbor.html', 'diagrams/dataflow.html']
 REPO_URL = 'https://github.com/andymccutcheon/ninthpass'
 INSTALL_COMMAND = 'npx ninthpass install'
 ASSETS = (
@@ -93,7 +94,7 @@ async def run(browser, failures, warm):
             failures.append(f'{label}: component counts {state}')
         if state['panels'] != ['grid', 'none', 'none']:
             failures.append(f'{label}: worker tabs start open {state["panels"]}')
-        if state['marks'] != 2 or state['media'] or state['iframes'] != ['diagrams/loop.html', 'diagrams/dataflow.html']:
+        if state['marks'] != 2 or state['media'] or state['iframes'] != DIAGRAMS:
             failures.append(f'{label}: wordmark/media {state}')
         if state['scheme'] != 'light':
             failures.append(f'{label}: colour scheme {state["scheme"]}')

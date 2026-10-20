@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Ninth Pass loop, as a branching tree</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    @font-face {
+      font-family: "Fraunces";
+      src: url("../assets/fonts/fraunces-normal.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 300 700;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Fraunces";
+      src: url("../assets/fonts/fraunces-italic.woff2") format("woff2");
+      font-style: italic;
+      font-weight: 300 700;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Geist";
+      src: url("../assets/fonts/geist.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 300 700;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Geist Mono";
+      src: url("../assets/fonts/geist-mono.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 400 600;
+      font-display: swap;
+    }
+    :root {
+      --color-paper: #f3efe6;
+      --color-paper-2: #fbf8f2;
+      --color-ink: #1a1513;
+      --color-muted: #4e4641;
+      --color-soft: #6e625b;
+      --color-accent: #a84b4b;
+      --color-accent-tint: rgba(168,75,75,0.08);
+      --color-rule: #d8cdbe;
+      --color-success: #2e6a4b;
+      --font-sans: 'Geist', system-ui, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+      --font-mono: 'Geist Mono', ui-monospace, monospace;
+      --motion-fast: 160ms;
+      --motion-step: 480ms;
+      --motion-hold: 720ms;
+      --motion-total: 3600ms;
+      --motion-ease: cubic-bezier(.2,.8,.2,1);
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: var(--color-paper);
+      color: var(--color-ink);
+      font-family: var(--font-sans);
+    }
+    main { width: min(96vw, 1180px); padding: 2.5rem 1rem; }
+    .eyebrow {
+      font: 500 0.68rem/1 var(--font-mono);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-soft);
+      margin: 0 0 0.5rem;
+    }
+    h1 {
+      font: 400 clamp(1.4rem, 2.2vw, 2rem)/1.1 var(--font-serif);
+      letter-spacing: -0.01em;
+      margin: 0 0 1.5rem;
+    }
+    .diagram-container { overflow-x: auto; }
+    svg { width: 100%; min-width: 960px; display: block; }
+    .motion-ready [data-motion-item] {
+      opacity: .12;
+      transform: translateY(8px);
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: opacity var(--motion-step) var(--motion-ease),
+                  transform var(--motion-step) var(--motion-ease);
+    }
+    .motion-ready [data-motion-item].is-visible,
+    .motion-ready[data-frame="end"] [data-motion-item],
+    .motion-ready[data-frame="static"] [data-motion-item] {
+      opacity: 1;
+      transform: none;
+    }
+    #pz-arbor-nodes g { cursor: pointer; }
+    #pz-arbor-nodes g:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+    #pz-arbor-nodes g.is-dim { opacity: 0.32; }
+    #pz-arbor-nodes g.is-lit rect { stroke-width: 1.6; }
+    #pz-arbor-edges path { transition: opacity var(--motion-step) var(--motion-ease), stroke var(--motion-step) var(--motion-ease); }
+    #pz-arbor-edges path.is-dim { opacity: 0.14; }
+    #pz-arbor-edges path.is-lit { opacity: 1; stroke: var(--color-accent); }
+    .pulse { fill: var(--color-accent); }
+    .pulse-trail { fill: none; stroke: var(--color-accent); stroke-linecap: round; }
+    html[data-motion="static"] [data-motion-controls],
+    html[data-motion="static"] [data-motion-decorative] { display: none !important; }
+    html[data-motion="static"] [data-motion-item] {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+      transition: none !important;
+    }
+    html[data-motion="step"] [data-motion-controls],
+    html[data-motion="step"] [data-motion-decorative] { display: none !important; }
+    html[data-motion="step"] [data-motion-item] {
+      animation: none !important;
+      transition: none !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+      [data-motion-item] { opacity: 1 !important; transform: none !important; }
+      [data-motion-decorative] { display: none !important; }
+      [data-motion-controls] { display: none !important; }
+    }
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+      [data-motion-controls], [data-motion-decorative] { display: none !important; }
+      [data-motion-item] { opacity: 1 !important; transform: none !important; }
+    }
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 1.25rem; margin: 0 0 0.25rem;
+      font: 400 0.7rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--color-soft);
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 0.5rem; }
+    .legend__line { width: 1.75rem; height: 0; border-top: 1px solid var(--color-soft); }
+    .legend__line--branch { border-top-color: var(--color-accent); }
+    .legend__line--loop { border-top-style: dashed; }
+    [data-motion-controls] {
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-block-start: 1.25rem;
+    }
+    [data-motion-controls] button {
+      font: 500 0.72rem/1 var(--font-mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      background: var(--color-paper-2);
+      border: 1px solid var(--color-rule);
+      border-radius: 3px;
+      padding: 0.55rem 0.8rem;
+      cursor: pointer;
+      min-block-size: 2.4rem;
+    }
+    .motion-ready [data-motion-controls] { display: flex; }
+    [data-motion-controls] button:hover { color: var(--color-ink); border-color: var(--color-soft); }
+    [data-motion-controls] button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+    [data-motion-controls] button:disabled { opacity: 0.4; cursor: default; }
+    .keyboard-help { font: 400 0.7rem/1 var(--font-mono); color: var(--color-soft); }
+    [data-motion-status-visible] { font: 400 0.7rem/1 var(--font-mono); color: var(--color-soft); }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    noscript p { margin: 0.75rem 0 0; color: var(--color-muted); font: 500 0.72rem/1.4 var(--font-mono); }
+  </style>
+</head>
+<body>
+  <main data-motion-root data-motion-mode="reveal" data-step-count="6" data-step-current="6" data-frame="static" data-static-frame="complete">
+    <p class="eyebrow">Anatomy of one pass</p>
+    <h1>Judge branches. Revise gathers.</h1>
+
+    <div class="diagram-container">
+<svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pz-arbor-title pz-arbor-desc">
+  <title id="pz-arbor-title">The anatomy of one pass of the Ninth Pass loop</title>
+  <desc id="pz-arbor-desc">A top-down branching diagram of one real run. The request is composed, judged at 8 out of 10 with a continue verdict, and the judge writes three numbered recommendations that branch out and are gathered again by Revise. The second Judge scores 9 out of 10 and stops the loop, and the prompt is approved.</desc>
+  <defs>
+    <pattern id="pz-arbor-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="11" cy="11" r="0.8" fill="#1a1513" opacity="0.08"/>
+    </pattern>
+    <marker id="pz-arbor-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6e625b"/></marker>
+    <marker id="pz-arbor-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a84b4b"/></marker>
+    <marker id="pz-arbor-arrow-soft" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b6a793"/></marker>
+  </defs>
+  <rect width="960" height="600" fill="#f3efe6"/>
+  <rect width="960" height="600" fill="url(#pz-arbor-dots)" opacity="0.55"/>
+  <g data-motion-item data-step="6" aria-label="Below 9, the loop returns to Revise">
+    <path d="M570,466 C690,466 690,392 550,392" fill="none" stroke="#6e625b" stroke-width="1.1" stroke-dasharray="5,4" marker-end="url(#pz-arbor-arrow-soft)"/>
+    <rect x="586" y="418" width="152" height="16" fill="#f3efe6"/>
+    <text x="662" y="430" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">BELOW 9 · REWRITE AGAIN</text>
+  </g>
+  <g id="pz-arbor-edges">
+    <path data-edge="e-request-compose" data-from="request" data-to="compose" data-step="2" d="M480,74 C480,104.6 454,111.4 454,142" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-compose-judge1" data-from="compose" data-to="judge-1" data-step="3" d="M454,142 C454,175.3 478,182.7 478,216" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec1" data-from="judge-1" data-to="rec-1" data-step="4" d="M478,216 C478,256.5 190,265.5 190,306" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec2" data-from="judge-1" data-to="rec-2" data-step="4" d="M478,216 C478,256.5 470,265.5 470,306" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec3" data-from="judge-1" data-to="rec-3" data-step="4" d="M478,216 C478,256.5 754,265.5 754,306" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec1-revise" data-from="rec-1" data-to="revise" data-step="5" d="M190,306 C190,344.7 462,353.3 462,392" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec2-revise" data-from="rec-2" data-to="revise" data-step="5" d="M470,306 C470,344.7 462,353.3 462,392" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec3-revise" data-from="rec-3" data-to="revise" data-step="5" d="M754,306 C754,344.7 462,353.3 462,392" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-revise-judge2" data-from="revise" data-to="judge-2" data-step="6" d="M462,392 C462,425.3 482,432.7 482,466" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-judge2-final" data-from="judge-2" data-to="final" data-step="6" d="M482,466 C482,493.9 502,500.1 502,528" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+  </g>
+  <g id="pz-arbor-pulse" data-motion-decorative></g>
+  <g id="pz-arbor-nodes">
+    <g data-node="request" data-step="1" data-kind="stage" tabindex="-1" aria-label="Request, Brief, file 00-request.md">
+      <rect x="346" y="49" width="268" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="480" y="71" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Request</text>
+      <text x="480" y="87" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">BRIEF</text>
+      <rect x="440.9" y="101" width="78.2" height="12" fill="#f3efe6"/>
+      <text x="480" y="110" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">00-request.md</text>
+    </g>
+    <g data-node="compose" data-step="2" data-kind="stage" tabindex="-1" aria-label="Compose, Generate, file 01-compose.md">
+      <rect x="366" y="117" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="454" y="139" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Compose</text>
+      <text x="454" y="155" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">GENERATE · TWO PROMPTS</text>
+      <rect x="414.9" y="169" width="78.2" height="12" fill="#f3efe6"/>
+      <text x="454" y="178" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">01-compose.md</text>
+    </g>
+    <g data-node="judge-1" data-step="3" data-kind="stage" tabindex="-1" aria-label="Judge, Score, file 02-judge-pass1.md">
+      <rect x="390" y="191" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#a84b4b" stroke-width="1.2" opacity="0.95"/>
+      <text x="478" y="213" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Judge</text>
+      <text x="478" y="229" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">SCORE</text>
+      <text x="556" y="213" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="12">8/10</text>
+      <text x="556" y="229" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">CONTINUE</text>
+      <rect x="428.1" y="243" width="99.80000000000001" height="12" fill="#f3efe6"/>
+      <text x="478" y="252" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">02-judge-pass1.md</text>
+    </g>
+    <g data-node="revise" data-step="5" data-kind="stage" tabindex="-1" aria-label="Revise, Rewrite, file 03-revise.md">
+      <rect x="374" y="367" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="462" y="389" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Revise</text>
+      <text x="462" y="405" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">REWRITE · ALL THREE APPLIED</text>
+      <rect x="425.6" y="419" width="72.80000000000001" height="12" fill="#f3efe6"/>
+      <text x="462" y="428" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">03-revise.md</text>
+    </g>
+    <g data-node="judge-2" data-step="6" data-kind="stage" tabindex="-1" aria-label="Judge, Re-score, file 04-judge-pass2.md">
+      <rect x="394" y="441" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#2e6a4b" stroke-width="1.2" opacity="0.95"/>
+      <text x="482" y="463" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Judge</text>
+      <text x="482" y="479" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">RE-SCORE</text>
+      <text x="560" y="463" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="12">9/10</text>
+      <text x="560" y="479" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">STOP</text>
+      <rect x="432.1" y="493" width="99.80000000000001" height="12" fill="#f3efe6"/>
+      <text x="482" y="502" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">04-judge-pass2.md</text>
+    </g>
+    <g data-node="final" data-step="6" data-kind="stage" tabindex="-1" aria-label="Approved, Prompt, file 05-final.md">
+      <rect x="414" y="503" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="502" y="525" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Approved</text>
+      <text x="502" y="541" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">PROMPT</text>
+      <rect x="433.2" y="555" width="137.60000000000002" height="12" fill="#f3efe6"/>
+      <text x="502" y="564" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">prompts/meeting-notes.md</text>
+    </g>
+    <g data-node="rec-1" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 1: Replace &quot;notes&quot; with &quot;meeting notes&quot;">
+      <rect x="79" y="287" width="222" height="38" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="91" y="304" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">1</text>
+      <text x="105" y="304" fill="#1a1513" font-family="'Geist', sans-serif" font-size="11">Replace &quot;notes&quot; with &quot;meeting notes&quot;</text>
+      <text x="105" y="317" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">RECOMMENDATION</text>
+    </g>
+    <g data-node="rec-2" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 2: Preserve &quot;[TBD]&quot;">
+      <rect x="359" y="287" width="222" height="38" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="371" y="304" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">2</text>
+      <text x="385" y="304" fill="#1a1513" font-family="'Geist', sans-serif" font-size="11">Preserve &quot;[TBD]&quot;</text>
+      <text x="385" y="317" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">RECOMMENDATION</text>
+    </g>
+    <g data-node="rec-3" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 3: Preserve the review gate">
+      <rect x="643" y="287" width="222" height="38" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="655" y="304" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">3</text>
+      <text x="669" y="304" fill="#1a1513" font-family="'Geist', sans-serif" font-size="11">Preserve the review gate</text>
+      <text x="669" y="317" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">RECOMMENDATION</text>
+    </g>
+  </g>
+  <g data-motion-item data-step="1" aria-label="The run identifier">
+    <text x="30" y="592" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">RUN bc993584-d18e-4d03-94cd-762e8685d56f</text>
+    <text x="930" y="580" text-anchor="end" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">TIMING ILLUSTRATIVE</text>
+  </g>
+</svg>
+    </div>
+
+    <p class="legend">
+      <span><span class="legend__line legend__line--spine"></span>the stages</span>
+      <span><span class="legend__line legend__line--branch"></span>the scorecard's recommendations</span>
+      <span><span class="legend__line legend__line--loop"></span>the loop returns</span>
+    </p>
+
+    <div data-motion-controls role="group" aria-label="Diagram playback controls">
+      <button type="button" data-motion-action="prev">Previous</button>
+      <button type="button" data-motion-action="play" aria-pressed="false">Play</button>
+      <button type="button" data-motion-action="pause" aria-pressed="true">Pause</button>
+      <button type="button" data-motion-action="next">Next</button>
+      <button type="button" data-motion-action="replay">Replay</button>
+      <span class="keyboard-help">←/→ step, Space play/pause, R replay</span>
+      <span data-motion-status-visible aria-hidden="true">Step <span data-motion-step-label>6</span> of 6</span>
+    </div>
+    <p class="sr-only" data-motion-status role="status" aria-live="polite" aria-atomic="true"></p>
+    <noscript><p>Animation controls require JavaScript. The complete final diagram is shown above.</p></noscript>
+  </main>
+
+  <script data-diagram-controls>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+      document.fonts.ready.then(() => { document.documentElement.dataset.fontsReady = 'true'; });
+
+      const EDGES = [{"id":"e-request-compose","from":"request","to":"compose","step":2},{"id":"e-compose-judge1","from":"compose","to":"judge-1","step":3},{"id":"e-judge1-rec1","from":"judge-1","to":"rec-1","step":4},{"id":"e-judge1-rec2","from":"judge-1","to":"rec-2","step":4},{"id":"e-judge1-rec3","from":"judge-1","to":"rec-3","step":4},{"id":"e-rec1-revise","from":"rec-1","to":"revise","step":5},{"id":"e-rec2-revise","from":"rec-2","to":"revise","step":5},{"id":"e-rec3-revise","from":"rec-3","to":"revise","step":5},{"id":"e-revise-judge2","from":"revise","to":"judge-2","step":6},{"id":"e-judge2-final","from":"judge-2","to":"final","step":6}];
+      const STEPS = [{"n":1,"label":"the request is written to 00-request.md"},{"n":2,"label":"Compose runs in a fresh process and writes 01-compose.md"},{"n":3,"label":"Judge scores the two prompts: 8 out of 10, CONTINUE"},{"n":4,"label":"the scorecard carries three numbered recommendations"},{"n":5,"label":"Revise applies every recommendation and writes 03-revise.md"},{"n":6,"label":"the second Judge returns 9 out of 10, STOP, and the prompt is approved"}];
+
+      document.querySelectorAll('[data-motion-root]').forEach((root) => {
+        const count = Number(root.dataset.stepCount);
+        const items = [...root.querySelectorAll('[data-motion-item]')];
+        const nodes = [...root.querySelectorAll('#pz-arbor-nodes g[data-node]')];
+        const edges = [...root.querySelectorAll('#pz-arbor-edges path[data-edge]')];
+        const pulseLayer = root.querySelector('#pz-arbor-pulse');
+        const controls = root.querySelector('[data-motion-controls]');
+        const status = root.querySelector('[data-motion-status]');
+        const visibleStep = root.querySelector('[data-motion-step-label]');
+        const requestedStep = params.get('step');
+        const exactStep = params.get('motion') === 'step' && /^d+$/.test(requestedStep || '') ? Number(requestedStep) : null;
+        const buttons = (action) => controls.querySelector('[data-motion-action="' + action + '"]');
+        let step = count;
+        let timer = 0;
+        let playing = false;
+
+        // Arc-length tables, so a pulse holds its speed around a curve.
+        const geometry = new Map();
+        for (const path of edges) {
+          const total = path.getTotalLength();
+          const samples = [];
+          let length = 0;
+          let previous = path.getPointAtLength(0);
+          samples.push({ at: 0, x: previous.x, y: previous.y });
+          for (let i = 1; i <= 24; i++) {
+            const at = (total * i) / 24;
+            const point = path.getPointAtLength(at);
+            length += Math.hypot(point.x - previous.x, point.y - previous.y);
+            samples.push({ at: length, x: point.x, y: point.y });
+            previous = point;
+          }
+          geometry.set(path.getAttribute('data-edge'), { path, total, length, samples });
+        }
+
+        function pointAt(edge, distance) {
+          const samples = edge.samples;
+          if (distance <= 0) return samples[0];
+          if (distance >= edge.length) return samples[samples.length - 1];
+          let lo = 0;
+          let hi = samples.length - 1;
+          while (hi - lo > 1) {
+            const mid = (lo + hi) >> 1;
+            if (samples[mid].at <= distance) lo = mid; else hi = mid;
+          }
+          const a = samples[lo];
+          const b = samples[hi];
+          const span = b.at - a.at || 1;
+          const t = (distance - a.at) / span;
+          return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+        }
+
+        // The signals for one step: the edges that step lights, in order.
+        function signalsFor(stepNumber) {
+          return EDGES.filter((edge) => edge.step === stepNumber).map((edge) => ({
+            id: edge.id,
+            geometry: geometry.get(edge.id),
+            delay: 0,
+          }));
+        }
+
+        let raf = 0;
+        function runPulses(stepNumber) {
+          cancelAnimationFrame(raf);
+          pulseLayer.replaceChildren();
+          if (reduce.matches || document.documentElement.dataset.motion === 'static') return;
+          const signals = signalsFor(stepNumber).filter((signal) => signal.geometry);
+          if (!signals.length) return;
+          const speed = 320; // design units per second
+          const started = performance.now();
+          const trail = 26;
+          function frame(now) {
+            const elapsed = (now - started) / 1000;
+            pulseLayer.replaceChildren();
+            let alive = false;
+            for (const signal of signals) {
+              const distance = elapsed * speed;
+              if (distance > signal.geometry.length + 0.35) continue;
+              alive = true;
+              const head = pointAt(signal.geometry, Math.min(distance, signal.geometry.length));
+              const back = pointAt(signal.geometry, Math.max(0, distance - trail));
+              const trailPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+              trailPath.setAttribute('class', 'pulse-trail');
+              trailPath.setAttribute('d', 'M' + back.x.toFixed(1) + ',' + back.y.toFixed(1) + ' L' + head.x.toFixed(1) + ',' + head.y.toFixed(1));
+              trailPath.setAttribute('stroke-width', '2');
+              trailPath.setAttribute('opacity', '0.55');
+              const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+              dot.setAttribute('class', 'pulse');
+              dot.setAttribute('cx', head.x.toFixed(1));
+              dot.setAttribute('cy', head.y.toFixed(1));
+              dot.setAttribute('r', '3.4');
+              pulseLayer.appendChild(trailPath);
+              pulseLayer.appendChild(dot);
+            }
+            if (alive) raf = requestAnimationFrame(frame);
+          }
+          raf = requestAnimationFrame(frame);
+        }
+
+        function announce() {
+          const entry = STEPS.find((s) => s.n === step);
+          status.textContent = 'Step ' + step + ' of ' + count + ': ' + (entry ? entry.label : 'Complete');
+        }
+
+        function render(next, userInitiated = false) {
+          step = Math.max(0, Math.min(count, next));
+          root.dataset.stepCurrent = String(step);
+          root.dataset.frame = step === count ? 'end' : step === 0 ? 'start' : 'step';
+          items.forEach((item) => {
+            const itemStep = Number(item.dataset.step);
+            item.classList.toggle('is-visible', itemStep <= step);
+          });
+          nodes.forEach((node) => {
+            const nodeStep = Number(node.dataset.step);
+            node.classList.toggle('is-visible', nodeStep <= step);
+            node.setAttribute('opacity', nodeStep <= step ? '1' : '0.12');
+          });
+          edges.forEach((path) => {
+            const edgeStep = Number(path.dataset.step);
+            path.setAttribute('opacity', edgeStep <= step ? (path.getAttribute('stroke') === '#a84b4b' ? '0.85' : '0.55') : '0.1');
+          });
+          if (visibleStep) visibleStep.textContent = String(step);
+          buttons('prev').disabled = step === 0;
+          buttons('next').disabled = step === count;
+          if (userInitiated) announce();
+          runPulses(step);
+        }
+
+        function pause(userInitiated = false) {
+          clearTimeout(timer);
+          playing = false;
+          root.classList.remove('is-playing');
+          buttons('play').setAttribute('aria-pressed', 'false');
+          buttons('pause').setAttribute('aria-pressed', 'true');
+          if (userInitiated) status.textContent = 'Paused at step ' + step + ' of ' + count;
+        }
+
+        function tick() {
+          if (!playing) return;
+          if (step >= count) { pause(false); status.textContent = 'Complete · step ' + count + ' of ' + count; return; }
+          render(step + 1, false);
+          if (step >= count) { pause(false); return; }
+          timer = window.setTimeout(tick, 760);
+        }
+
+        function play(fromStart = false, userInitiated = false) {
+          clearTimeout(timer);
+          if (fromStart || step >= count) render(0, userInitiated);
+          playing = true;
+          root.classList.add('is-playing');
+          buttons('play').setAttribute('aria-pressed', 'true');
+          buttons('pause').setAttribute('aria-pressed', 'false');
+          timer = window.setTimeout(tick, 760);
+        }
+
+        controls.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-motion-action]');
+          if (!button) return;
+          const action = button.dataset.motionAction;
+          if (action === 'play') play(false, true);
+          if (action === 'pause') pause(true);
+          if (action === 'replay') play(true, true);
+          if (action === 'prev') { pause(false); render(step - 1, true); }
+          if (action === 'next') { pause(false); render(step + 1, true); }
+        });
+
+        window.addEventListener('keydown', (event) => {
+          if (event.target.matches('input, textarea, select')) return;
+          if (event.key === 'ArrowRight') { pause(false); render(step + 1, true); }
+          if (event.key === 'ArrowLeft') { pause(false); render(step - 1, true); }
+          if (event.key === ' ') { event.preventDefault(); playing ? pause(true) : play(false, true); }
+          if (event.key === 'r' || event.key === 'R') play(true, true);
+          if (event.key === 'Home') { pause(false); render(0, true); }
+          if (event.key === 'End') { pause(false); render(count, true); }
+        });
+
+        // Hover and selection light a lineage: the path down to the node and
+        // everything that node feeds.
+        const parents = new Map();
+        for (const edge of EDGES) {
+          if (!parents.has(edge.to)) parents.set(edge.to, []);
+          parents.get(edge.to).push(edge.from);
+        }
+        function lineageOf(id) {
+          const chain = new Set();
+          const walk = (nodeId) => {
+            if (chain.has(nodeId)) return;
+            chain.add(nodeId);
+            for (const parent of parents.get(nodeId) || []) walk(parent);
+          };
+          walk(id);
+          return chain;
+        }
+        function descendantsOf(id) {
+          const out = new Set();
+          const walk = (nodeId) => {
+            for (const edge of EDGES) {
+              if (edge.from !== nodeId || out.has(edge.to)) continue;
+              out.add(edge.to);
+              walk(edge.to);
+            }
+          };
+          walk(id);
+          return out;
+        }
+        let pinned = null;
+        function light(id) {
+          const active = id || pinned;
+          if (!active) {
+            nodes.forEach((node) => node.classList.remove('is-dim', 'is-lit'));
+            edges.forEach((path) => path.classList.remove('is-dim', 'is-lit'));
+            return;
+          }
+          const up = lineageOf(active);
+          const down = descendantsOf(active);
+          nodes.forEach((node) => {
+            const nodeId = node.getAttribute('data-node');
+            const on = up.has(nodeId) || down.has(nodeId);
+            node.classList.toggle('is-lit', on);
+            node.classList.toggle('is-dim', !on);
+          });
+          edges.forEach((path) => {
+            const from = path.getAttribute('data-from');
+            const to = path.getAttribute('data-to');
+            const on = (up.has(from) && up.has(to)) || (up.has(from) && down.has(to)) || (up.has(to) && down.has(to));
+            path.classList.toggle('is-lit', on);
+            path.classList.toggle('is-dim', !on);
+          });
+        }
+        for (const node of nodes) {
+          node.addEventListener('pointerenter', () => { if (!pinned) light(node.getAttribute('data-node')); });
+          node.addEventListener('pointerleave', () => { if (!pinned) light(null); });
+          node.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const id = node.getAttribute('data-node');
+            pinned = pinned === id ? null : id;
+            light(pinned);
+          });
+        }
+        root.querySelector('svg').addEventListener('click', () => { pinned = null; light(null); });
+
+        const staticOverride = params.get('motion') === 'static' || document.documentElement.dataset.motion === 'static';
+        if (staticOverride) {
+          document.documentElement.dataset.motion = 'static';
+          root.dataset.frame = 'static';
+          root.dataset.motionState = 'static';
+          render(count, false);
+          status.textContent = 'Static frame · step ' + count + ' of ' + count;
+        } else if (exactStep !== null) {
+          document.documentElement.dataset.motion = 'step';
+          pause(false);
+          render(exactStep, false);
+          root.dataset.frame = 'step';
+          root.dataset.motionState = 'test';
+          status.textContent = 'Test frame · step ' + exactStep + ' of ' + count;
+        } else {
+          render(0, false);
+          if (!reduce.matches) {
+            play(true, false);
+          }
+        }
+        root.classList.add('motion-ready');
+      });
+    })();
+  </script>
+</body>
+</html>
