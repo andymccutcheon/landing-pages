@@ -13,13 +13,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WIDTHS = (360, 480, 768, 1024, 1280, 1440)
 HEIGHT = 900
-SECTIONS = 7
-STAGES = 4
-SKILLS = 5
+SECTIONS = 8
+STAGES = 6
+SKILLS = 0
 TABS = 3
-DIAGRAMS = ['diagrams/loop.html', 'diagrams/arbor.html', 'diagrams/dataflow.html']
+# The page embeds three diagrams: the run/data-flow view, the neural-arbor view of
+# one pass, and the refinement loop.
+DIAGRAMS = ['diagrams/arbor.html', 'diagrams/dataflow.html', 'diagrams/loop.html']
 REPO_URL = 'https://github.com/andymccutcheon/ninthpass'
-INSTALL_COMMAND = 'npx ninthpass install'
+INSTALL_COMMAND = 'git clone https://github.com/andymccutcheon/ninthpass\ncd ninthpass && npm install && npm run build'
 ASSETS = (
     'ninthpass/index.html',
     'ninthpass/css/fonts.css',
@@ -37,6 +39,8 @@ ASSETS = (
 # The page is small: HTML, three stylesheets, one script, the favicon and four
 # Latin-subset WOFF2 files. The budget leaves room for copy edits, not a redesign.
 GZIP_BUDGET = 240000
+# The rubric has twelve sections; the standard section renders one row each.
+RUBRIC_SECTIONS = 12
 
 
 async def run(browser, failures, warm):
@@ -82,6 +86,8 @@ async def run(browser, failures, warm):
             install: box('#install-hero'),
             boundaries: getComputedStyle(document.querySelector('.pz-boundaries__list')).gridTemplateColumns,
             files: document.querySelectorAll('.pz-file').length,
+            rubric: document.querySelectorAll('.pz-standard__row').length,
+            standard: [...document.querySelectorAll('.pz-standard__row')].map(row => row.querySelector('.pz-standard__name').textContent + ' ' + row.querySelector('.pz-standard__score').textContent),
             scorecard: [...document.querySelectorAll('.pz-file code')].map(code => code.textContent).join(String.fromCharCode(10)),
             runId: (document.body.textContent.match(new RegExp('runs/[0-9a-f-]{36}/')) || [''])[0],
           };
@@ -94,7 +100,7 @@ async def run(browser, failures, warm):
             failures.append(f'{label}: component counts {state}')
         if state['panels'] != ['grid', 'none', 'none']:
             failures.append(f'{label}: worker tabs start open {state["panels"]}')
-        if state['marks'] != 2 or state['media'] or state['iframes'] != DIAGRAMS:
+        if state['marks'] != 2 or state['media'] or sorted(state['iframes']) != DIAGRAMS:
             failures.append(f'{label}: wordmark/media {state}')
         if state['scheme'] != 'light':
             failures.append(f'{label}: colour scheme {state["scheme"]}')
@@ -104,13 +110,15 @@ async def run(browser, failures, warm):
             failures.append(f'{label}: small targets {state["smallTargets"]}')
         if state['files'] != 2:
             failures.append(f'{label}: artifact cards {state["files"]}')
-        if not all(marker in state['scorecard'] for marker in ('Section Ratings', 'Overall Rating: 8/10', 'Verdict: CONTINUE', 'Recommendations')):
-            failures.append(f'{label}: the Judge scorecard is missing or altered')
+        if state['rubric'] != RUBRIC_SECTIONS:
+            failures.append(f'{label}: the standard shows {state["rubric"]} sections, not {RUBRIC_SECTIONS}')
+        if not state['standard'] or not state['standard'][0].startswith('Primary Role'):
+            failures.append(f'{label}: the standard does not start at Primary Role')
         if not state['runId']:
             failures.append(f'{label}: no run identifier in the output directory listing')
         if state['loopScore'] != '08' or 'CONTINUE' not in state['loopStatus']:
             failures.append(f'{label}: loop did not start at 08/CONTINUE {state["loopScore"]} {state["loopStatus"]}')
-        if state['loopStates'] != ['active', 'pending', 'pending', 'pending']:
+        if state['loopStates'] != ['done', 'active'] + ['pending'] * (STAGES - 2):
             failures.append(f'{label}: loop stage start state {state["loopStates"]}')
         if width == 360 and state['install']['bottom'] > HEIGHT:
             failures.append(f'{label}: install bar below the first screen {state["install"]}')
@@ -130,7 +138,7 @@ async def run(browser, failures, warm):
 
         await page.evaluate("""() => {
           document.querySelector('#install-hero').textContent = 'x'.repeat(140);
-          document.querySelector('.pz-skill h3').textContent = 'x'.repeat(60);
+          document.querySelector('.pz-standard__name').textContent = 'x'.repeat(60);
         }""")
         if await page.evaluate('document.documentElement.scrollWidth > innerWidth'):
             failures.append(f'{label}: long-string overflow')
@@ -204,7 +212,7 @@ async def check_loop_and_tabs(browser, url, failures):
     await page.goto(url, wait_until='networkidle')
     await page.locator('#loop').scroll_into_view_if_needed()
     await page.locator('[data-loop-run]').click()
-    await page.wait_for_timeout(3200)
+    await page.wait_for_timeout(5200)
     state = await page.evaluate('''() => ({
       score: document.querySelector('[data-loop-score]').textContent,
       status: document.querySelector('[data-loop-status]').textContent,
@@ -212,9 +220,9 @@ async def check_loop_and_tabs(browser, url, failures):
       progress: getComputedStyle(document.querySelector('[data-loop-track]')).getPropertyValue('--progress').trim(),
       button: document.querySelector('[data-loop-run]').textContent,
     })''')
-    if state['score'] != '09' or state['status'] != 'STOP / approved' or state['states'] != ['done'] * STAGES or state['progress'] != '1':
+    if state['score'] != '09' or state['status'] != 'STOP / gate passed' or state['states'] != ['done'] * STAGES or state['progress'] != '1':
         failures.append(f'Ninth Pass loop interaction {state}')
-    if state['button'] != 'Run again':
+    if state['button'] != 'Replay again':
         failures.append(f'Ninth Pass loop button {state["button"]}')
 
     for tab, panel in (('#tab-claude', '#panel-claude'), ('#tab-codex', '#panel-codex'), ('#tab-opencode', '#panel-opencode')):
@@ -248,7 +256,7 @@ async def check_no_javascript(browser, url, failures):
       status: document.querySelector('[data-loop-status]').textContent,
       states: [...document.querySelectorAll('[data-loop-stage]')].map(stage => stage.dataset.state),
     })''')
-    expected = {'buttons': 0, 'panels': 3, 'scheme': 'light', 'overflow': False, 'command': INSTALL_COMMAND, 'score': '09', 'status': 'STOP / approved', 'states': ['done'] * STAGES}
+    expected = {'buttons': 0, 'panels': 3, 'scheme': 'light', 'overflow': False, 'command': INSTALL_COMMAND, 'score': '09', 'status': 'STOP / gate passed', 'states': ['done'] * STAGES}
     if state != expected:
         failures.append(f'Ninth Pass no-JS: {state}')
     await page.screenshot(path=ROOT / '.review/ninthpass/ninthpass-nojs-360.png', full_page=True)
@@ -295,7 +303,7 @@ async def check_reduced_motion(browser, url, failures):
       heroAnimations: document.querySelector('.pz-hero__copy').getAnimations().length,
       stageAnimations: [...document.querySelectorAll('[data-loop-stage]')].reduce((total, stage) => total + stage.getAnimations().length, 0),
     })''')
-    if state['score'] != '09' or state['status'] != 'STOP / approved' or state['states'] != ['done'] * STAGES:
+    if state['score'] != '09' or state['status'] != 'STOP / gate passed' or state['states'] != ['done'] * STAGES:
         failures.append(f'Ninth Pass reduced-motion loop {state}')
     if state['heroAnimations'] or state['stageAnimations']:
         failures.append(f'Ninth Pass reduced-motion animations {state}')

@@ -173,14 +173,14 @@
   </style>
 </head>
 <body>
-  <main data-motion-root data-motion-mode="reveal" data-step-count="6" data-step-current="6" data-frame="static" data-static-frame="complete">
+  <main data-motion-root data-motion-mode="reveal" data-step-count="8" data-step-current="8" data-frame="static" data-static-frame="complete">
     <p class="eyebrow">Anatomy of one pass</p>
     <h1>Judge branches. Revise gathers.</h1>
 
     <div class="diagram-container">
-<svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pz-arbor-title pz-arbor-desc">
+<svg viewBox="0 0 960 780" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pz-arbor-title pz-arbor-desc">
   <title id="pz-arbor-title">The anatomy of one pass of the Ninth Pass loop</title>
-  <desc id="pz-arbor-desc">A top-down branching diagram of one real run. The request is composed, judged at 8 out of 10 with a continue verdict, and the judge writes three numbered recommendations that branch out and are gathered again by Revise. The second Judge scores 9 out of 10 and stops the loop, and the prompt is approved.</desc>
+  <desc id="pz-arbor-desc">A top-down branching diagram of one real run. The request is composed, judged at 8 out of 10 with a continue verdict, and the judge writes five numbered recommendations that branch out and are gathered again by Revise. The second Judge also scores 8, so the run comes back for another rewrite. The third Judge scores 9 out of 10, stops the loop, and the prompt is written to disk.</desc>
   <defs>
     <pattern id="pz-arbor-dots" width="22" height="22" patternUnits="userSpaceOnUse">
       <circle cx="11" cy="11" r="0.8" fill="#1a1513" opacity="0.08"/>
@@ -189,95 +189,134 @@
     <marker id="pz-arbor-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#a84b4b"/></marker>
     <marker id="pz-arbor-arrow-soft" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b6a793"/></marker>
   </defs>
-  <rect width="960" height="600" fill="#f3efe6"/>
-  <rect width="960" height="600" fill="url(#pz-arbor-dots)" opacity="0.55"/>
+  <rect width="960" height="780" fill="#f3efe6"/>
+  <rect width="960" height="780" fill="url(#pz-arbor-dots)" opacity="0.55"/>
   <g data-motion-item data-step="6" aria-label="Below 9, the loop returns to Revise">
-    <path d="M570,466 C690,466 690,392 550,392" fill="none" stroke="#6e625b" stroke-width="1.1" stroke-dasharray="5,4" marker-end="url(#pz-arbor-arrow-soft)"/>
-    <rect x="586" y="418" width="152" height="16" fill="#f3efe6"/>
-    <text x="662" y="430" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">BELOW 9 · REWRITE AGAIN</text>
+    <path d="M540,438 C680,438 680,530 540,530" fill="none" stroke="#6e625b" stroke-width="1.1" stroke-dasharray="5,4" marker-end="url(#pz-arbor-arrow-soft)"/>
+    <rect x="560" y="474" width="152" height="16" fill="#f3efe6"/>
+    <text x="636" y="486" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">BELOW 9 · REWRITE AGAIN</text>
   </g>
   <g id="pz-arbor-edges">
-    <path data-edge="e-request-compose" data-from="request" data-to="compose" data-step="2" d="M480,74 C480,104.6 454,111.4 454,142" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
-    <path data-edge="e-compose-judge1" data-from="compose" data-to="judge-1" data-step="3" d="M454,142 C454,175.3 478,182.7 478,216" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
-    <path data-edge="e-judge1-rec1" data-from="judge-1" data-to="rec-1" data-step="4" d="M478,216 C478,256.5 190,265.5 190,306" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
-    <path data-edge="e-judge1-rec2" data-from="judge-1" data-to="rec-2" data-step="4" d="M478,216 C478,256.5 470,265.5 470,306" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
-    <path data-edge="e-judge1-rec3" data-from="judge-1" data-to="rec-3" data-step="4" d="M478,216 C478,256.5 754,265.5 754,306" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
-    <path data-edge="e-rec1-revise" data-from="rec-1" data-to="revise" data-step="5" d="M190,306 C190,344.7 462,353.3 462,392" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
-    <path data-edge="e-rec2-revise" data-from="rec-2" data-to="revise" data-step="5" d="M470,306 C470,344.7 462,353.3 462,392" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
-    <path data-edge="e-rec3-revise" data-from="rec-3" data-to="revise" data-step="5" d="M754,306 C754,344.7 462,353.3 462,392" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
-    <path data-edge="e-revise-judge2" data-from="revise" data-to="judge-2" data-step="6" d="M462,392 C462,425.3 482,432.7 482,466" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
-    <path data-edge="e-judge2-final" data-from="judge-2" data-to="final" data-step="6" d="M482,466 C482,493.9 502,500.1 502,528" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-request-compose" data-from="request" data-to="compose" data-step="2" d="M480,56 C480,86.6 480,93.4 480,124" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-compose-judge1" data-from="compose" data-to="judge-1" data-step="3" d="M480,124 C480,154.6 480,161.4 480,192" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec1" data-from="judge-1" data-to="rec-1" data-step="4" d="M480,192 C480,235.2 104,244.8 104,288" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec2" data-from="judge-1" data-to="rec-2" data-step="4" d="M480,192 C480,235.2 292,244.8 292,288" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec3" data-from="judge-1" data-to="rec-3" data-step="4" d="M480,192 C480,235.2 480,244.8 480,288" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec4" data-from="judge-1" data-to="rec-4" data-step="4" d="M480,192 C480,235.2 668,244.8 668,288" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-judge1-rec5" data-from="judge-1" data-to="rec-5" data-step="4" d="M480,192 C480,235.2 856,244.8 856,288" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec1-revise1" data-from="rec-1" data-to="revise-1" data-step="5" d="M104,288 C104,324.9 480,333.1 480,370" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec2-revise1" data-from="rec-2" data-to="revise-1" data-step="5" d="M292,288 C292,324.9 480,333.1 480,370" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec3-revise1" data-from="rec-3" data-to="revise-1" data-step="5" d="M480,288 C480,324.9 480,333.1 480,370" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec4-revise1" data-from="rec-4" data-to="revise-1" data-step="5" d="M668,288 C668,324.9 480,333.1 480,370" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-rec5-revise1" data-from="rec-5" data-to="revise-1" data-step="5" d="M856,288 C856,324.9 480,333.1 480,370" fill="none" stroke="#a84b4b" stroke-width="1.1" marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-revise1-judge2" data-from="revise-1" data-to="judge-2" data-step="6" d="M480,370 C480,400.6 480,407.4 480,438" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-judge2-revise2" data-from="judge-2" data-to="revise-2" data-step="7" d="M480,438 C480,479.4 480,488.6 480,530" fill="none" stroke="#a84b4b" stroke-width="1.1"5,4 marker-end="url(#pz-arbor-arrow-accent)" opacity="0.55"/>
+    <path data-edge="e-revise2-judge3" data-from="revise-2" data-to="judge-3" data-step="8" d="M480,530 C480,560.6 480,567.4 480,598" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
+    <path data-edge="e-judge3-final" data-from="judge-3" data-to="final" data-step="8" d="M480,598 C480,633.1 480,640.9 480,676" fill="none" stroke="#6e625b" stroke-width="1" marker-end="url(#pz-arbor-arrow)" opacity="0.55"/>
   </g>
   <g id="pz-arbor-pulse" data-motion-decorative></g>
   <g id="pz-arbor-nodes">
     <g data-node="request" data-step="1" data-kind="stage" tabindex="-1" aria-label="Request, Brief, file 00-request.md">
-      <rect x="346" y="49" width="268" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
-      <text x="480" y="71" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Request</text>
-      <text x="480" y="87" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">BRIEF</text>
-      <rect x="440.9" y="101" width="78.2" height="12" fill="#f3efe6"/>
-      <text x="480" y="110" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">00-request.md</text>
+      <rect x="346" y="31" width="268" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="480" y="53" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Request</text>
+      <text x="480" y="69" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">BRIEF</text>
+      <rect x="440.9" y="83" width="78.2" height="12" fill="#f3efe6"/>
+      <text x="480" y="92" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">00-request.md</text>
     </g>
     <g data-node="compose" data-step="2" data-kind="stage" tabindex="-1" aria-label="Compose, Generate, file 01-compose.md">
-      <rect x="366" y="117" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
-      <text x="454" y="139" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Compose</text>
-      <text x="454" y="155" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">GENERATE · TWO PROMPTS</text>
-      <rect x="414.9" y="169" width="78.2" height="12" fill="#f3efe6"/>
-      <text x="454" y="178" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">01-compose.md</text>
+      <rect x="392" y="99" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="480" y="121" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Compose</text>
+      <text x="480" y="137" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">GENERATE · TWO PROMPTS</text>
+      <rect x="440.9" y="151" width="78.2" height="12" fill="#f3efe6"/>
+      <text x="480" y="160" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">01-compose.md</text>
     </g>
     <g data-node="judge-1" data-step="3" data-kind="stage" tabindex="-1" aria-label="Judge, Score, file 02-judge-pass1.md">
-      <rect x="390" y="191" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#a84b4b" stroke-width="1.2" opacity="0.95"/>
-      <text x="478" y="213" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Judge</text>
-      <text x="478" y="229" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">SCORE</text>
-      <text x="556" y="213" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="12">8/10</text>
-      <text x="556" y="229" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">CONTINUE</text>
-      <rect x="428.1" y="243" width="99.80000000000001" height="12" fill="#f3efe6"/>
-      <text x="478" y="252" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">02-judge-pass1.md</text>
+      <rect x="392" y="167" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#a84b4b" stroke-width="1.2" opacity="0.95"/>
+      <text x="480" y="189" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Judge</text>
+      <text x="480" y="205" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">SCORE</text>
+      <text x="558" y="189" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="12">8/10</text>
+      <text x="558" y="205" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">CONTINUE</text>
+      <rect x="430.1" y="219" width="99.80000000000001" height="12" fill="#f3efe6"/>
+      <text x="480" y="228" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">02-judge-pass1.md</text>
     </g>
-    <g data-node="revise" data-step="5" data-kind="stage" tabindex="-1" aria-label="Revise, Rewrite, file 03-revise.md">
-      <rect x="374" y="367" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
-      <text x="462" y="389" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Revise</text>
-      <text x="462" y="405" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">REWRITE · ALL THREE APPLIED</text>
-      <rect x="425.6" y="419" width="72.80000000000001" height="12" fill="#f3efe6"/>
-      <text x="462" y="428" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">03-revise.md</text>
+    <g data-node="revise-1" data-step="5" data-kind="stage" tabindex="-1" aria-label="Revise, Rewrite, file 03-revise.md">
+      <rect x="392" y="345" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="480" y="367" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Revise</text>
+      <text x="480" y="383" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">REWRITE · FIVE APPLIED</text>
+      <rect x="443.6" y="397" width="72.80000000000001" height="12" fill="#f3efe6"/>
+      <text x="480" y="406" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">03-revise.md</text>
     </g>
     <g data-node="judge-2" data-step="6" data-kind="stage" tabindex="-1" aria-label="Judge, Re-score, file 04-judge-pass2.md">
-      <rect x="394" y="441" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#2e6a4b" stroke-width="1.2" opacity="0.95"/>
-      <text x="482" y="463" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Judge</text>
-      <text x="482" y="479" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">RE-SCORE</text>
-      <text x="560" y="463" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="12">9/10</text>
-      <text x="560" y="479" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">STOP</text>
-      <rect x="432.1" y="493" width="99.80000000000001" height="12" fill="#f3efe6"/>
-      <text x="482" y="502" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">04-judge-pass2.md</text>
+      <rect x="392" y="413" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#a84b4b" stroke-width="1.2" opacity="0.95"/>
+      <text x="480" y="435" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Judge</text>
+      <text x="480" y="451" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">RE-SCORE</text>
+      <text x="558" y="435" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="12">8/10</text>
+      <text x="558" y="451" text-anchor="end" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">CONTINUE</text>
+      <rect x="430.1" y="465" width="99.80000000000001" height="12" fill="#f3efe6"/>
+      <text x="480" y="474" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">04-judge-pass2.md</text>
     </g>
-    <g data-node="final" data-step="6" data-kind="stage" tabindex="-1" aria-label="Approved, Prompt, file 05-final.md">
-      <rect x="414" y="503" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
-      <text x="502" y="525" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Approved</text>
-      <text x="502" y="541" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">PROMPT</text>
-      <rect x="433.2" y="555" width="137.60000000000002" height="12" fill="#f3efe6"/>
-      <text x="502" y="564" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">prompts/meeting-notes.md</text>
+    <g data-node="revise-2" data-step="7" data-kind="stage" tabindex="-1" aria-label="Revise, Rewrite, file 03b-revise.md">
+      <rect x="392" y="505" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="480" y="527" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Revise</text>
+      <text x="480" y="543" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">REWRITE · AGAIN, FIVE APPLIED</text>
+      <rect x="440.9" y="557" width="78.2" height="12" fill="#f3efe6"/>
+      <text x="480" y="566" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">03b-revise.md</text>
     </g>
-    <g data-node="rec-1" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 1: Replace &quot;notes&quot; with &quot;meeting notes&quot;">
-      <rect x="79" y="287" width="222" height="38" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
-      <text x="91" y="304" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">1</text>
-      <text x="105" y="304" fill="#1a1513" font-family="'Geist', sans-serif" font-size="11">Replace &quot;notes&quot; with &quot;meeting notes&quot;</text>
-      <text x="105" y="317" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">RECOMMENDATION</text>
+    <g data-node="judge-3" data-step="8" data-kind="stage" tabindex="-1" aria-label="Judge, Final pass, file 04b-judge-pass3.md">
+      <rect x="392" y="573" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#2e6a4b" stroke-width="1.2" opacity="0.95"/>
+      <text x="480" y="595" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Judge</text>
+      <text x="480" y="611" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">FINAL PASS</text>
+      <text x="558" y="595" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="12">9/10</text>
+      <text x="558" y="611" text-anchor="end" fill="#2e6a4b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">STOP</text>
+      <rect x="427.4" y="625" width="105.2" height="12" fill="#f3efe6"/>
+      <text x="480" y="634" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">04b-judge-pass3.md</text>
     </g>
-    <g data-node="rec-2" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 2: Preserve &quot;[TBD]&quot;">
-      <rect x="359" y="287" width="222" height="38" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
-      <text x="371" y="304" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">2</text>
-      <text x="385" y="304" fill="#1a1513" font-family="'Geist', sans-serif" font-size="11">Preserve &quot;[TBD]&quot;</text>
-      <text x="385" y="317" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">RECOMMENDATION</text>
+    <g data-node="final" data-step="8" data-kind="stage" tabindex="-1" aria-label="Gate passed, Prompt, file 05-final.md">
+      <rect x="392" y="651" width="176" height="50" rx="4" fill="#fbf8f2" stroke="#1a1513" stroke-width="1" opacity="0.95"/>
+      <text x="480" y="673" text-anchor="middle" fill="#1a1513" font-family="'Geist', sans-serif" font-size="12" font-weight="600">Gate passed</text>
+      <text x="480" y="689" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.06em">PROMPT</text>
+      <rect x="411.2" y="703" width="137.60000000000002" height="12" fill="#f3efe6"/>
+      <text x="480" y="712" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9">prompts/meeting-notes.md</text>
     </g>
-    <g data-node="rec-3" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 3: Preserve the review gate">
-      <rect x="643" y="287" width="222" height="38" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
-      <text x="655" y="304" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">3</text>
-      <text x="669" y="304" fill="#1a1513" font-family="'Geist', sans-serif" font-size="11">Preserve the review gate</text>
-      <text x="669" y="317" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">RECOMMENDATION</text>
+    <g data-node="rec-1" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 1: Remove the redundancy between the two prompts">
+      <rect x="20" y="263" width="168" height="50" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="30" y="279" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">1</text>
+      <text x="44" y="278" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">Remove the redundancy</text>
+      <text x="44" y="291" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">between the two prompts</text>
+      <text x="44" y="307" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="7.5" letter-spacing="0.08em">RECOMMENDATION</text>
+    </g>
+    <g data-node="rec-2" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 2: Add when-to-apply guidance to Domain Expertise">
+      <rect x="208" y="263" width="168" height="50" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="218" y="279" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">2</text>
+      <text x="232" y="278" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">Add when-to-apply guidance</text>
+      <text x="232" y="291" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">to Domain Expertise</text>
+      <text x="232" y="307" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="7.5" letter-spacing="0.08em">RECOMMENDATION</text>
+    </g>
+    <g data-node="rec-3" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 3: Extend the prioritization rules past five points">
+      <rect x="396" y="263" width="168" height="50" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="406" y="279" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">3</text>
+      <text x="420" y="278" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">Extend the prioritization</text>
+      <text x="420" y="291" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">rules past five points</text>
+      <text x="420" y="307" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="7.5" letter-spacing="0.08em">RECOMMENDATION</text>
+    </g>
+    <g data-node="rec-4" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 4: Specify multi-session context handling">
+      <rect x="584" y="263" width="168" height="50" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="594" y="279" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">4</text>
+      <text x="608" y="278" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">Specify multi-session</text>
+      <text x="608" y="291" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">context handling</text>
+      <text x="608" y="307" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="7.5" letter-spacing="0.08em">RECOMMENDATION</text>
+    </g>
+    <g data-node="rec-5" data-step="4" data-kind="branch" tabindex="-1" aria-label="Recommendation 5: Strengthen the self-monitoring checks">
+      <rect x="772" y="263" width="168" height="50" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>
+      <text x="782" y="279" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">5</text>
+      <text x="796" y="278" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">Strengthen the</text>
+      <text x="796" y="291" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">self-monitoring checks</text>
+      <text x="796" y="307" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="7.5" letter-spacing="0.08em">RECOMMENDATION</text>
     </g>
   </g>
   <g data-motion-item data-step="1" aria-label="The run identifier">
-    <text x="30" y="592" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">RUN bc993584-d18e-4d03-94cd-762e8685d56f</text>
-    <text x="930" y="580" text-anchor="end" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">TIMING ILLUSTRATIVE</text>
+    <text x="30" y="772" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">RUN 0becaacc-fb6e-4a92-8951-5106c00edd80</text>
+    <text x="930" y="760" text-anchor="end" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">TIMING ILLUSTRATIVE</text>
   </g>
 </svg>
     </div>
@@ -295,7 +334,7 @@
       <button type="button" data-motion-action="next">Next</button>
       <button type="button" data-motion-action="replay">Replay</button>
       <span class="keyboard-help">←/→ step, Space play/pause, R replay</span>
-      <span data-motion-status-visible aria-hidden="true">Step <span data-motion-step-label>6</span> of 6</span>
+      <span data-motion-status-visible aria-hidden="true">Step <span data-motion-step-label>8</span> of 8</span>
     </div>
     <p class="sr-only" data-motion-status role="status" aria-live="polite" aria-atomic="true"></p>
     <noscript><p>Animation controls require JavaScript. The complete final diagram is shown above.</p></noscript>
@@ -307,8 +346,8 @@
       const reduce = matchMedia('(prefers-reduced-motion: reduce)');
       document.fonts.ready.then(() => { document.documentElement.dataset.fontsReady = 'true'; });
 
-      const EDGES = [{"id":"e-request-compose","from":"request","to":"compose","step":2},{"id":"e-compose-judge1","from":"compose","to":"judge-1","step":3},{"id":"e-judge1-rec1","from":"judge-1","to":"rec-1","step":4},{"id":"e-judge1-rec2","from":"judge-1","to":"rec-2","step":4},{"id":"e-judge1-rec3","from":"judge-1","to":"rec-3","step":4},{"id":"e-rec1-revise","from":"rec-1","to":"revise","step":5},{"id":"e-rec2-revise","from":"rec-2","to":"revise","step":5},{"id":"e-rec3-revise","from":"rec-3","to":"revise","step":5},{"id":"e-revise-judge2","from":"revise","to":"judge-2","step":6},{"id":"e-judge2-final","from":"judge-2","to":"final","step":6}];
-      const STEPS = [{"n":1,"label":"the request is written to 00-request.md"},{"n":2,"label":"Compose runs in a fresh process and writes 01-compose.md"},{"n":3,"label":"Judge scores the two prompts: 8 out of 10, CONTINUE"},{"n":4,"label":"the scorecard carries three numbered recommendations"},{"n":5,"label":"Revise applies every recommendation and writes 03-revise.md"},{"n":6,"label":"the second Judge returns 9 out of 10, STOP, and the prompt is approved"}];
+      const EDGES = [{"id":"e-request-compose","from":"request","to":"compose","step":2},{"id":"e-compose-judge1","from":"compose","to":"judge-1","step":3},{"id":"e-judge1-rec1","from":"judge-1","to":"rec-1","step":4},{"id":"e-judge1-rec2","from":"judge-1","to":"rec-2","step":4},{"id":"e-judge1-rec3","from":"judge-1","to":"rec-3","step":4},{"id":"e-judge1-rec4","from":"judge-1","to":"rec-4","step":4},{"id":"e-judge1-rec5","from":"judge-1","to":"rec-5","step":4},{"id":"e-rec1-revise1","from":"rec-1","to":"revise-1","step":5},{"id":"e-rec2-revise1","from":"rec-2","to":"revise-1","step":5},{"id":"e-rec3-revise1","from":"rec-3","to":"revise-1","step":5},{"id":"e-rec4-revise1","from":"rec-4","to":"revise-1","step":5},{"id":"e-rec5-revise1","from":"rec-5","to":"revise-1","step":5},{"id":"e-revise1-judge2","from":"revise-1","to":"judge-2","step":6},{"id":"e-judge2-revise2","from":"judge-2","to":"revise-2","step":7},{"id":"e-revise2-judge3","from":"revise-2","to":"judge-3","step":8},{"id":"e-judge3-final","from":"judge-3","to":"final","step":8}];
+      const STEPS = [{"n":1,"label":"the request is written to 00-request.md"},{"n":2,"label":"Compose runs in a fresh process and writes 01-compose.md"},{"n":3,"label":"Judge scores the two prompts: 8 out of 10, CONTINUE"},{"n":4,"label":"the scorecard carries five numbered recommendations"},{"n":5,"label":"Revise applies every recommendation and writes 03-revise.md"},{"n":6,"label":"Judge scores again: 8 out of 10, CONTINUE — below 9, so it runs again"},{"n":7,"label":"Revise applies them again and writes 03b-revise.md"},{"n":8,"label":"the third Judge returns 9 out of 10, STOP, and the prompt is written"}];
 
       document.querySelectorAll('[data-motion-root]').forEach((root) => {
         const count = Number(root.dataset.stepCount);

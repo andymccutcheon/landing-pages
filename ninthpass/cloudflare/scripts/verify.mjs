@@ -14,6 +14,7 @@ const PATHS = [
   '/js/page.js',
   '/diagrams/loop.html',
   '/diagrams/dataflow.html',
+  '/diagrams/arbor.html',
   '/robots.txt',
   '/sitemap.xml',
   '/assets/favicon.svg',

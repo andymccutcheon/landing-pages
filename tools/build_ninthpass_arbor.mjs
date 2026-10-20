@@ -28,20 +28,26 @@ const OUT = resolve(REPO, flag('--out', 'ninthpass/diagrams/arbor.html'));
 // ---------------------------------------------------------------- the run
 
 const PIPE = {
-  run: 'bc993584-d18e-4d03-94cd-762e8685d56f',
-  request: 'Write a prompt for a meeting-notes summarizer',
+  run: '0becaacc-fb6e-4a92-8951-5106c00edd80',
+  request: 'Write a prompt for a meeting-notes summarizer that returns five bullets',
   stages: [
-    { id: 'request', index: '00', title: 'Request', role: 'Brief', file: '00-request.md', step: 1, x: 480, y: 74 },
-    { id: 'compose', index: '01', title: 'Compose', role: 'Generate', file: '01-compose.md', step: 2, x: 454, y: 142, note: 'Two prompts' },
-    { id: 'judge-1', index: '02', title: 'Judge', role: 'Score', file: '02-judge-pass1.md', step: 3, x: 478, y: 216, score: '8/10', verdict: 'CONTINUE' },
-    { id: 'revise', index: '03', title: 'Revise', role: 'Rewrite', file: '03-revise.md', step: 5, x: 462, y: 392, note: 'All three applied' },
-    { id: 'judge-2', index: '04', title: 'Judge', role: 'Re-score', file: '04-judge-pass2.md', step: 6, x: 482, y: 466, score: '9/10', verdict: 'STOP' },
-    { id: 'final', index: '05', title: 'Approved', role: 'Prompt', file: '05-final.md', step: 6, x: 502, y: 528, path: 'prompts/meeting-notes.md', state: 'approved' },
+    { id: 'request', index: '00', title: 'Request', role: 'Brief', file: '00-request.md', step: 1, x: 480, y: 56 },
+    { id: 'compose', index: '01', title: 'Compose', role: 'Generate', file: '01-compose.md', step: 2, x: 480, y: 124, note: 'Two prompts' },
+    { id: 'judge-1', index: '02', title: 'Judge', role: 'Score', file: '02-judge-pass1.md', step: 3, x: 480, y: 192, score: '8/10', verdict: 'CONTINUE' },
+    { id: 'revise-1', index: '03', title: 'Revise', role: 'Rewrite', file: '03-revise.md', step: 5, x: 480, y: 370, note: 'Five applied' },
+    { id: 'judge-2', index: '04', title: 'Judge', role: 'Re-score', file: '04-judge-pass2.md', step: 6, x: 480, y: 438, score: '8/10', verdict: 'CONTINUE' },
+    { id: 'revise-2', index: '03b', title: 'Revise', role: 'Rewrite', file: '03b-revise.md', step: 7, x: 480, y: 530, note: 'Again, five applied' },
+    { id: 'judge-3', index: '04b', title: 'Judge', role: 'Final pass', file: '04b-judge-pass3.md', step: 8, x: 480, y: 598, score: '9/10', verdict: 'STOP' },
+    { id: 'final', index: '05', title: 'Gate passed', role: 'Prompt', file: '05-final.md', step: 8, x: 480, y: 676, path: 'prompts/meeting-notes.md', state: 'passed' },
   ],
+  // The branch tips: the scorecard's five numbered recommendations. The label is
+  // the recommendation's own heading; the full sentence is in the artifact.
   branches: [
-    { id: 'rec-1', number: 1, text: 'Replace "notes" with "meeting notes"', x: 190, y: 306, step: 4 },
-    { id: 'rec-2', number: 2, text: 'Preserve "[TBD]"', x: 470, y: 306, step: 4 },
-    { id: 'rec-3', number: 3, text: 'Preserve the review gate', x: 754, y: 306, step: 4 },
+    { id: 'rec-1', number: 1, text: 'Remove the redundancy between the two prompts', x: 104, y: 288, step: 4 },
+    { id: 'rec-2', number: 2, text: 'Add when-to-apply guidance to Domain Expertise', x: 292, y: 288, step: 4 },
+    { id: 'rec-3', number: 3, text: 'Extend the prioritization rules past five points', x: 480, y: 288, step: 4 },
+    { id: 'rec-4', number: 4, text: 'Specify multi-session context handling', x: 668, y: 288, step: 4 },
+    { id: 'rec-5', number: 5, text: 'Strengthen the self-monitoring checks', x: 856, y: 288, step: 4 },
   ],
   // The edges the signals travel. from -> to.
   edges: [
@@ -50,19 +56,27 @@ const PIPE = {
     { id: 'e-judge1-rec1', from: 'judge-1', to: 'rec-1', step: 4 },
     { id: 'e-judge1-rec2', from: 'judge-1', to: 'rec-2', step: 4 },
     { id: 'e-judge1-rec3', from: 'judge-1', to: 'rec-3', step: 4 },
-    { id: 'e-rec1-revise', from: 'rec-1', to: 'revise', step: 5 },
-    { id: 'e-rec2-revise', from: 'rec-2', to: 'revise', step: 5 },
-    { id: 'e-rec3-revise', from: 'rec-3', to: 'revise', step: 5 },
-    { id: 'e-revise-judge2', from: 'revise', to: 'judge-2', step: 6 },
-    { id: 'e-judge2-final', from: 'judge-2', to: 'final', step: 6 },
+    { id: 'e-judge1-rec4', from: 'judge-1', to: 'rec-4', step: 4 },
+    { id: 'e-judge1-rec5', from: 'judge-1', to: 'rec-5', step: 4 },
+    { id: 'e-rec1-revise1', from: 'rec-1', to: 'revise-1', step: 5 },
+    { id: 'e-rec2-revise1', from: 'rec-2', to: 'revise-1', step: 5 },
+    { id: 'e-rec3-revise1', from: 'rec-3', to: 'revise-1', step: 5 },
+    { id: 'e-rec4-revise1', from: 'rec-4', to: 'revise-1', step: 5 },
+    { id: 'e-rec5-revise1', from: 'rec-5', to: 'revise-1', step: 5 },
+    { id: 'e-revise1-judge2', from: 'revise-1', to: 'judge-2', step: 6 },
+    { id: 'e-judge2-revise2', from: 'judge-2', to: 'revise-2', step: 7 },
+    { id: 'e-revise2-judge3', from: 'revise-2', to: 'judge-3', step: 8 },
+    { id: 'e-judge3-final', from: 'judge-3', to: 'final', step: 8 },
   ],
   steps: [
     { n: 1, label: 'the request is written to 00-request.md' },
     { n: 2, label: 'Compose runs in a fresh process and writes 01-compose.md' },
     { n: 3, label: 'Judge scores the two prompts: 8 out of 10, CONTINUE' },
-    { n: 4, label: 'the scorecard carries three numbered recommendations' },
+    { n: 4, label: 'the scorecard carries five numbered recommendations' },
     { n: 5, label: 'Revise applies every recommendation and writes 03-revise.md' },
-    { n: 6, label: 'the second Judge returns 9 out of 10, STOP, and the prompt is approved' },
+    { n: 6, label: 'Judge scores again: 8 out of 10, CONTINUE — below 9, so it runs again' },
+    { n: 7, label: 'Revise applies them again and writes 03b-revise.md' },
+    { n: 8, label: 'the third Judge returns 9 out of 10, STOP, and the prompt is written' },
   ],
 };
 
@@ -82,7 +96,7 @@ function edgePath(from, to) {
 }
 
 const W = 960;
-const H = 600;
+const H = 780;
 const esc = (text) =>
   String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -91,7 +105,7 @@ const esc = (text) =>
 const svg = [];
 svg.push(`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pz-arbor-title pz-arbor-desc">`);
 svg.push(`  <title id="pz-arbor-title">The anatomy of one pass of the Ninth Pass loop</title>`);
-svg.push(`  <desc id="pz-arbor-desc">A top-down branching diagram of one real run. The request is composed, judged at 8 out of 10 with a continue verdict, and the judge writes three numbered recommendations that branch out and are gathered again by Revise. The second Judge scores 9 out of 10 and stops the loop, and the prompt is approved.</desc>`);
+svg.push(`  <desc id="pz-arbor-desc">A top-down branching diagram of one real run. The request is composed, judged at 8 out of 10 with a continue verdict, and the judge writes five numbered recommendations that branch out and are gathered again by Revise. The second Judge also scores 8, so the run comes back for another rewrite. The third Judge scores 9 out of 10, stops the loop, and the prompt is written to disk.</desc>`);
 svg.push(`  <defs>`);
 svg.push(`    <pattern id="pz-arbor-dots" width="22" height="22" patternUnits="userSpaceOnUse">`);
 svg.push(`      <circle cx="11" cy="11" r="0.8" fill="#1a1513" opacity="0.08"/>`);
@@ -103,22 +117,23 @@ svg.push(`  </defs>`);
 svg.push(`  <rect width="${W}" height="${H}" fill="#f3efe6"/>`);
 svg.push(`  <rect width="${W}" height="${H}" fill="url(#pz-arbor-dots)" opacity="0.55"/>`);
 
-// The loop back: a real semantic, drawn softly and labelled.
+// The loop back: a real semantic, drawn softly and labelled. In this run the
+// second Judge also scored 8, so the run really did come back for another pass.
 svg.push(`  <g data-motion-item data-step="6" aria-label="Below 9, the loop returns to Revise">`);
-svg.push(`    <path d="M570,466 C690,466 690,392 550,392" fill="none" stroke="#6e625b" stroke-width="1.1" stroke-dasharray="5,4" marker-end="url(#pz-arbor-arrow-soft)"/>`);
-svg.push(`    <rect x="586" y="418" width="152" height="16" fill="#f3efe6"/>`);
-svg.push(`    <text x="662" y="430" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">BELOW 9 · REWRITE AGAIN</text>`);
+svg.push(`    <path d="M540,438 C680,438 680,530 540,530" fill="none" stroke="#6e625b" stroke-width="1.1" stroke-dasharray="5,4" marker-end="url(#pz-arbor-arrow-soft)"/>`);
+svg.push(`    <rect x="560" y="474" width="152" height="16" fill="#f3efe6"/>`);
+svg.push(`    <text x="636" y="486" text-anchor="middle" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">BELOW 9 · REWRITE AGAIN</text>`);
 svg.push(`  </g>`);
 
 // The edges.
 svg.push(`  <g id="pz-arbor-edges">`);
 for (const edge of PIPE.edges) {
   const d = edgePath(edge.from, edge.to);
-  const branch = edge.from === 'judge-1' || edge.to === 'revise';
+  const branch = edge.from === 'judge-1' || edge.to === 'revise-1' || edge.to === 'revise-2';
   const stroke = branch ? '#a84b4b' : '#6e625b';
   const width = branch ? '1.1' : '1';
   const marker = branch ? 'pz-arbor-arrow-accent' : 'pz-arbor-arrow';
-  const dash = edge.from === 'judge-1' ? '' : '';
+  const dash = edge.from === 'judge-2' ? '5,4' : '';
   svg.push(`    <path data-edge="${edge.id}" data-from="${edge.from}" data-to="${edge.to}" data-step="${edge.step}" d="${d}" fill="none" stroke="${stroke}" stroke-width="${width}"${dash} marker-end="url(#${marker})" opacity="0.55"/>`);
 }
 svg.push(`  </g>`);
@@ -152,17 +167,32 @@ for (const stage of PIPE.stages) {
   svg.push(`    </g>`);
 }
 
-// The branch tips: the three recommendations.
+// The branch tips: the scorecard's numbered recommendations.
+function wrapLabel(text, perLine) {
+  const words = text.split(' ');
+  const lines = [];
+  let line = '';
+  for (const word of words) {
+    if (line && (line + ' ' + word).length > perLine) { lines.push(line); line = word; }
+    else line = line ? line + ' ' + word : word;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
 for (const branch of PIPE.branches) {
-  const width = 222;
-  const height = 38;
+  const width = 168;
+  const lines = wrapLabel(branch.text, 26);
+  const height = 24 + lines.length * 13;
   const x = branch.x - width / 2;
   const y = branch.y - height / 2;
   svg.push(`    <g data-node="${branch.id}" data-step="${branch.step}" data-kind="branch" tabindex="-1" aria-label="Recommendation ${branch.number}: ${esc(branch.text)}">`);
   svg.push(`      <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="3" fill="#f3efe6" stroke="#d8cdbe" stroke-width="1"/>`);
-  svg.push(`      <text x="${x + 12}" y="${y + 17}" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">${branch.number}</text>`);
-  svg.push(`      <text x="${x + 26}" y="${y + 17}" fill="#1a1513" font-family="'Geist', sans-serif" font-size="11">${esc(branch.text)}</text>`);
-  svg.push(`      <text x="${x + 26}" y="${y + 30}" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="8" letter-spacing="0.08em">RECOMMENDATION</text>`);
+  svg.push(`      <text x="${x + 10}" y="${y + 16}" fill="#a84b4b" font-family="'Geist Mono', monospace" font-size="9" letter-spacing="0.08em">${branch.number}</text>`);
+  lines.forEach((line, index) => {
+    svg.push(`      <text x="${x + 24}" y="${y + 15 + index * 13}" fill="#1a1513" font-family="'Geist', sans-serif" font-size="10.5">${esc(line)}</text>`);
+  });
+  svg.push(`      <text x="${x + 24}" y="${y + height - 6}" fill="#6e625b" font-family="'Geist Mono', monospace" font-size="7.5" letter-spacing="0.08em">RECOMMENDATION</text>`);
   svg.push(`    </g>`);
 }
 svg.push(`  </g>`);

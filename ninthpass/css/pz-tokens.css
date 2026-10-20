@@ -34,7 +34,7 @@
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-body: "Geist", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Geist Mono", "SFMono-Regular", Consolas, monospace;
-  --size-h1: clamp(3.4rem, 10vw, 8rem);
+  --size-h1: clamp(3rem, 8.2vw, 6.9rem);
   --size-h2: clamp(2.6rem, 5.8vw, 5rem);
   --size-h3: clamp(1.35rem, 2.3vw, 1.9rem);
   --size-h4: clamp(1.05rem, 1.4vw, 1.25rem);
@@ -45,7 +45,7 @@
   --size-mono: 0.78rem;
   --size-numeral: clamp(7rem, 20vw, 17rem);
   --size-score: clamp(4.5rem, 9vw, 7.5rem);
-  --line-h1: 0.88;
+  --line-h1: 0.92;
   --line-h2: 0.94;
   --line-h3: 1.15;
   --line-body: 1.6;

@@ -256,7 +256,7 @@ main:focus { outline: none; }
 .pz-specimen__prompt { display: grid; gap: var(--space-2); padding-block: var(--space-3); border-block-end: var(--rule-width) solid var(--rule); }
 .pz-specimen__request { font-family: var(--font-display); font-size: var(--size-h3); line-height: var(--line-h3); letter-spacing: var(--tracking-display); }
 .pz-specimen__stages { margin: 0; padding: 0; list-style: none; }
-.pz-specimen__stages li { display: grid; grid-template-columns: var(--space-5) minmax(0, 1fr) auto; gap: var(--space-2); align-items: baseline; padding-block: var(--space-2); border-block-end: var(--rule-width) solid var(--rule); }
+.pz-specimen__stages li { display: grid; grid-template-columns: var(--space-6) minmax(0, 1fr) auto; gap: var(--space-2); align-items: baseline; padding-block: var(--space-2); border-block-end: var(--rule-width) solid var(--rule); }
 .pz-specimen__idx { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: var(--tracking-label); color: var(--ink-faint); }
 .pz-specimen__name { font-weight: 500; }
 .pz-specimen__result { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-faint); text-align: end; }
@@ -358,6 +358,33 @@ main:focus { outline: none; }
    too close to the ground to read as a ring, so the deep accent takes over. */
 .pz-output :focus-visible { outline-color: var(--accent-deep); }
 @media (width < 48rem) { .pz-diagram__frame--flow iframe { block-size: var(--diagram-height-flow-sm); } }
+
+/* ---------- The shortcut ---------- */
+.pz-alternative { background: var(--paper-raised); border-block-end: var(--rule-width) solid var(--rule); }
+.pz-alternative__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-8) var(--gutter); }
+.pz-alternative__col { border-block-start: var(--rule-width-strong) solid var(--ink); }
+.pz-alternative__col--ours { border-block-start-color: var(--accent); }
+.pz-alternative__head { margin-block: var(--space-5) var(--space-2); font-size: var(--size-h4); }
+.pz-alternative__list { margin: 0; padding: 0; list-style: none; counter-reset: pz-alt; }
+.pz-alternative__list li { counter-increment: pz-alt; padding-block: var(--space-4); border-block-start: var(--rule-width) solid var(--rule); }
+.pz-alternative__list h4 { display: flex; gap: var(--space-3); margin-block-end: var(--space-2); font-size: var(--size-body); font-weight: 600; }
+.pz-alternative__list h4::before { content: counter(pz-alt, decimal-leading-zero); color: var(--ink-faint); font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: var(--tracking-label); }
+.pz-alternative__col--ours h4::before { color: var(--accent-deep); }
+.pz-alternative__list p { color: var(--ink-soft); }
+@media (width < 48rem) { .pz-alternative__grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- The standard ---------- */
+.pz-standard { background: var(--paper); border-block: var(--rule-width) solid var(--rule); }
+.pz-standard__list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gutter); border-block-start: var(--rule-width-strong) solid var(--ink); }
+.pz-standard__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-2) var(--space-4); align-items: baseline; padding-block: var(--space-4); border-block-end: var(--rule-width) solid var(--rule); }
+.pz-standard__name { min-inline-size: 0; font-weight: 500; overflow-wrap: anywhere; }
+.pz-standard__score { font-family: var(--font-mono); font-size: var(--size-small); letter-spacing: var(--tracking-label); color: var(--accent-deep); }
+.pz-standard__quote { grid-column: 1 / -1; margin: 0; color: var(--ink-soft); font-size: var(--size-small); line-height: var(--line-body); }
+.pz-standard__link { display: inline-flex; align-items: center; min-block-size: var(--tap); color: var(--accent-deep); text-decoration: underline; text-underline-offset: var(--space-1); }
+.pz-standard__link:hover { color: var(--accent); }
+.pz-specimen__link { display: inline-flex; align-items: center; min-block-size: var(--tap); color: var(--accent-deep); text-decoration: underline; text-underline-offset: var(--space-1); }
+.pz-specimen__link:hover { color: var(--accent); }
+@media (width < 48rem) { .pz-standard__list { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Skills ---------- */
 .pz-skills__list { margin: 0; padding: 0; list-style: none; border-block-start: var(--rule-width-strong) solid var(--ink); }

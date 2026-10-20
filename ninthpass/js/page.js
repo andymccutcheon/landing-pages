@@ -116,12 +116,25 @@
     let timer;
     let running = false;
 
+    // The captured run: Compose, Judge, Revise, Judge, Revise, Judge. The score
+    // does not move on the second pass, which is why the loop kept going.
+    const SCORES = ['—', '08', '08', '08', '08', '09'];
+    const STATUSES = [
+      'Composing',
+      'CONTINUE / pass 1',
+      'CONTINUE / rewriting',
+      'CONTINUE / pass 2',
+      'CONTINUE / rewriting again',
+      'STOP / gate passed',
+    ];
+
     const render = (step) => {
-      const judged = step >= 3;
+      const judged = step >= 1;
       const complete = step >= stages.length;
-      score.textContent = judged ? '09' : '08';
-      status.textContent = judged ? 'STOP / approved' : 'CONTINUE / pass 1';
-      status.classList.toggle('is-stop', judged);
+      const index = Math.min(step, SCORES.length - 1);
+      score.textContent = SCORES[index];
+      status.textContent = STATUSES[index];
+      status.classList.toggle('is-stop', step >= stages.length);
       if (track) track.style.setProperty('--progress', String(step / stages.length));
       stages.forEach((stage, index) => {
         if (complete || index < step) stage.dataset.state = 'done';
@@ -134,7 +147,7 @@
       running = false;
       if (run) {
         run.disabled = false;
-        run.textContent = 'Run again';
+        run.textContent = 'Replay again';
       }
       render(stages.length);
     };
@@ -144,7 +157,7 @@
       running = true;
       if (run) {
         run.disabled = true;
-        run.textContent = 'Running';
+        run.textContent = 'Replaying';
       }
       if (reducedMotion.matches) {
         finish();
@@ -167,7 +180,7 @@
     if (reducedMotion.matches) {
       finish();
     } else {
-      render(0);
+      render(1);
     }
     run?.addEventListener('click', start);
     window.addEventListener('pagehide', () => window.clearTimeout(timer), { once: true });
