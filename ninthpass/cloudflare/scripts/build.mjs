@@ -17,7 +17,7 @@ const REPO = path.resolve(PROJECT, '../..');
 const PAGE_DIR = path.join(REPO, 'ninthpass');
 const PAGE = path.join(PAGE_DIR, 'index.html');
 const DIST = path.join(PROJECT, 'dist');
-const PAGE_DIRECTORIES = ['css', 'js', 'assets', 'diagrams'];
+const PAGE_DIRECTORIES = ['css', 'js', 'assets', 'diagrams', 'examples'];
 // Root-level files served from the site root rather than from a directory.
 const PAGE_ROOT_FILES = ['robots.txt', 'sitemap.xml'];
 
@@ -33,7 +33,7 @@ async function exists(target) {
 }
 
 function localPageReferences(html) {
-  return [...new Set(references(html, /(?:href|src)="((?:css|js|assets|diagrams)\/[^"]+)"/g))];
+  return [...new Set(references(html, /(?:href|src)="((?:css|js|assets|diagrams|examples)\/[^"]+)"/g))];
 }
 
 async function assertPageReferencesExist(html) {
@@ -63,6 +63,7 @@ const ROOT_RELATIVE_REWRITES = [
   ['"js/', '"/js/'],
   ['"assets/', '"/assets/'],
   ['"diagrams/', '"/diagrams/'],
+  ['"examples/', '"/examples/'],
 ];
 
 function rootRelative(html) {

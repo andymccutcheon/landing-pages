@@ -15,7 +15,7 @@ domain. There is no root landing page and no build step.
 
 - `acheron/`, `freewhirr/`, `shipwatch/` — page HTML and product-local assets.
 - `ninthpass/` — the Ninth Pass page: HTML, its own token and layout CSS, its own script and fonts,
-  and its two standalone diagrams. It is a standalone design and does not use the shared Pattern
+  and its three standalone diagrams. It is a standalone design and does not use the shared Pattern
   layer; its design record is `ninthpass/DESIGN.md`.
 - `shared/` — the shared Pattern layer: generated fonts, `--lp-` tokens, base and motion rules,
   `common.css`, page-specific `freewhirr.css` and `shipwatch.css`, and `page.js`.
@@ -27,7 +27,9 @@ Acheron, Freewhirr and Shipwatch use the same header, footer and copyable instal
 shared script adds remembered theme selection, clipboard behavior, keyboard scrolling and
 reveal/media enhancement. The underlying content remains readable without JavaScript. Landing-page
 additions use the `lp-` selector namespace and `--lp-` custom-property namespace. Ninth Pass has its
-own script and its own light-only palette.
+own script and its own dark palette. Its three responsive diagrams loop autonomously with a
+persistent page-level motion setting; reduced motion and no-script views retain complete explanations.
+See `ninthpass/DESIGN.md` and `ninthpass/COPY.md` for the flagship revision's maintained records.
 
 ## Preview
 
@@ -58,7 +60,7 @@ Copy audit, once per page, using the binding Marketing Engineering draft:
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-acheron-landing-copy-draft1.md
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-freewhirr-landing-copy-draft1.md
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-shipwatch-landing-copy-draft1.md
-python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-19-ninthpass-landing-copy-draft1.md
+python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-20-ninthpass-landing-copy-draft3.md
 ```
 
 The audit lists visible page/copy differences for human classification; it does not require verbatim
@@ -82,8 +84,10 @@ The aggregate render gate produces:
 - Acheron: 6 widths × 2 themes = 12 captures.
 - Freewhirr: 4 widths × 2 themes = 8 captures.
 - Shipwatch: 6 widths × 2 themes = 12 captures, plus 2 no-JavaScript captures.
-- Ninth Pass: 6 widths, plus its no-JavaScript, loop, tabs, clipboard, keyboard, reduced-motion and
-  boundary checks.
+- Ninth Pass: 7 widths (280 through 1440 pixels), plus no-JavaScript, scorecard tabs, clipboard,
+  keyboard, local links, reduced-motion and persistent motion-setting checks. For autonomous motion
+  and video evidence run `.venv/bin/python tools/ninthpass_render_check.py --motion` with
+  `LP_NINTHPASS_URL` set to the local preview URL.
 
 It also exercises responsive layout, clipboard and fallback behavior, keyboard scrolling, theme and
 skip controls, reduced motion, long strings and asset budgets. The final regression gate compares

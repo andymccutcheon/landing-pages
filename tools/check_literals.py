@@ -35,7 +35,7 @@ def main() -> int:
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             for kind, pattern in PATTERNS.items():
                 matches = list(pattern.finditer(line))
-                if kind == "length" and path.name in {"base.css", "freewhirr.css", "shipwatch.css", "common.css", "ninthpass.css"}:
+                if kind == "length" and path.name in {"base.css", "freewhirr.css", "shipwatch.css", "common.css", "ninthpass.css", "diagrams.css"}:
                     matches = [match for match in matches if not permitted_media_query(line, match)]
                 if matches:
                     values = ", ".join(match.group(0) for match in matches)
@@ -50,4 +50,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

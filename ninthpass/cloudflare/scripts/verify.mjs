@@ -11,7 +11,9 @@ const PATHS = [
   '/css/fonts.css',
   '/css/pz-tokens.css',
   '/css/ninthpass.css',
+  '/css/diagrams.css',
   '/js/page.js',
+  '/js/diagrams.js',
   '/diagrams/loop.html',
   '/diagrams/dataflow.html',
   '/diagrams/arbor.html',
@@ -26,6 +28,7 @@ const PATHS = [
   '/assets/fonts/OFL-Fraunces.txt',
   '/assets/fonts/OFL-Geist.txt',
   '/assets/fonts/OFL-GeistMono.txt',
+  ...['00-request.md', '01-compose.md', '02-judge-pass1.md', '03-revise.md', '04-judge-pass2.md', '03b-revise.md', '04b-judge-pass3.md', '05-final.md', 'README.md'].map(file => '/examples/runs/meeting-notes/' + file),
 ];
 
 const base = process.argv[2]?.replace(/\/$/, '');
@@ -53,7 +56,7 @@ for (const asset of PATHS) {
 }
 
 if (page) {
-  const ctas = [...page.matchAll(/<a class="[^"]*\bpz-primary\b[^"]*"[^>]*? href="([^"]+)"/g)].map((match) => match[1]);
+  const ctas = [...page.matchAll(/<a class="[^"]*\bprimary\b[^"]*"[^>]*? href="([^"]+)"/g)].map((match) => match[1]);
   if (ctas.length !== 2 || ctas.some((href) => href !== REPO_URL)) {
     failures.push(`expected two primary calls to action pointing at ${REPO_URL}, found ${JSON.stringify(ctas)}`);
   } else {

@@ -3,469 +3,164 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>Ninth Pass — best-in-class prompts for your agents</title>
-  <meta name="description" content="Ninth Pass scores your prompt against a locked twelve-section rubric, in a separate process that never saw the write, and rewrites it until it clears 9. The scorecard stays on disk.">
+  <meta name="color-scheme" content="dark">
+  <title>Ninth Pass — Put your prompts through review</title>
+  <meta name="description" content="An open-source review-and-rewrite loop for agent prompts. Separate worker processes, inspectable scorecards, and a real 8 → 8 → 9 run. Build Ninth Pass from GitHub.">
   <link rel="canonical" href="https://ninthpass.amccutcheon.com/">
-  <meta property="og:title" content="Ninth Pass — best-in-class prompts for your agents">
-  <meta property="og:description" content="A separate process that never saw the write scores your prompt against a locked rubric, quotes the line that cost the points, and rewrites it until it clears 9.">
+  <meta property="og:title" content="Ninth Pass — Put your prompts through review">
+  <meta property="og:description" content="Prompt review, with the record attached. Inspect a real run, then review your next agent prompt.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ninthpass.amccutcheon.com/">
   <meta property="og:image" content="https://ninthpass.amccutcheon.com/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ninth Pass — best-in-class prompts for your agents">
-  <meta name="twitter:description" content="A separate process that never saw the write scores your prompt against a locked rubric, quotes the line that cost the points, and rewrites it until it clears 9.">
+  <meta name="twitter:title" content="Ninth Pass — Put your prompts through review">
+  <meta name="twitter:description" content="Open-source prompt review, with the record attached.">
   <meta name="twitter:image" content="https://ninthpass.amccutcheon.com/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/pz-tokens.css">
   <link rel="stylesheet" href="css/ninthpass.css">
-  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <script>document.documentElement.classList.replace('no-js','js');</script>
+  <script src="js/page.js" defer></script>
 </head>
 <body>
-<a class="pz-skip" href="#main">Skip to main content</a>
-
-<header class="pz-header" data-header>
-  <div class="pz-shell pz-header__inner">
-    <a class="pz-lockup" href="#main" aria-label="Ninth Pass home">
-      <svg class="pz-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5c0 5.8 4.7 10.5 10.5 10.5C16.7 12 12 16.7 12 22.5 12 16.7 7.3 12 1.5 12 7.3 12 12 7.3 12 1.5Z" fill="currentColor"/></svg>
-      <span class="pz-lockup__word">Ninth Pass</span>
-    </a>
-    <nav class="pz-nav" aria-label="Primary">
-      <a href="#standard" data-nav>Standard</a>
-      <a href="#loop" data-nav>Loop</a>
-      <a href="#install" data-nav>Install</a>
-      <a class="pz-nav__github" href="https://github.com/andymccutcheon/ninthpass">GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="wordmark" href="#main" aria-label="Ninth Pass home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="5"/><path d="M22 11v8c0 5-3 8-8 8H9" fill="none" stroke="currentColor" stroke-width="5"/></svg>Ninth Pass</a>
+    <nav class="nav" aria-label="Primary">
+      <a class="section-link" href="#real-run">Real run</a>
+      <a class="section-link" href="#how-it-works">How it works</a>
+      <a href="#start">Start</a>
+      <button class="motion-setting" type="button" aria-pressed="false" data-motion-toggle>Pause motion</button>
     </nav>
   </div>
 </header>
-
 <main id="main" tabindex="-1">
-
-<section class="pz-hero pz-section" id="top" aria-labelledby="hero-title">
-  <div class="pz-shell pz-hero__grid">
-    <div class="pz-hero__copy">
-      <p class="pz-label">Prompt review, enforced in code</p>
-      <h1 id="hero-title">Give your agents <em>best-in-class prompts.</em></h1>
-      <p class="pz-lead">A separate process that never saw the write scores your prompt against a locked twelve-section rubric, quotes the line that cost the points, and rewrites it until it clears 9. The scorecard stays on disk beside the prompt.</p>
-      <div class="pz-cta">
-        <a class="pz-button pz-primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
-        <a class="pz-button pz-secondary" href="#standard">See the standard <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v11M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+  <section class="hero shell" aria-labelledby="hero-title">
+    <h1 id="hero-title"><span class="hero-line">Put your prompts</span><span class="hero-line">through review.</span></h1>
+    <div class="hero-bottom">
+      <p class="hero-description">Open-source command-line prompt review for agent builders. Start with a rough request or an existing prompt. Ninth Pass runs a scored review-and-rewrite loop and saves the prompt with the scorecards behind it.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        <a class="text-link" href="#real-run">Inspect a real run ↓</a>
       </div>
-      <div class="pz-command pz-command--hero">
-        <div class="pz-command__meta"><span>Run it</span><span>from a terminal</span></div>
-        <pre class="pz-code" tabindex="0" aria-label="Run command"><code id="install-hero">git clone https://github.com/andymccutcheon/ninthpass
-cd ninthpass &amp;&amp; npm install &amp;&amp; npm run build</code></pre>
-        <button class="pz-copy" type="button" data-copy-target="install-hero" aria-label="Copy run command">Copy</button>
-      </div>
-      <p class="pz-note">Node 22.12+. No API key. MIT.</p>
     </div>
+    <p class="prerequisite">Node.js 22.12+ · MIT licensed. Installed, authenticated agent worker required.</p>
+  </section>
 
-    <figure class="pz-specimen" aria-labelledby="specimen-caption">
-      <div class="pz-specimen__head">
-        <span class="pz-label">Run 0becaacc · Claude Code worker</span>
-        <span class="pz-chip pz-chip--success">Decision-ready</span>
-      </div>
-      <div class="pz-specimen__prompt">
-        <span class="pz-label">Request</span>
-        <p class="pz-specimen__request">“Write a prompt for a meeting-notes summarizer that returns five bullets.”</p>
-      </div>
-      <ol class="pz-specimen__stages">
-        <li><span class="pz-specimen__idx">01</span><span class="pz-specimen__name">Compose</span><span class="pz-specimen__result">4,177 bytes</span></li>
-        <li><span class="pz-specimen__idx">02</span><span class="pz-specimen__name">Judge</span><span class="pz-specimen__result">8 / CONTINUE</span></li>
-        <li><span class="pz-specimen__idx">03</span><span class="pz-specimen__name">Revise</span><span class="pz-specimen__result">rewrite</span></li>
-        <li><span class="pz-specimen__idx">04</span><span class="pz-specimen__name">Judge</span><span class="pz-specimen__result">8 / CONTINUE</span></li>
-        <li><span class="pz-specimen__idx">03b</span><span class="pz-specimen__name">Revise</span><span class="pz-specimen__result">rewrite</span></li>
-        <li><span class="pz-specimen__idx">04b</span><span class="pz-specimen__name">Judge</span><span class="pz-specimen__result pz-specimen__result--stop">9 / STOP</span></li>
-      </ol>
-      <div class="pz-specimen__score">
-        <span class="pz-label">Overall rating</span>
-        <span class="pz-specimen__number">09</span>
-        <span class="pz-chip pz-chip--success">STOP</span>
-      </div>
-      <div class="pz-specimen__foot"><code>prompts/meeting-notes.md</code><span>4,109 bytes</span></div>
-      <figcaption id="specimen-caption">A real run, 2026-10-20, Claude Code worker. Judge is a model scoring a prompt against a fixed rubric. It checks the structure of the prompt, not whether the prompt is true. No human signs off. <a class="pz-specimen__link" href="https://github.com/andymccutcheon/ninthpass/tree/main/examples/runs/meeting-notes">Open the run</a>.</figcaption>
+  <section class="section real-run shell" id="real-run" aria-labelledby="run-title">
+    <div class="section-intro">
+      <h2 id="run-title">The first rewrite<br>still scored 8.</h2>
+      <p>You can ask a model to critique a prompt in the same chat. Ninth Pass makes review a sequence you can inspect: score the prompt, revise from numbered feedback, then score the rewritten text.</p>
+    </div>
+    <p class="request"><span>The actual request</span>“Write a prompt for a meeting-notes summarizer that returns five bullets”</p>
+    <figure class="diagram" aria-labelledby="loop-caption">
+      <div class="diagram-title"><span>One captured run · Claude Code</span><span>20 October 2026</span></div>
+      <iframe src="diagrams/loop.html" title="The captured run: Compose, Judge 8, Revise, Judge 8, Revise, Judge 9" data-diagram="loop"></iframe>
+      <figcaption id="loop-caption">Three scorecards. Two rewrites. The first rewrite did not improve the score. This is a recorded example, not a live model run. <a href="https://github.com/andymccutcheon/landing-pages/tree/main/ninthpass/examples/runs/meeting-notes">Open the unchanged run files ↗</a></figcaption>
     </figure>
-  </div>
-</section>
-
-<section class="pz-alternative pz-section" id="alternative" aria-labelledby="alternative-title">
-  <div class="pz-shell">
-    <header class="pz-section__head">
-      <p class="pz-label">01 / The shortcut</p>
-      <h2 id="alternative-title">You can already ask the model <em>to grade its own homework.</em></h2>
-      <p class="pz-lead">Ask it to write the prompt, then ask it in the same conversation what is wrong with it. It is free, it is instant, and it works often enough to stay the default. Three things are missing from it.</p>
-    </header>
-
-    <div class="pz-alternative__grid">
-      <div class="pz-alternative__col">
-        <h3 class="pz-alternative__head">What the shortcut cannot do</h3>
-        <ol class="pz-alternative__list">
-          <li><h4>No record.</h4><p>The grade lives in a chat window. Nothing shows what changed, or why, and nothing is left behind to check later.</p></li>
-          <li><h4>No teeth.</h4><p>Nothing stops it shipping at 6. The verdict is a sentence in a transcript, so the prompt goes out exactly as written.</p></li>
-          <li><h4>No separation.</h4><p>The critic holds the writer's context in the same window. A model grading the work it just did is a compliment, not a grade.</p></li>
-        </ol>
+    <div class="proof-bottom">
+      <div>
+        <div class="trajectory" aria-label="Model-assigned scores: 8, then 8, then 9"><b>8</b><span>→</span><b>8</b><span>→</span><b>9</b></div>
+        <p>These are model-assigned prompt scores, not measurements of task performance. The run stopped at 9 with two polish recommendations still open.</p>
       </div>
-      <div class="pz-alternative__col pz-alternative__col--ours">
-        <h3 class="pz-alternative__head">What Ninth Pass does instead</h3>
-        <ol class="pz-alternative__list">
-          <li><h4>A separate process.</h4><p>Judge never saw the draft it grades. Every stage runs in a fresh process with no memory of the last one.</p></li>
-          <li><h4>Quoted evidence.</h4><p>Every section rating has to quote the line that cost the points. A rating with nothing after the dash is rejected by the code.</p></li>
-          <li><h4>A gate in the code.</h4><p>Below 9 the file is written as provisional and never as the prompt. A 9 or a 10 stops the loop; the score and the verdict have to agree or the scorecard is malformed.</p></li>
-        </ol>
+      <div class="score-inspector" data-tabs>
+        <div class="score-tabs" role="tablist" aria-label="Inspect the captured scorecards">
+          <button id="pass1-tab" type="button" role="tab" aria-selected="true" aria-controls="pass1">First score</button>
+          <button id="pass2-tab" type="button" role="tab" aria-selected="false" aria-controls="pass2" tabindex="-1">After rewrite</button>
+          <button id="pass3-tab" type="button" role="tab" aria-selected="false" aria-controls="pass3" tabindex="-1">Final score</button>
+        </div>
+        <div class="score-panel" id="pass1" role="tabpanel" aria-labelledby="pass1-tab" tabindex="0">
+          <h3>8/10 · CONTINUE</h3><blockquote>“Usable and mostly complete.”</blockquote>
+          <a class="text-link" href="examples/runs/meeting-notes/02-judge-pass1.md">Read the first scorecard ↗</a>
+        </div>
+        <div class="score-panel" id="pass2" role="tabpanel" aria-labelledby="pass2-tab" tabindex="0">
+          <h3>8/10 · CONTINUE</h3><blockquote>“Primary remaining gap is redundancy between system and task prompt sections, creating maintenance risk.”</blockquote>
+          <a class="text-link" href="examples/runs/meeting-notes/04-judge-pass2.md">Read the second scorecard ↗</a>
+        </div>
+        <div class="score-panel" id="pass3" role="tabpanel" aria-labelledby="pass3-tab" tabindex="0">
+          <h3>9/10 · STOP</h3><blockquote>“Remaining opportunities are minor polish items.”</blockquote>
+          <a class="text-link" href="examples/runs/meeting-notes/04b-judge-pass3.md">Read the final scorecard ↗</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="pz-boundaries pz-section" id="boundaries" aria-labelledby="boundaries-title">
-  <div class="pz-shell">
-    <header class="pz-section__head pz-section__head--inverse">
-      <p class="pz-label">02 / Boundaries</p>
-      <h2 id="boundaries-title">What it <em>does not do.</em></h2>
-      <p class="pz-lead">A score of 9 is a judgement about a prompt's structure. It is not a certificate that the answer will be right.</p>
-    </header>
-
-    <div class="pz-boundaries__list">
-      <article><span class="pz-boundaries__idx">01</span><h3>It does not call a model.</h3><p>The worker does. Ninth Pass needs no API key and stores no credentials.</p></article>
-      <article><span class="pz-boundaries__idx">02</span><h3>It does not run an agent.</h3><p>It prepares packets, validates the returned output, and records the run. In manual mode, your host provides the isolation.</p></article>
-      <article><span class="pz-boundaries__idx">03</span><h3>It checks structure, not truth.</h3><p>Scorecards are validated for shape and consistency, not semantic truth, completeness of evidence, or model quality.</p></article>
-      <article><span class="pz-boundaries__idx">04</span><h3>No human signs off.</h3><p>Approval is the code accepting a 9 and writing the file. Judge is a model scoring against a fixed rubric.</p></article>
+  <section class="section feedback" id="feedback" aria-labelledby="feedback-title">
+    <div class="shell">
+      <div class="feedback-head"><h2 class="editorial" id="feedback-title">A review you can<br>take apart.</h2><p>The first scorecard named five recommendations. Revise returned one rewritten prompt and a numbered checklist accounting for each one.</p></div>
+      <figure class="diagram" aria-labelledby="arbor-caption">
+        <iframe src="diagrams/arbor.html" title="Five actual recommendations fan from one scorecard and gather into one rewrite" data-diagram="arbor" loading="lazy"></iframe>
+        <figcaption id="arbor-caption">Five pieces of feedback, not five parallel workers. Every checklist entry said APPLIED; the next scorecard still found repeated instructions.</figcaption>
+      </figure>
+      <div class="feedback-foot"><p>The branches summarize the actual first-pass recommendations. Open the scorecard for the exact wording.</p><div><a class="text-link" href="examples/runs/meeting-notes/02-judge-pass1.md">Read the five recommendations ↗</a><br><a class="text-link" href="examples/runs/meeting-notes/03-revise.md">Inspect the first rewrite ↗</a></div></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="pz-standard pz-section" id="standard" aria-labelledby="standard-title">
-  <div class="pz-shell">
-    <header class="pz-section__head">
-      <p class="pz-label">03 / The standard</p>
-      <h2 id="standard-title">Best-in-class is <em>twelve sections.</em></h2>
-      <p class="pz-lead">It is not an adjective. It is a fixed rubric, and every one of its ratings has to quote the line that cost the points. These are the ratings from the run above, unedited.</p>
-    </header>
+  <section class="section shell" id="how-it-works" aria-labelledby="flow-title">
+    <div class="flow-copy"><h2 id="flow-title">Separate the process.<br>Keep the evidence.</h2><p>The built-in OpenCode, Claude Code and Codex workers start a new process for each stage. Ninth Pass forwards the stage packet rather than the conversation that produced the draft.</p></div>
+    <figure class="diagram flow-diagram" aria-labelledby="flow-caption">
+      <iframe src="diagrams/dataflow.html" title="Explicit packets move between Compose, Judge and Revise processes while artifacts stay on disk" data-diagram="dataflow" loading="lazy"></iframe>
+      <figcaption id="flow-caption">Judge must see the prompt it grades. Its packet includes the original request and earlier scorecards. Ninth Pass does not forward the authoring conversation or the rewrite’s APPLIED checklist; deferred notes can travel with it.</figcaption>
+    </figure>
+    <div class="context-note"><p>Separate processes can use the same model and provider. In manual mode, your host must provide fresh contexts. Process separation is not a security sandbox.</p><div><a class="text-link" href="https://github.com/andymccutcheon/ninthpass/blob/main/src/workers/adapters.ts">Read the worker implementation ↗</a></div></div>
+  </section>
 
-    <ol class="pz-standard__list">
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Primary Role</span>
-          <span class="pz-standard__score">9</span>
-          <p class="pz-standard__quote">&quot;You are a professional meeting summarizer who distills lengthy discussions into actionable, executive-ready bullet points&quot; is specific,…</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">High-Level Objectives</span>
-          <span class="pz-standard__score">8</span>
-          <p class="pz-standard__quote">Four clear objectives present (&quot;Extract the most critical information&quot;, &quot;Identify decisions, action items&quot;), though success criteria could be more…</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Domain Expertise &amp; Resources</span>
-          <span class="pz-standard__score">7</span>
-          <p class="pz-standard__quote">Lists relevant domains (&quot;Corporate communication best practices&quot;, &quot;Meeting facilitation&quot;) but remains outline-level without when-to-apply guidance</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Allowed Tools &amp; APIs</span>
-          <span class="pz-standard__score">7</span>
-          <p class="pz-standard__quote">States &quot;Text processing and summarization. No external tools required&quot; clearly but minimally</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Operating Constraints</span>
-          <span class="pz-standard__score">9</span>
-          <p class="pz-standard__quote">Hard rule &quot;Output must be exactly five bullet points&quot; is specific and enforceable; includes edge case handling (&quot;When input lacks five distinct…</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Interaction Style &amp; Voice</span>
-          <span class="pz-standard__score">8</span>
-          <p class="pz-standard__quote">Multiple specific directives (&quot;Use active voice and strong verbs&quot;, &quot;Write for busy executives who scan&quot;) provide clear guidance</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Memory &amp; Context Handling</span>
-          <span class="pz-standard__score">7</span>
-          <p class="pz-standard__quote">Present (&quot;Retain context about ongoing meetings&quot;) but outline-only; lacks specifics on how to handle multi-session contexts</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Self-Monitoring &amp; Reflection</span>
-          <span class="pz-standard__score">8</span>
-          <p class="pz-standard__quote">Three concrete checks listed (&quot;Verify all five bullets represent distinct information&quot;), could include verification of factual accuracy</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Example Exchanges (Few-Shot)</span>
-          <span class="pz-standard__score">9</span>
-          <p class="pz-standard__quote">Three examples covering standard case, edge case (empty meeting), and draft request scenario with realistic detail</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Safety &amp; Ethics</span>
-          <span class="pz-standard__score">8</span>
-          <p class="pz-standard__quote">Four clear directives including &quot;Never fabricate information not present in source material&quot; and confidentiality guidance</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Deliverable Structure</span>
-          <span class="pz-standard__score">9</span>
-          <p class="pz-standard__quote">Exact format specified with bullet structure requirements (&quot;Beginning with a strong action verb&quot;, &quot;Containing one primary idea&quot;)</p>
-        </li>
-        <li class="pz-standard__row">
-          <span class="pz-standard__name">Task Prompt</span>
-          <span class="pz-standard__score">8</span>
-          <p class="pz-standard__quote">Clear GOAL and RETURN FORMAT sections, though redundant with system prompt Operating Constraints and Deliverable Structure</p>
-        </li>
-    </ol>
-
-    <p class="pz-note">Twelve sections, scored 0 to 10, one overall rating, one verdict. The rubric is locked: a scorecard that disagrees with itself is rejected before it reaches disk. <a class="pz-standard__link" href="https://github.com/andymccutcheon/ninthpass/tree/main/examples/runs/meeting-notes">Read the scorecards in full</a>.</p>
-  </div>
-</section>
-
-<section class="pz-output pz-section" id="output" aria-labelledby="output-title">
-  <div class="pz-shell">
-    <header class="pz-section__head">
-      <p class="pz-label">04 / What leaves</p>
-      <h2 id="output-title">A prompt you can read, <em>not a chat log.</em></h2>
-      <p class="pz-lead">Every run is a directory. The stages, scorecards, retries, and final prompt stay on disk.</p>
-    </header>
-
-    <div class="pz-output__grid">
-      <div class="pz-output__file">
-        <div class="pz-file">
-          <div class="pz-file__head"><span>prompts/ and runs/</span><span>one real run</span></div>
-          <pre class="pz-code pz-code--dark" tabindex="0" aria-label="Output directory listing"><code>prompts/meeting-notes.md    <span class="pz-file__ok">9/10  gate passed</span>
-
-runs/0becaacc-fb6e-4a92-8951-5106c00edd80/
-  00-request.md
-  01-compose.md
-  02-judge-pass1.md
-  03-revise.md
-  04-judge-pass2.md
-  03b-revise.md
-  04b-judge-pass3.md
-  05-final.md</code></pre>
-        </div>
-        <p class="pz-note">The filename comes from your request, or from <code>--name</code> if you set one. The file contains the prompt itself, with no frontmatter and no commentary.</p>
-
-        <div class="pz-file">
-          <div class="pz-file__head"><span>05-final.md</span><span>the prompt itself</span></div>
-          <pre class="pz-code" tabindex="0" aria-label="The final prompt file"><code>=== SYSTEM PROMPT ===
-
-Primary Role
-You are a professional meeting summarizer who distills lengthy
-discussions into actionable, executive-ready bullet points.
-
-High-Level Objectives
-- Extract the most critical information from meeting transcripts
-- Identify decisions, action items, and key discussion points
-- Present findings in a scannable, hierarchical format</code></pre>
-        </div>
-      </div>
-
-      <div class="pz-output__ends">
-        <article class="pz-end">
-          <span class="pz-chip pz-chip--success">Gate passed</span>
-          <h3>STOP at 9 or above.</h3>
-          <p>The scored prompt is written to <code>&lt;slug&gt;.md</code>. The code refuses to write it below 9.</p>
-        </article>
-        <article class="pz-end">
-          <span class="pz-chip pz-chip--warning">Provisional</span>
-          <h3>A cap, a block, or a plateau.</h3>
-          <p>The best scored candidate is written to <code>&lt;slug&gt;.provisional.md</code> and clearly marked not passed.</p>
-        </article>
-        <article class="pz-end">
-          <span class="pz-chip pz-chip--neutral">Paused</span>
-          <h3>No improvement after two rewrites.</h3>
-          <p>The run waits for your decision. Continue with <code>run --resume &lt;id&gt; --decision "..."</code>.</p>
-        </article>
+  <section class="section standard" id="standard" aria-labelledby="standard-title">
+    <div class="shell standard-grid">
+      <div><h2 class="editorial" id="standard-title">A score.<br>Not a certificate.</h2><p class="standard-lead">Know what a 9 means—and what it doesn’t.</p><a class="text-link" href="https://github.com/andymccutcheon/ninthpass/blob/main/skills/judge/SKILL.md#scoring-rubric-locked-010">Read the published rubric ↗</a></div>
+      <div class="standard-body">
+        <table class="score-bands"><caption class="sr-only">Published scoring bands, summarized</caption><thead><tr><th scope="col">Score</th><th scope="col">Rubric summary</th></tr></thead><tbody><tr><td>0–3</td><td>Missing, contradictory or unsafe</td></tr><tr><td>4–6</td><td>Present but thin</td></tr><tr><td>7–8</td><td>Usable, with gaps</td></tr><tr><td>9–10</td><td>Stop-loop caliber</td></tr></tbody></table>
+        <p>Judge is instructed to cite prompt text or structural facts. An overall score of at least 9 means STOP under this rubric. A lower score means CONTINUE.</p>
+        <p>The model judges the prompt. The code checks return formats, score/verdict agreement and recommendation accounting. It does not establish that cited evidence is sound or that a claimed edit was made.</p>
+        <p>This run’s final prompt still has limitations. These artifacts do not demonstrate its performance on a meeting transcript. STOP requires no human sign-off and does not certify that an agent’s answer will be right.</p>
       </div>
     </div>
+  </section>
 
-    <div class="pz-diagram__frame pz-diagram__frame--light pz-diagram__frame--flow">
-      <iframe src="diagrams/dataflow.html" title="Animated diagram of how a run executes" loading="lazy"></iframe>
-    </div>
-    <p class="pz-diagram__caption pz-diagram__caption--light">How the run actually executes. Every stage is a fresh process, and the file is the only thing that crosses the boundary. <a class="pz-diagram__link pz-diagram__link--light" href="diagrams/dataflow.html">Open it full screen</a>.</p>
-  </div>
-</section>
-
-<section class="pz-loop pz-section" id="loop" aria-labelledby="loop-title">
-  <span class="pz-loop__numeral" aria-hidden="true">09</span>
-  <div class="pz-shell">
-    <header class="pz-section__head pz-section__head--inverse">
-      <p class="pz-label">05 / The loop</p>
-      <h2 id="loop-title">Four passes. <em>One gate.</em></h2>
-      <p class="pz-lead">A raw request becomes a System Prompt and a Task Prompt. Judge scores them. Revise rewrites. Judge scores again. Only a 9 or a 10 stops the loop. This is the run above, replayed.</p>
-    </header>
-
-    <div class="pz-loop__panel" data-loop>
-      <div class="pz-loop__readout">
-        <span class="pz-label">Judge</span>
-        <div class="pz-loop__score"><span data-loop-score>09</span><span class="pz-loop__denom">/10</span></div>
-        <p class="pz-loop__status" data-loop-status aria-live="polite">STOP / gate passed</p>
-        <button class="pz-button pz-button--light pz-loop__run" type="button" data-loop-run>Replay the run</button>
+  <section class="section shell" id="record" aria-labelledby="record-title">
+    <div class="section-intro"><h2 id="record-title">The prompt.<br>And its paper trail.</h2><p>Run files stay on disk: the input, stage outputs, scorecards, retries and run state. The exported Markdown contains the prompt text.</p></div>
+    <div class="record-layout">
+      <div class="file-record"><h3>Files from the captured example</h3><pre tabindex="0" aria-label="Eight files from the captured meeting-notes run"><code>00-request.md
+01-compose.md
+02-judge-pass1.md
+03-revise.md
+04-judge-pass2.md
+03b-revise.md
+04b-judge-pass3.md
+<span class="final-file">05-final.md</span></code></pre><a class="text-link" href="examples/runs/meeting-notes/05-final.md">Read the unchanged final prompt ↗</a></div>
+      <div class="outcomes">
+        <div><h3>Judge STOP</h3><p>Export the scored prompt to <code>./prompts/&lt;slug&gt;.md</code>.</p></div>
+        <div><h3>Cap, validation block or plateau</h3><p>Preserve the best scored candidate as <code>&lt;slug&gt;.provisional.md</code>, when one exists. A run that fails before any score may have no prompt to export.</p></div>
+        <div><h3>Paused</h3><p>Resume with your explicit decision. The run waits until a decision is supplied.</p></div>
       </div>
-
-      <div class="pz-loop__track" data-loop-track aria-hidden="true"><span></span></div>
-
-      <ol class="pz-loop__stages">
-        <li class="pz-stage" data-loop-stage="0" data-state="done">
-          <span class="pz-stage__idx">01</span>
-          <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Compose</h3>
-          <p class="pz-stage__role">Generate</p>
-          <p class="pz-stage__note">One request becomes two prompts: a System Prompt and a Task Prompt.</p>
-        </li>
-        <li class="pz-stage" data-loop-stage="1" data-state="done">
-          <span class="pz-stage__idx">02</span>
-          <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Judge</h3>
-          <p class="pz-stage__role">Score</p>
-          <p class="pz-stage__note">A locked 0 to 10 rubric, quoted evidence, and numbered recommendations.</p>
-        </li>
-        <li class="pz-stage" data-loop-stage="2" data-state="done">
-          <span class="pz-stage__idx">03</span>
-          <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Revise</h3>
-          <p class="pz-stage__role">Rewrite</p>
-          <p class="pz-stage__note">Applies every recommendation and cuts nothing that was not asked for.</p>
-        </li>
-        <li class="pz-stage" data-loop-stage="3" data-state="done">
-          <span class="pz-stage__idx">04</span>
-          <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Judge</h3>
-          <p class="pz-stage__role">Re-score</p>
-          <p class="pz-stage__note">Scores the exact rewritten body. The score did not move, so the loop kept going.</p>
-        </li>
-        <li class="pz-stage" data-loop-stage="4" data-state="done">
-          <span class="pz-stage__idx">03b</span>
-          <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Revise</h3>
-          <p class="pz-stage__role">Rewrite again</p>
-          <p class="pz-stage__note">A second rewrite inside the same round, after a round that did not improve.</p>
-        </li>
-        <li class="pz-stage" data-loop-stage="5" data-state="done">
-          <span class="pz-stage__idx">04b</span>
-          <span class="pz-stage__dot" aria-hidden="true"></span>
-          <h3 class="pz-stage__name">Judge</h3>
-          <p class="pz-stage__role">Final pass</p>
-          <p class="pz-stage__note">9 out of 10. The loop stops and the prompt is written to disk.</p>
-        </li>
-      </ol>
     </div>
+  </section>
 
-    <p class="pz-loop__gate">The pipeline caps at four scoring rounds. A plateau pauses for your decision. It never invents a score.</p>
-
-    <div class="pz-diagram__frame">
-      <iframe src="diagrams/loop.html" title="Animated refinement loop diagram" loading="lazy"></iframe>
-    </div>
-    <p class="pz-diagram__caption">The same loop, drawn. Play it here or <a class="pz-diagram__link" href="diagrams/loop.html">open it full screen</a>.</p>
-
-    <div class="pz-diagram__frame">
-      <iframe src="diagrams/arbor.html" title="Animated diagram of one pass as a branching tree" loading="lazy"></iframe>
-    </div>
-    <p class="pz-diagram__caption">One pass, as a tree. Judge branches into the five recommendations it wrote, and Revise gathers them again. <a class="pz-diagram__link" href="diagrams/arbor.html">Open it full screen</a>.</p>
-  </div>
-</section>
-
-<section class="pz-install pz-section" id="install" aria-labelledby="install-title">
-  <div class="pz-shell">
-    <header class="pz-section__head">
-      <p class="pz-label">06 / Bring your own model</p>
-      <h2 id="install-title">Use the model <em>you already trust.</em></h2>
-      <p class="pz-lead">Each stage runs in a fresh process. Ninth Pass stores no credentials; the worker you choose handles its own authentication.</p>
-    </header>
-
-    <div class="pz-install__grid">
-      <div class="pz-workers" data-tabs>
-        <div class="pz-tabs__list" role="tablist" aria-label="Worker">
-          <button class="pz-tab" type="button" role="tab" id="tab-opencode" aria-controls="panel-opencode" aria-selected="true">OpenCode</button>
-          <button class="pz-tab" type="button" role="tab" id="tab-claude" aria-controls="panel-claude" aria-selected="false" tabindex="-1">Claude Code</button>
-          <button class="pz-tab" type="button" role="tab" id="tab-codex" aria-controls="panel-codex" aria-selected="false" tabindex="-1">Codex</button>
-        </div>
-
-        <div class="pz-tab-panel" role="tabpanel" id="panel-opencode" aria-labelledby="tab-opencode">
-          <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="OpenCode command"><code id="cmd-opencode">node dist/cli.js run --request "Write a prompt for a meeting-notes summarizer" --worker opencode</code></pre>
-            <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-opencode" aria-label="Copy OpenCode command">Copy</button>
-          </div>
-          <p class="pz-note">The default worker. Add <code>--model</code> to choose a model.</p>
-        </div>
-
-        <div class="pz-tab-panel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude" hidden>
-          <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="Claude Code command"><code id="cmd-claude">node dist/cli.js run --request "Write a prompt for a meeting-notes summarizer" --worker claude</code></pre>
-            <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-claude" aria-label="Copy Claude Code command">Copy</button>
-          </div>
-          <p class="pz-note">Uses <code>claude -p</code> in a fresh process for every stage.</p>
-        </div>
-
-        <div class="pz-tab-panel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" hidden>
-          <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="Codex command"><code id="cmd-codex">node dist/cli.js run --request "Write a prompt for a meeting-notes summarizer" --worker codex</code></pre>
-            <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-codex" aria-label="Copy Codex command">Copy</button>
-          </div>
-          <p class="pz-note">Uses <code>codex exec</code> in a fresh process for every stage.</p>
+  <section class="section install" id="start" aria-labelledby="start-title">
+    <div class="shell"><h2 id="start-title">Your next prompt.<br>Put it through review.</h2>
+      <div class="install-grid">
+        <div class="install-copy"><p>Clone and build from GitHub while the npm package is unpublished. Install and authenticate your chosen worker first; this example uses Claude Code.</p><p>Use <code>--worker opencode</code> or <code>--worker codex</code> for another supported worker. Ninth Pass uses the worker’s authentication and does not store provider credentials. Worker usage follows your provider’s plan or billing.</p><a class="button primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub ↗</a><a class="text-link" href="https://github.com/andymccutcheon/ninthpass#quick-start">Read the setup guide ↗</a><a class="text-link" href="https://github.com/andymccutcheon/ninthpass#install-the-skills">Install the five skills separately ↗</a></div>
+        <div>
+          <div class="command"><div class="command-top"><span>From source to first run</span><button class="copy-button" type="button" data-copy-target="start-command" aria-label="Copy setup and first-run commands">Copy commands</button></div><pre tabindex="0" aria-label="Setup and first-run commands"><code id="start-command">git clone https://github.com/andymccutcheon/ninthpass
+cd ninthpass
+npm install
+npm run build
+node dist/cli.js run \
+  --request "Write a prompt for a meeting-notes summarizer that returns five bullets" \
+  --worker claude \
+  --name meeting-notes</code></pre></div>
+          <div class="existing"><p>Already have a prompt?</p><code>node dist/cli.js run --prompt ./prompt.md --worker claude</code></div>
         </div>
       </div>
-
-      <aside class="pz-install__aside">
-        <p class="pz-label">Install the five skills</p>
-        <div class="pz-command pz-command--install">
-          <pre class="pz-code" tabindex="0" aria-label="Install command"><code id="install-skills">node dist/cli.js install</code></pre>
-          <button class="pz-copy" type="button" data-copy-target="install-skills" aria-label="Copy install command">Copy</button>
-        </div>
-        <p class="pz-note">Detects Claude Code, OpenCode, and shared agents. Use <code>--target</code> or <code>--dir</code> when you want control. <code>npm install -g ninthpass</code> once the package is on npm.</p>
-
-        <details class="pz-details">
-          <summary>Prefer to drive each stage yourself?</summary>
-          <div class="pz-command pz-command--dark">
-            <pre class="pz-code" tabindex="0" aria-label="Manual pipeline commands"><code id="cmd-manual">node dist/cli.js start --request "Write a prompt for a meeting-notes summarizer"
-node dist/cli.js submit &lt;run-id&gt; --dispatch &lt;id&gt; --output stage.md
-node dist/cli.js status &lt;run-id&gt;</code></pre>
-            <button class="pz-copy pz-copy--inverse" type="button" data-copy-target="cmd-manual" aria-label="Copy manual pipeline commands">Copy</button>
-          </div>
-          <p class="pz-note">The run records every stage, scorecard, and retry. <code>status --json</code> returns the next dispatch.</p>
-        </details>
-      </aside>
     </div>
-  </div>
-</section>
-
-<section class="pz-start pz-section" id="start" aria-labelledby="start-title">
-  <div class="pz-shell pz-start__inner">
-    <p class="pz-label">07 / Start</p>
-    <h2 id="start-title">Install the skills. Run the loop. <em>Read the prompt.</em></h2>
-    <div class="pz-command pz-command--hero">
-      <div class="pz-command__meta"><span>Clone and build</span><span>then run it</span></div>
-      <pre class="pz-code" tabindex="0" aria-label="Clone and build command"><code id="install-final">git clone https://github.com/andymccutcheon/ninthpass
-cd ninthpass &amp;&amp; npm install &amp;&amp; npm run build</code></pre>
-      <button class="pz-copy" type="button" data-copy-target="install-final" aria-label="Copy clone and build command">Copy</button>
-    </div>
-    <div class="pz-cta">
-      <a class="pz-button pz-primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
-      <a class="pz-button pz-secondary" href="https://github.com/andymccutcheon/ninthpass/tree/main/examples/runs/meeting-notes">Read a real run</a>
-    </div>
-    <p class="pz-note">MIT. Node 22.12+. No API key required.</p>
-  </div>
-</section>
-
+  </section>
 </main>
-
-<footer class="pz-footer">
-  <div class="pz-shell pz-footer__grid">
-    <div class="pz-footer__about">
-      <span class="pz-lockup"><svg class="pz-mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5c0 5.8 4.7 10.5 10.5 10.5C16.7 12 12 16.7 12 22.5 12 16.7 7.3 12 1.5 12 7.3 12 12 7.3 12 1.5Z" fill="currentColor"/></svg><span class="pz-lockup__word">Ninth Pass</span></span>
-      <p>An independent open-source project by Andy McCutcheon.</p>
-    </div>
-    <nav class="pz-footer__links" aria-label="Footer">
-      <a href="https://github.com/andymccutcheon/ninthpass">GitHub</a>
-      <a href="https://github.com/andymccutcheon/ninthpass#readme">README</a>
-      <a href="https://github.com/andymccutcheon/ninthpass/tree/main/examples/runs/meeting-notes">A real run</a>
-      <a href="https://github.com/andymccutcheon/ninthpass/issues">Issues</a>
-      <a href="https://github.com/andymccutcheon/ninthpass/blob/main/LICENSE">License</a>
-    </nav>
-    <div class="pz-footer__credit">
-      <p>Skill names are the project's own and imply no affiliation with any character or rights holder.</p>
-      <p>Fraunces, Geist, and Geist Mono are used under the SIL Open Font License.</p>
-      <p>© 2026 Ninth Pass</p>
-    </div>
-  </div>
-</footer>
-
-<div class="pz-visually-hidden" aria-live="polite" id="copy-status"></div>
-<script src="js/page.js" defer></script>
+<footer class="site-footer"><div class="shell footer-inner"><div><a class="wordmark" href="#main">Ninth Pass</a><p>Open-source prompt review. MIT licensed.</p></div><nav class="footer-links" aria-label="Footer"><a href="https://github.com/andymccutcheon/ninthpass">Source</a><a href="https://github.com/andymccutcheon/landing-pages/tree/main/ninthpass/examples/runs/meeting-notes">Run artifacts</a><a href="https://github.com/andymccutcheon/ninthpass/blob/main/LICENSE">License</a></nav></div></footer>
+<p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
 </body>
 </html>

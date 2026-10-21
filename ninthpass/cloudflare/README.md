@@ -1,7 +1,7 @@
 # Ninth Pass site: Cloudflare packaging
 
-This directory deploys `ninthpass/index.html` and its page-local `css/`, `js/` and
-`assets/` as a static-assets Worker named `ninthpass-site`, using the
+This directory deploys `ninthpass/index.html` and its page-local `css/`, `js/`,
+`assets/`, `diagrams/` and unchanged `examples/` proof artifacts as a static-assets Worker named `ninthpass-site`, using the
 [`cf`](https://developers.cloudflare.com/cf/) CLI. It is self-contained: nothing here
 changes the page, and nothing here is used by the GitHub Pages workflow that publishes
 the other pages.
@@ -20,10 +20,10 @@ There is no Wrangler configuration. `cf` is the CLI for this project, per
 
 `npm run build` runs `scripts/build.mjs`, which:
 
-1. checks that every `css/`, `js/` and `assets/` reference in `ninthpass/index.html`
+1. checks that every `css/`, `js/`, `diagrams/`, `examples/` and `assets/` reference in `ninthpass/index.html`
    resolves to a real file, and that every non-data `url(...)` in the page stylesheets
    resolves to a real asset;
-2. replaces `dist/` with the page and its three page-local directories, then rewrites
+2. replaces `dist/` with the page and its five runtime/proof directories, then rewrites
    every local reference to a root-relative one (`css/x` becomes `/css/x`, and so on);
    it re-reads the staged page and fails unless every `href` and `src` is root-relative,
    absolute, a fragment, or a data/mailto URL;
@@ -49,8 +49,9 @@ from the assets directory and exits with `--dry-run: exiting now.`
 
 ## Deploy
 
-Sign in once, then deploy. **Publish `ninthpass@2.0.0` first**: the page's install
-command is the v2 command, and the current npm package is still the v1 MCP server.
+Sign in once, then deploy only after the public deployment is authorized. The page uses the
+working clone-and-build setup path while the npm package is unpublished; publication is not a
+prerequisite for this page revision. Repository source changes and a public deployment are separate actions.
 
 ```sh
 cd ninthpass/cloudflare
@@ -66,7 +67,7 @@ instead of signing in, as described in [Use `cf` in CI](https://developers.cloud
 
 ## Verify a deploy
 
-Reachability is one command. It requests the page and all fifteen published assets,
+Reachability is one command. It requests all thirty required page/runtime/proof files,
 requires `200` from each, and asserts that the served HTML still carries two primary calls
 to action pointing at the Ninth Pass repository and references its stylesheet, page
 script and favicon.

@@ -1,0 +1,46 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; background: var(--pz-surface); color: var(--pz-ink); }
+body { font-family: var(--pz-font); overflow: hidden; }
+body[data-kind="arbor"] { background: var(--pz-ground); }
+.scene { width: 100%; height: 100%; }
+.desktop, .mobile { width: 100%; height: 100%; }
+.mobile { display: none; }
+svg { width: 100%; height: 100%; display: block; overflow: visible; }
+text { fill: var(--pz-ink); font-family: var(--pz-font); font-size: var(--pz-diagram-text); font-weight: 400; }
+.small { fill: var(--pz-secondary); font-size: var(--pz-diagram-small); }
+.stage-label { font-size: var(--pz-diagram-stage); font-weight: 500; letter-spacing: var(--pz-track-small); }
+.score { font-size: var(--pz-diagram-score); font-weight: 500; letter-spacing: var(--pz-track-diagram); fill: var(--pz-ground); font-variant-numeric: tabular-nums; }
+.score-ink { fill: var(--pz-ink); }
+.score-accent { fill: var(--pz-accent); }
+.route { fill: none; stroke: var(--pz-path); stroke-width: var(--pz-stroke); }
+.route-strong { stroke: var(--pz-accent); }
+.ribbon { fill: none; stroke: var(--pz-ribbon); stroke-width: var(--pz-ribbon-width); stroke-linecap: round; }
+.feedback-ribbon { stroke-width: var(--pz-feedback-width); }
+.trail { fill: none; stroke: var(--pz-accent); stroke-width: var(--pz-stroke); stroke-linecap: round; opacity: 0; }
+.giant-score { font-size: var(--pz-diagram-giant); }
+.active-stage { fill: none; stroke: var(--pz-accent); stroke-width: var(--pz-stroke); opacity: 0; }
+.surface { fill: var(--pz-raised); }
+.ground { fill: var(--pz-ground); }
+.warm { fill: var(--pz-rose); }
+.accent { fill: var(--pz-accent); }
+.dark-ink { fill: var(--pz-accent-ink); }
+.endpoint { fill: var(--pz-ink); }
+.feedback-row { fill: var(--pz-raised); }
+.signal { fill: var(--pz-accent); opacity: 0; }
+.signal-tail { opacity: .3; }
+.packet-label { font-size: var(--pz-diagram-small); fill: var(--pz-secondary); }
+.chamber { fill: var(--pz-raised); }
+.chamber-title { font-size: var(--pz-diagram-stage); font-weight: 500; }
+.screen-reader-only { position: absolute; width: var(--pz-hair); height: var(--pz-hair); overflow: hidden; clip-path: inset(50%); }
+.signal, .trail { visibility: hidden; }
+html[data-running="true"] .signal, html[data-running="true"] .trail { visibility: visible; }
+[data-standalone-motion] { position: fixed; right: var(--pz-s4); bottom: var(--pz-s4); padding: var(--pz-s3) var(--pz-s4); border: 0; border-radius: var(--pz-radius); background: var(--pz-raised); color: var(--pz-ink); font: var(--pz-small) var(--pz-font); min-height: var(--pz-target); cursor: pointer; }
+[data-standalone-motion]:focus-visible { outline: var(--pz-focus-width) solid var(--pz-focus); outline-offset: var(--pz-focus-offset); }
+@media (max-width: 48rem) {
+  .desktop { display: none; }
+  .mobile { display: block; }
+  .mobile .small { font-size: var(--pz-diagram-mobile-text); }
+  .mobile .recommendation { font-size: var(--pz-diagram-mobile-text); }
+  .mobile text:not(.score):not(.stage-label):not(.chamber-title) { font-size: var(--pz-diagram-mobile-text); }
+}
+@media (prefers-reduced-motion: reduce) { .signal { display: none; } }

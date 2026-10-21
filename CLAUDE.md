@@ -25,7 +25,7 @@ layer, base and motion rules, `common.css`, and `page.js`. Freewhirr and Shipwat
 
 **Ninth Pass is a standalone design and does not use the shared layer.** It carries its own
 `css/pz-tokens.css`, `css/ninthpass.css`, `css/fonts.css` and `js/page.js`, its own self-hosted
-Fraunces, Geist and Geist Mono faces, and its own light-only palette. It is deliberately held apart
+Fraunces, Geist and Geist Mono faces, and its own refined dark palette. It is deliberately held apart
 from the Pattern layer so that a Pattern change cannot move it: a change to `shared/` does not
 reach Ninth Pass, and a change to Ninth Pass does not reach the other three. Its design record is
 `ninthpass/DESIGN.md`.
@@ -52,7 +52,7 @@ node --check shared/page.js
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-acheron-landing-copy-draft1.md
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-freewhirr-landing-copy-draft1.md
 python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-shipwatch-landing-copy-draft1.md
-python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-19-ninthpass-landing-copy-draft1.md
+python3 tools/check_copy.py /Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-20-ninthpass-landing-copy-draft3.md
 ```
 
 The copy audit reports differences for human classification; a non-empty report is not itself a
@@ -68,7 +68,10 @@ PATH="$PWD/.venv/bin:$PATH" python3 tools/ninthpass_contrast_check.py
 `render_check.py` is the aggregate gate. It captures Acheron at 6 widths in 2 themes (12 captures),
 Freewhirr at 4 widths in 2 themes (8 captures), and Shipwatch at 6 widths in 2 themes (12 captures)
 plus 2 Shipwatch no-JavaScript captures, and Ninth Pass at 6 widths with its no-JavaScript, loop,
-tabs, clipboard, keyboard, reduced-motion and boundary checks. It also checks responsive layout,
+   scorecard tabs, clipboard, keyboard, reduced-motion and boundary checks. The flagship revision
+   captures seven Ninth Pass widths (280 through 1440); run `tools/ninthpass_render_check.py --motion`
+   with the existing Python environment for two complete autonomous cycles and video per diagram.
+   It also checks responsive layout,
 interaction and resilience. Its Shipwatch regression stage requires byte-identical PNGs for Acheron
 and Freewhirr at 4 widths in 2 themes: 16 before/after pairs against baseline commit `d42fe89`.
 Evidence goes under ignored `.review/`. Do not install dependencies or download browsers merely to
@@ -129,6 +132,9 @@ These are pointers, not implementation specifications:
 - Preserve both themes, no-JavaScript readability, accessible names, keyboard operation and the
   existing regression contract.
 - Ninth Pass carries its own token file, `ninthpass/css/pz-tokens.css`, and is the second file
-  exempted from the literal lint. It is light-only by design, not by omission.
+  exempted from the literal lint. Its authorized flagship overhaul is dark-only. All three diagrams
+  share its tokens, stylesheet and script; embedded diagrams have no local playback controls.
+  Keep the persistent page-level motion-stop setting, the complete still composition and live OS
+  reduced-motion support. Copy is recorded in `ninthpass/COPY.md`; design and receipts in `ninthpass/DESIGN.md`.
 - Do not edit the vendored Pattern snapshot in place.
 - Run `git diff --check` and the relevant gates before committing.
