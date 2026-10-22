@@ -3,7 +3,7 @@
 ## Start here
 
 This repository holds four standalone static pages. Three are published from `main` through GitHub
-Pages. The fourth, Ninth Pass, is built from the same `main` source but published through its own
+Pages. The fourth, Silverquill, is built from the same `main` source but published through its own
 Cloudflare Worker, so it can answer on a custom domain.
 
 | Page | Source | Live URL | Published by |
@@ -11,7 +11,7 @@ Cloudflare Worker, so it can answer on a custom domain.
 | Acheron | `acheron/index.html` | <https://andymccutcheon.github.io/landing-pages/acheron/> | GitHub Pages |
 | Freewhirr | `freewhirr/index.html` | <https://andymccutcheon.github.io/landing-pages/freewhirr/> | GitHub Pages |
 | Shipwatch | `shipwatch/index.html` | <https://andymccutcheon.github.io/landing-pages/shipwatch/> | GitHub Pages |
-| Ninth Pass | `ninthpass/index.html` | <https://ninthpass.amccutcheon.com/> | Cloudflare Worker `ninthpass-site` |
+| Silverquill | `ninthpass/index.html` | <https://silverquill.amccutcheon.com/> | Cloudflare Worker `ninthpass-site` |
 
 There is no root landing page, package install or build step. Preview from the repository root with
 `python3 -m http.server 8000`, then open `http://localhost:8000/<page>/`.
@@ -23,11 +23,11 @@ landing-page layer. `shared/` contains generated font declarations, the `--lp-` 
 layer, base and motion rules, `common.css`, and `page.js`. Freewhirr and Shipwatch add
 `freewhirr.css` and `shipwatch.css`.
 
-**Ninth Pass is a standalone design and does not use the shared layer.** It carries its own
+**Silverquill is a standalone design and does not use the shared layer.** It carries its own
 `css/pz-tokens.css`, `css/ninthpass.css`, `css/fonts.css` and `js/page.js`, its own self-hosted
 Fraunces, Geist and Geist Mono faces, and its own refined dark palette. It is deliberately held apart
 from the Pattern layer so that a Pattern change cannot move it: a change to `shared/` does not
-reach Ninth Pass, and a change to Ninth Pass does not reach the other three. Its design record is
+reach Silverquill, and a change to Silverquill does not reach the other three. Its design record is
 `ninthpass/DESIGN.md`.
 
 The files support one repeated header, footer and copyable install-bar pattern. `page.js` supplies
@@ -67,9 +67,9 @@ PATH="$PWD/.venv/bin:$PATH" python3 tools/ninthpass_contrast_check.py
 
 `render_check.py` is the aggregate gate. It captures Acheron at 6 widths in 2 themes (12 captures),
 Freewhirr at 4 widths in 2 themes (8 captures), and Shipwatch at 6 widths in 2 themes (12 captures)
-plus 2 Shipwatch no-JavaScript captures, and Ninth Pass at 6 widths with its no-JavaScript, loop,
+plus 2 Shipwatch no-JavaScript captures, and Silverquill at 6 widths with its no-JavaScript, loop,
    scorecard tabs, clipboard, keyboard, reduced-motion and boundary checks. The flagship revision
-   captures seven Ninth Pass widths (280 through 1440); run `tools/ninthpass_render_check.py --motion`
+   captures seven Silverquill widths (280 through 1440); run `tools/ninthpass_render_check.py --motion`
    with the existing Python environment for two complete autonomous cycles and video per diagram.
    It also checks responsive layout,
 interaction and resilience. Its Shipwatch regression stage requires byte-identical PNGs for Acheron
@@ -83,10 +83,10 @@ run these checks.
 step constructs a fresh artifact from an explicit allowlist: each page's HTML and required Acheron
 media, the shared styles/script, and the required Pattern tokens, fonts and licences. It creates
 `.nojekyll` inside the artifact. Tools, source documents, agent memory and review evidence are not
-deployed. Ninth Pass is not in this allowlist.
+deployed. Silverquill is not in this allowlist.
 
-**Cloudflare Worker.** Ninth Pass publishes from `ninthpass/cloudflare/` instead, so that it can
-answer on `ninthpass.amccutcheon.com`. Its source of truth is still `ninthpass/` on `main`; the
+**Cloudflare Worker.** Silverquill publishes from `ninthpass/cloudflare/` instead, so that it can
+answer on `silverquill.amccutcheon.com`. Its source of truth is still `ninthpass/` on `main`; the
 Worker is built from that directory and is not published by the Pages workflow. See
 `ninthpass/cloudflare/README.md` for the build, the deploy and the reachability check.
 
@@ -107,13 +107,14 @@ Worker is built from that directory and is not published by the Pages workflow. 
 
 These are pointers, not implementation specifications:
 
-- **Ninth Pass domain:** `ninthpass.com` is unregistered and available. The interim site is
-  `ninthpass.amccutcheon.com`; registering the apex and pointing it at the same Worker is the
-  obvious next step, and it is a purchase, so it waits on Andy.
-- **Ninth Pass release:** the npm package `ninthpass@2.0.0` is not yet published; the page's install
-  command (`npx ninthpass install`) returns 404 until it is. The npm account is in a 72-hour
+- **Silverquill domain:** `silverquill.com` is registered by someone else and not available.
+  `silverquill.amccutcheon.com` is the live site; a subdomain of a domain already owned needs no
+  purchase.
+- **Silverquill release:** the npm package `silverquill@2.0.0` is not yet published; the page's install
+  command (`npx silverquill install`) returns 404 until it is. The npm account is in a 72-hour
   security hold because a recovery code was used to sign in. The durable fix is an authenticator
-  app, which does not trigger the hold.
+  app, which does not trigger the hold. The npm publication is held behind trademark clearance —
+  npm never releases a name, so publishing under a name that later conflicts cannot be undone.
 - **Freewhirr product:** close the two `stop`-policy escape hatches, require limits for paid fallback,
   and add inbound authentication to the proxy. Source:
   `/Users/andymccutcheon/Documents/GitHub/marketing-engineering/docs/proposals/2026-10-11-freewhirr-landing-copy-draft1.md`,
@@ -131,7 +132,7 @@ These are pointers, not implementation specifications:
   documented exceptions. Do not hand-edit generated `shared/fonts.css`.
 - Preserve both themes, no-JavaScript readability, accessible names, keyboard operation and the
   existing regression contract.
-- Ninth Pass carries its own token file, `ninthpass/css/pz-tokens.css`, and is the second file
+- Silverquill carries its own token file, `ninthpass/css/pz-tokens.css`, and is the second file
   exempted from the literal lint. Its authorized flagship overhaul is dark-only. All three diagrams
   share its tokens, stylesheet and script; embedded diagrams have no local playback controls.
   Keep the persistent page-level motion-stop setting, the complete still composition and live OS

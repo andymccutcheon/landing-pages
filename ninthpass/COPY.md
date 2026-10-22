@@ -1,8 +1,10 @@
 # Silverquill — public copy record
 
 > **Current copy: the creation-led revision of 21 October 2026.** It supersedes the review-led hero and
-> the 8 → 8 → 9 demonstration below, which are kept as history. Live copy follows; the page is built but
-> **not deployed** — the brand switch waits on trademark clearance.
+> the 8 → 8 → 9 demonstration below, which are kept as history. Live copy follows. The page is
+> **deployed** — the brand switch ran on 21 October and the canonical host is
+> `silverquill.amccutcheon.com`. The GitHub repository was renamed to `silverquill` on 22 October;
+> the old slug redirects.
 
 ## Hero (current)
 
@@ -51,6 +53,45 @@ exact wording it supplied. Generated from the run; the script fails if either si
 - **Revise · Refine** — Applies the numbered recommendations and returns a checklist of what was applied or deferred.
 - **Loop · Orchestrate** — Runs the three stages in order and keeps the record. Also available as one command: `node dist/cli.js run --request "…"`.
 - **Brief · One-off task** — A separate path: turns a rough task assignment into a single execution-ready brief, without building an agent. A task-like input given to Compose still produces System and Task Prompts.
+
+## Install (current)
+
+**Heading:** Your next prompt. Put it through review.
+
+**Body:** Clone and build from GitHub while the npm package is unpublished. Install and authenticate your chosen worker first; this example uses Claude Code.
+
+**Body:** Use `--worker opencode` or `--worker codex` for another supported worker. Silverquill uses the worker’s authentication and does not store provider credentials. Worker usage follows your provider’s plan or billing.
+
+**Actions:** Get Silverquill on GitHub · Read the setup guide · Install the five skills separately.
+
+**From source to first run**
+
+```sh
+git clone https://github.com/andymccutcheon/silverquill
+cd silverquill
+npm install
+npm run build
+node dist/cli.js run \
+  --request "An agent that summarises meeting notes into five short, useful bullets" \
+  --worker claude \
+  --name meeting-agent
+```
+
+**Already have a prompt?** `node dist/cli.js run --prompt ./prompt.md --worker claude`
+
+## Shared interface (current)
+
+- Navigation: Real run · How it works · Start.
+- Page motion: Pause motion / Resume motion / Motion reduced.
+- Clipboard: Copy commands / Copying… / Copied / Commands selected.
+- Clipboard success announcement: Setup and first-run commands copied.
+- Clipboard refusal announcement: Couldn’t copy. Select the commands to copy them.
+- Footer: Open-source prompt review. MIT licensed.
+- Footer links: Source · Run artifacts · License.
+- Title: Silverquill — Give your agents better instructions.
+- Description: An open-source toolkit that turns what you want an agent to do into a System Prompt and a Task Prompt, evaluates them against a published rubric, and refines them with evidence-backed recommendations. Every stage is inspectable.
+- Social description: Create the agent instructions, evaluate them, refine them — and inspect every stage.
+- Social card: Open-source prompt review, with the record attached. One recorded run. Model-assigned prompt scores.
 
 ---
 
@@ -175,8 +216,8 @@ Use `--worker opencode` or `--worker codex` for another supported worker. Ninth 
 **From source to first run**
 
 ```sh
-git clone https://github.com/andymccutcheon/ninthpass
-cd ninthpass
+git clone https://github.com/andymccutcheon/silverquill
+cd silverquill
 npm install
 npm run build
 node dist/cli.js run \

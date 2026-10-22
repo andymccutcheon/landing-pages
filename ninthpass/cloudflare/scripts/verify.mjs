@@ -3,7 +3,7 @@
 //
 //   npm run verify -- https://ninthpass-site.<your-subdomain>.workers.dev
 
-const REPO_URL = 'https://github.com/andymccutcheon/ninthpass';
+const REPO_URL = 'https://github.com/andymccutcheon/silverquill';
 
 /** Paths that must answer 200, in the order a browser asks for them. */
 const PATHS = [

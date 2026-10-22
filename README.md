@@ -1,7 +1,7 @@
 # Landing pages
 
 Four standalone, progressively enhanced product pages. Three publish through GitHub Pages; the
-fourth, Ninth Pass, publishes through its own Cloudflare Worker so it can answer on a custom
+fourth, Silverquill, publishes through its own Cloudflare Worker so it can answer on a custom
 domain. There is no root landing page and no build step.
 
 | Product | Source | Published page |
@@ -9,14 +9,15 @@ domain. There is no root landing page and no build step.
 | Acheron | [`acheron/index.html`](acheron/index.html) | <https://andymccutcheon.github.io/landing-pages/acheron/> |
 | Freewhirr | [`freewhirr/index.html`](freewhirr/index.html) | <https://andymccutcheon.github.io/landing-pages/freewhirr/> |
 | Shipwatch | [`shipwatch/index.html`](shipwatch/index.html) | <https://andymccutcheon.github.io/landing-pages/shipwatch/> |
-| Ninth Pass | [`ninthpass/index.html`](ninthpass/index.html) | <https://ninthpass.amccutcheon.com/> |
+| Silverquill | [`ninthpass/index.html`](ninthpass/index.html) | <https://silverquill.amccutcheon.com/> |
 
 ## Repository map
 
 - `acheron/`, `freewhirr/`, `shipwatch/` — page HTML and product-local assets.
-- `ninthpass/` — the Ninth Pass page: HTML, its own token and layout CSS, its own script and fonts,
+- `ninthpass/` — the Silverquill page: HTML, its own token and layout CSS, its own script and fonts,
   and its three standalone diagrams. It is a standalone design and does not use the shared Pattern
-  layer; its design record is `ninthpass/DESIGN.md`.
+  layer; its design record is `ninthpass/DESIGN.md`. The folder still carries the old product name;
+  renaming it is a separate, mechanical pass.
 - `shared/` — the shared Pattern layer: generated fonts, `--lp-` tokens, base and motion rules,
   `common.css`, page-specific `freewhirr.css` and `shipwatch.css`, and `page.js`.
 - `vendor/pattern/` — immutable Design System Pattern snapshot pinned in `SNAPSHOT.md`.
@@ -26,7 +27,7 @@ domain. There is no root landing page and no build step.
 Acheron, Freewhirr and Shipwatch use the same header, footer and copyable install-bar pattern. The
 shared script adds remembered theme selection, clipboard behavior, keyboard scrolling and
 reveal/media enhancement. The underlying content remains readable without JavaScript. Landing-page
-additions use the `lp-` selector namespace and `--lp-` custom-property namespace. Ninth Pass has its
+additions use the `lp-` selector namespace and `--lp-` custom-property namespace. Silverquill has its
 own script and its own dark palette. Its three responsive diagrams loop autonomously with a
 persistent page-level motion setting; reduced motion and no-script views retain complete explanations.
 See `ninthpass/DESIGN.md` and `ninthpass/COPY.md` for the flagship revision's maintained records.
@@ -84,7 +85,7 @@ The aggregate render gate produces:
 - Acheron: 6 widths × 2 themes = 12 captures.
 - Freewhirr: 4 widths × 2 themes = 8 captures.
 - Shipwatch: 6 widths × 2 themes = 12 captures, plus 2 no-JavaScript captures.
-- Ninth Pass: 7 widths (280 through 1440 pixels), plus no-JavaScript, scorecard tabs, clipboard,
+- Silverquill: 7 widths (280 through 1440 pixels), plus no-JavaScript, scorecard tabs, clipboard,
   keyboard, local links, reduced-motion and persistent motion-setting checks. For autonomous motion
   and video evidence run `.venv/bin/python tools/ninthpass_render_check.py --motion` with
   `LP_NINTHPASS_URL` set to the local preview URL.
@@ -96,7 +97,7 @@ byte-identical to baseline commit `d42fe89`. Acheron's external iframe pixels ar
 byte comparison and validated separately by the render gate. Browser evidence is written under
 the ignored `.review/` directory.
 
-The three contrast scripts are the explicit contrast gates for Freewhirr, Shipwatch and Ninth Pass.
+The three contrast scripts are the explicit contrast gates for Freewhirr, Shipwatch and Silverquill.
 Do not install packages or download browsers just to run optional local browser checks; use the
 existing `.venv` and Chromium installation.
 
@@ -111,10 +112,10 @@ changes from `main`. It stages a fresh artifact from an explicit file allowlist 
 - a generated `.nojekyll` marker.
 
 The workflow does not publish tools, implementation reports, agent memory or review evidence. When a
-page gains a runtime asset, that file must also be added to the staging allowlist. Ninth Pass is not
+page gains a runtime asset, that file must also be added to the staging allowlist. Silverquill is not
 in this allowlist.
 
-**Cloudflare Worker.** Ninth Pass publishes from [`ninthpass/cloudflare/`](ninthpass/cloudflare/),
+**Cloudflare Worker.** Silverquill publishes from [`ninthpass/cloudflare/`](ninthpass/cloudflare/),
 which stages the page and its directories into an assets-only Worker named `ninthpass-site` and
 attaches the custom domains. See [`ninthpass/cloudflare/README.md`](ninthpass/cloudflare/README.md)
 for the build, the deploy and the reachability check.

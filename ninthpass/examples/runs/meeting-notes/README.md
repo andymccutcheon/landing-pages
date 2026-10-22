@@ -59,8 +59,8 @@ against a fixed rubric. It checks the structure of the prompt, not whether the p
 ## Reproducing it
 
 ```sh
-git clone https://github.com/andymccutcheon/ninthpass
-cd ninthpass && npm install && npm run build
+git clone https://github.com/andymccutcheon/silverquill
+cd silverquill && npm install && npm run build
 node dist/cli.js run \
   --request "Write a prompt for a meeting-notes summarizer that returns five bullets" \
   --worker claude --out ./prompts

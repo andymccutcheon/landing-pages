@@ -17,7 +17,7 @@ WIDTHS = (280, 320, 390, 414, 768, 1024, 1440)
 DIAGRAMS = ('arbor', 'dataflow')
 BASE = os.environ.get('LP_TEST_URL', 'http://127.0.0.1:8766/acheron/').removesuffix('acheron/')
 URL = os.environ.get('LP_NINTHPASS_URL', BASE + 'ninthpass/')
-REPO = 'https://github.com/andymccutcheon/ninthpass'
+REPO = 'https://github.com/andymccutcheon/silverquill'
 
 async def read_motion(frame):
     return await frame.evaluate('''() => {
