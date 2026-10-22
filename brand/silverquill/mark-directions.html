@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Silverquill — identity directions</title>
+<style>
+  @font-face { font-family:'Geist'; src:url('../../ninthpass/assets/fonts/geist.woff2') format('woff2'); font-weight:100 900; }
+  @font-face { font-family:'Fraunces'; src:url('../../ninthpass/assets/fonts/fraunces-normal.woff2') format('woff2'); font-weight:100 900; }
+  @font-face { font-family:'Geist Mono'; src:url('../../ninthpass/assets/fonts/geist-mono.woff2') format('woff2'); font-weight:100 900; }
+
+  :root{
+    --ground:#151417; --surface:#1e1d21; --raised:#29272d;
+    --ink:#f0eee9; --secondary:#c0bbc4; --muted:#a39da8; --accent:#d4ed80; --path:#736c7b;
+    --font:'Geist',system-ui,sans-serif; --editorial:'Fraunces',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .shell{max-width:1180px;margin:0 auto;padding:72px 28px 96px}
+  h1{font-family:var(--editorial);font-weight:600;font-size:clamp(2rem,4.2vw,3.4rem);letter-spacing:-.03em;line-height:1.05;margin:0 0 14px}
+  .lede{color:var(--secondary);max-width:62ch;font-size:1.0625rem;margin:0 0 8px}
+  .meta{color:var(--muted);font-size:.875rem;margin:0 0 56px;max-width:70ch}
+  .meta b{color:var(--secondary);font-weight:500}
+  .meta code{font-family:'Geist Mono',monospace;color:var(--accent);font-size:.8125rem}
+  .read{font-family:var(--editorial);font-style:italic;font-weight:400;color:var(--accent);font-size:1.0625rem;margin:0 0 4px}
+  hr{border:0;border-top:1px solid var(--raised);margin:56px 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1px;background:var(--raised);border:1px solid var(--raised)}
+  .cell{background:var(--surface);padding:30px 28px 34px}
+  .n{font-family:'Geist Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .cell h2{font-family:var(--editorial);font-weight:600;font-size:1.75rem;letter-spacing:-.02em;margin:10px 0 10px;line-height:1.1}
+  .why{color:var(--secondary);font-size:.9375rem;margin:0 0 26px;min-height:8.6em}
+  .stage{background:var(--ground);border:1px solid var(--raised);display:flex;align-items:center;justify-content:center;padding:34px 0;margin:0 0 18px}
+  .stage svg{width:112px;height:112px;color:var(--accent)}
+  .lockup{display:flex;align-items:center;gap:12px;margin:0 0 24px}
+  .lockup svg{width:26px;height:26px;color:var(--accent);flex:none}
+  .lockup .wm{font-family:var(--editorial);font-weight:600;font-size:1.5rem;letter-spacing:-.03em}
+  .lockup.geo .wm{font-family:var(--font);font-weight:550;font-size:1.375rem;letter-spacing:-.02em}
+  .scales{display:flex;align-items:center;gap:22px;padding:16px 0 20px;border-top:1px solid var(--raised)}
+  .scales span{color:var(--muted);font-size:.75rem;font-family:'Geist Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-right:auto}
+  .scales svg{color:var(--accent)}
+  .scales .s16{width:16px;height:16px}.scales .s24{width:24px;height:24px}.scales .s32{width:32px;height:32px}
+  .verdict{border-top:1px solid var(--raised);padding-top:18px;font-size:.9375rem;color:var(--secondary)}
+  .verdict b{color:var(--ink);font-weight:500}
+  .note{color:var(--muted);font-size:.8125rem;margin:14px 0 0}
+  .footer{color:var(--muted);font-size:.875rem;margin-top:56px}
+  .footer code{font-family:'Geist Mono',monospace;color:var(--secondary)}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <p class="read">Reading this as: an identity for an open-source command-line prompt-review tool — an instrument, not a mascot — in a letterpress-and-ink register, leaning scientific-editorial.</p>
+  <h1>Silverquill — three marks</h1>
+  <p class="lede">The name is chosen. The old mark was a literal nine, so the mark is being made from scratch. Three directions, each carrying a different idea about what the product actually does.</p>
+  <p class="meta"><b>Dials</b> — design variance <code>6</code>, motion intensity <code>1</code>, visual density <code>3</code>. An identity has no motion; the page keeps its own. <b>Palette</b> is the page's existing token set: ground <code>#151417</code>, ink <code>#f0eee9</code>, signal <code>#d4ed80</code>. <b>Type</b> is the page's existing pair: Fraunces for the wordmark, Geist for utility settings.</p>
+
+  <div class="grid">
+
+    <section class="cell">
+      <p class="n">Direction one</p>
+      <h2>The Rule</h2>
+      <p class="why">A rubric is a ruled line with marks, and the run stops at the ninth. The mark is that line, with the ninth mark tall. It carries the old name's number into the new name's instrument without keeping the number as a wordmark.</p>
+      <div class="stage">
+        <svg viewBox="0 0 32 32" role="img" aria-label="A hairline rule divided into ten, with the ninth marked tall">
+          <g stroke="currentColor" stroke-width="1.1" opacity="0.5" stroke-linecap="butt">
+            <line x1="4" y1="19" x2="28" y2="19"/>
+            <line x1="4" y1="19" x2="4" y2="21.4"/><line x1="6.67" y1="19" x2="6.67" y2="21.4"/>
+            <line x1="9.33" y1="19" x2="9.33" y2="21.4"/><line x1="12" y1="19" x2="12" y2="21.4"/>
+            <line x1="14.67" y1="19" x2="14.67" y2="21.4"/><line x1="17.33" y1="19" x2="17.33" y2="21.4"/>
+            <line x1="20" y1="19" x2="20" y2="21.4"/><line x1="22.67" y1="19" x2="22.67" y2="21.4"/>
+            <line x1="28" y1="19" x2="28" y2="21.4"/>
+          </g>
+          <line x1="25.33" y1="12" x2="25.33" y2="21.4" stroke="currentColor" stroke-width="1.6"/>
+        </svg>
+      </div>
+      <div class="lockup">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><g stroke="currentColor" stroke-width="1.1" opacity="0.5"><line x1="4" y1="19" x2="28" y2="19"/><line x1="4" y1="19" x2="4" y2="21.4"/><line x1="6.67" y1="19" x2="6.67" y2="21.4"/><line x1="9.33" y1="19" x2="9.33" y2="21.4"/><line x1="12" y1="19" x2="12" y2="21.4"/><line x1="14.67" y1="19" x2="14.67" y2="21.4"/><line x1="17.33" y1="19" x2="17.33" y2="21.4"/><line x1="20" y1="19" x2="20" y2="21.4"/><line x1="22.67" y1="19" x2="22.67" y2="21.4"/><line x1="28" y1="19" x2="28" y2="21.4"/></g><line x1="25.33" y1="12" x2="25.33" y2="21.4" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="wm">Silverquill</span>
+      </div>
+      <div class="scales">
+        <span>Small scale</span>
+        <svg class="s16" viewBox="0 0 32 32" aria-hidden="true"><g stroke="currentColor" stroke-width="1.8" opacity="0.55"><line x1="4" y1="19" x2="28" y2="19"/><line x1="4" y1="19" x2="4" y2="22"/><line x1="9.33" y1="19" x2="9.33" y2="22"/><line x1="14.67" y1="19" x2="14.67" y2="22"/><line x1="20" y1="19" x2="20" y2="22"/><line x1="25.33" y1="19" x2="25.33" y2="22"/></g><line x1="25.33" y1="11" x2="25.33" y2="22" stroke="currentColor" stroke-width="2.6"/></svg>
+        <svg class="s24" viewBox="0 0 32 32" aria-hidden="true"><g stroke="currentColor" stroke-width="1.4" opacity="0.55"><line x1="4" y1="19" x2="28" y2="19"/><line x1="4" y1="19" x2="4" y2="22"/><line x1="9.33" y1="19" x2="9.33" y2="22"/><line x1="14.67" y1="19" x2="14.67" y2="22"/><line x1="20" y1="19" x2="20" y2="22"/><line x1="25.33" y1="19" x2="25.33" y2="22"/></g><line x1="25.33" y1="12" x2="25.33" y2="22" stroke="currentColor" stroke-width="2"/></svg>
+        <svg class="s32" viewBox="0 0 32 32" aria-hidden="true"><g stroke="currentColor" stroke-width="1.1" opacity="0.5"><line x1="4" y1="19" x2="28" y2="19"/><line x1="4" y1="19" x2="4" y2="21.4"/><line x1="6.67" y1="19" x2="6.67" y2="21.4"/><line x1="9.33" y1="19" x2="9.33" y2="21.4"/><line x1="12" y1="19" x2="12" y2="21.4"/><line x1="14.67" y1="19" x2="14.67" y2="21.4"/><line x1="17.33" y1="19" x2="17.33" y2="21.4"/><line x1="20" y1="19" x2="20" y2="21.4"/><line x1="22.67" y1="19" x2="22.67" y2="21.4"/><line x1="28" y1="19" x2="28" y2="21.4"/></g><line x1="25.33" y1="12" x2="25.33" y2="21.4" stroke="currentColor" stroke-width="1.6"/></svg>
+      </div>
+      <p class="verdict"><b>My read:</b> the strongest idea, and the only one that explains the old name instead of forgetting it. Its problem is scale — at sixteen pixels the tenth of a rubric disappears, so the favicon needs a simplified variant (six marks, one tall). It also asks the reader to know what a rubric is before they know the product.</p>
+    </section>
+
+    <section class="cell">
+      <p class="n">Direction two</p>
+      <h2>The Quoted</h2>
+      <p class="why">The product's signature act is quoting: it names the exact line that is wrong, with a quote, then fixes it. The mark is that quote, drawn as two precise hooks — the product's own behaviour, abstracted.</p>
+      <div class="stage">
+        <svg viewBox="0 0 32 32" role="img" aria-label="Two hairline closing quotes">
+          <g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="butt">
+            <path d="M11 26 V13.5C11 10.5 9.2 8.5 6 8.5"/>
+            <path d="M23 26 V13.5C23 10.5 21.2 8.5 18 8.5"/>
+          </g>
+        </svg>
+      </div>
+      <div class="lockup">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9"><path d="M11 26 V13.5C11 10.5 9.2 8.5 6 8.5"/><path d="M23 26 V13.5C23 10.5 21.2 8.5 18 8.5"/></g></svg>
+        <span class="wm">Silverquill</span>
+      </div>
+      <div class="scales">
+        <span>Small scale</span>
+        <svg class="s16" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.6"><path d="M11 27 V14C11 10.5 9 8.5 5.5 8.5"/><path d="M23 27 V14C23 10.5 21 8.5 17.5 8.5"/></g></svg>
+        <svg class="s24" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 27 V14C11 10.5 9 8.5 5.5 8.5"/><path d="M23 27 V14C23 10.5 21 8.5 17.5 8.5"/></g></svg>
+        <svg class="s32" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9"><path d="M11 26 V13.5C11 10.5 9.2 8.5 6 8.5"/><path d="M23 26 V13.5C23 10.5 21.2 8.5 18 8.5"/></g></svg>
+      </div>
+      <p class="verdict"><b>My read:</b> the best behaviour-match and the best small-scale behaviour — two strokes read at any size, and it needs no simplification for the favicon. Its cost is that a pair of quote marks is a general typographic symbol; on its own it is not distinctive, and it does not carry the word "quill".</p>
+    </section>
+
+    <section class="cell">
+      <p class="n">Direction three</p>
+      <h2>The Nib</h2>
+      <p class="why">The name is a writing implement, so the mark is one: a nib and the stroke it has just written. Silver and ink, one stroke, no ornament.</p>
+      <div class="stage">
+        <svg viewBox="0 0 32 32" role="img" aria-label="A pen nib with the stroke it has just written">
+          <path d="M11 4 L21 4 L16 16.5 Z" fill="currentColor"/>
+          <line x1="16" y1="9" x2="16" y2="16.5" stroke="#151417" stroke-width="1"/>
+          <path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="lockup">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M11 4 L21 4 L16 16.5 Z" fill="currentColor"/><line x1="16" y1="9" x2="16" y2="16.5" stroke="#151417" stroke-width="1"/><path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="wm">Silverquill</span>
+      </div>
+      <div class="scales">
+        <span>Small scale</span>
+        <svg class="s16" viewBox="0 0 32 32" aria-hidden="true"><path d="M10.5 3 L21.5 3 L16 17 Z" fill="currentColor"/><line x1="16" y1="8.5" x2="16" y2="17" stroke="#151417" stroke-width="1.4"/><path d="M16 18.8C16 24.4 12.6 27.6 6 28.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="s24" viewBox="0 0 32 32" aria-hidden="true"><path d="M10.5 3.5 L21.5 3.5 L16 17 Z" fill="currentColor"/><line x1="16" y1="9" x2="16" y2="17" stroke="#151417" stroke-width="1.2"/><path d="M16 18.4C16 24 12.6 27.6 6 28.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <svg class="s32" viewBox="0 0 32 32" aria-hidden="true"><path d="M11 4 L21 4 L16 16.5 Z" fill="currentColor"/><line x1="16" y1="9" x2="16" y2="16.5" stroke="#151417" stroke-width="1"/><path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <p class="verdict"><b>My read:</b> the prettiest and the most obviously the name. Its danger is that a nib is the oldest mark in the book — a fountain pen reads as heritage, and this product argues for the opposite. It also leans a little costume, which is the one register the page has avoided so far.</p>
+    </section>
+
+  </div>
+
+  <hr>
+  <p class="footer">Direction files live in <code>brand/silverquill/marks/</code>. The wordmark sets in <b>Fraunces</b> for editorial surfaces and in <b>Geist</b> for terminal and package surfaces; nothing is drawn as a raster except the social card, so a swap costs one file each way.</p>
+
+</div>
+</body>
+</html>

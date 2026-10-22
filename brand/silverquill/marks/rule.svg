@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="t d">
+  <title id="t">Silverquill — the rule</title>
+  <desc id="d">A hairline rule divided into ten, with the ninth division marked tall.</desc>
+  <g stroke="currentColor" stroke-width="1.1" opacity="0.5" stroke-linecap="butt">
+    <line x1="4" y1="19" x2="28" y2="19"/>
+    <line x1="4" y1="19" x2="4" y2="21.4"/>
+    <line x1="6.67" y1="19" x2="6.67" y2="21.4"/>
+    <line x1="9.33" y1="19" x2="9.33" y2="21.4"/>
+    <line x1="12" y1="19" x2="12" y2="21.4"/>
+    <line x1="14.67" y1="19" x2="14.67" y2="21.4"/>
+    <line x1="17.33" y1="19" x2="17.33" y2="21.4"/>
+    <line x1="20" y1="19" x2="20" y2="21.4"/>
+    <line x1="22.67" y1="19" x2="22.67" y2="21.4"/>
+    <line x1="28" y1="19" x2="28" y2="21.4"/>
+  </g>
+  <line x1="25.33" y1="12" x2="25.33" y2="21.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="butt"/>
+</svg>

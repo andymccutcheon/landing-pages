@@ -1,0 +1,23 @@
+Section Ratings
+- System Prompt / Role & Output Contract: 8/10 — "Return the requested summary directly, with no commentary on your process and no surrounding markup" is specific and enforceable, but it states no exception for the no-input branch, so the Task Prompt's "ask for the notes" has to be read against an output contract that only covers returning a summary.
+- Task Objective & Action: 9/10 — "Summarise meeting notes into five bullet points" is a single verifiable verb-object target, and the closing clause "Write for a colleague who missed the meeting" now supplies the purpose and reader the earlier pass found missing.
+- Output Format & Count Constraint: 9/10 — "five bullet points" fixes container and count, and "if they contain fewer than five distinct points, output only the points that exist rather than padding to five" makes the count deterministic in the sparse case; no explicit bullet-marker format or ordering statement beyond priority.
+- Content Selection Priority: 9/10 — "prioritising decisions made, action items and their owners or deadlines, and unresolved questions" names three selection buckets and their relative importance; the tie-break when fewer than five points exist remains implied by word order rather than stated.
+- Faithfulness / No-Invention Guard: 9/10 — "never invent decisions, owners, dates, or outcomes; omit any detail the notes do not give" closes the Pass-1 3/10 gap outright; nothing addresses details the notes state ambiguously.
+- Input Specification & Edge-Case Handling: 8/10 — "Use the meeting notes provided in the request" plus the sparse and no-notes branches cover the main cases, but the no-notes branch does not say the clarifying request replaces the summary, and empty/unusable notes are unaddressed.
+- Style & Length Constraints: 8/10 — "about 20 words or fewer per bullet, no preamble and no closing summary" is measurable in practice, but "about" leaves a non-binary cap and "one idea per bullet" is never defined, so the two length/style gates are not fully decidable.
+- Audience & Purpose: 9/10 — "Write for a colleague who missed the meeting and needs to act on it without re-reading the notes" makes "useful" checkable against a stated job-to-be-done.
+- Fidelity to Source User Facts: 9/10 — all three source facts survive verbatim ("Summarise meeting notes into five bullet points" and "Keep it short and useful" both appear); every added clause elaborates the request rather than narrowing or contradicting it.
+
+Overall Rating: 9/10 — Every gate the earlier pass scored 3–5/10 is now closed with enforceable text: a length cap ("about 20 words or fewer per bullet"), an explicit anti-invention clause, a deterministic sparse-input rule, and a stated reader. The residual items — the "about" softener, the undefined "one idea", and the unstated precedence of "ask for the notes" over "return the requested summary" — are non-blocking polish, not blockers.
+
+Verdict: STOP
+
+Recommendations
+1. Make the no-input branch unambiguous against the output contract. Old: "if no notes are provided, ask for the notes." → New: "if no notes are provided, ask for the notes instead of summarising, and output only that request." (Clarifies an existing rule rather than adding one; as written, "ask for the notes" could be read as commentary appended to a summary, which the System Prompt forbids.)
+2. Turn the soft length cap into a binary one. Old: "about 20 words or fewer per bullet" → New: "20 words or fewer per bullet". ("About" admits a 21-word and a 29-word bullet equally, so the constraint cannot be checked the way "five bullet points" can.)
+3. Define what one bullet is. Old: "one idea per bullet" → New: "one idea per bullet — a decision, an action item with its owner and deadline if the notes give them, or an open question". (Prevents an action item being split from its owner across two bullets and makes the priority buckets checkable per bullet.)
+4. State the selection order explicitly. Old: "prioritising decisions made, action items and their owners or deadlines, and unresolved questions" → New: "in this order: decisions made, action items with their owners or deadlines, then unresolved questions". (Removes reliance on word order to break ties when fewer than five points exist.)
+5. Cover ambiguous attribution. Old: "omit any detail the notes do not give" → New: "omit any detail the notes do not give, including any owner or deadline the notes leave unclear". (Fabrication typically enters through details the notes gesture at rather than omit; the current clause is silent on that case.)
+
+All five edits preserve the fidelity source's three facts — meeting notes, five bullet points, and short and useful — and no required block or section is removed.

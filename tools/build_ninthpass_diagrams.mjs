@@ -5,13 +5,13 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const output = resolve(root, 'ninthpass/diagrams');
-const run = resolve(root, 'ninthpass/examples/runs/meeting-notes');
+const run = resolve(root, 'ninthpass/examples/runs/meeting-agent');
 const cycle = readFileSync(resolve(root,'ninthpass/css/pz-tokens.css'),'utf8').match(/--pz-cycle:\s*([^;]+);/)[1].trim();
-const files = ['02-judge-pass1.md', '04-judge-pass2.md', '04b-judge-pass3.md'];
-const scores = files.map(file => Number(readFileSync(resolve(run, file), 'utf8').match(/Overall Rating:\s*(\d+)/)[1]));
-if (scores.join() !== '8,8,9') throw new Error('Captured trajectory changed: re-review the diagrams.');
-const recs = ['Remove repeated instructions', 'Apply domain guidance', 'Rank more than five points', 'Carry context across meetings', 'Check numbers against source'];
-const mobileRecs = [['Remove repeated','instructions'], ['Apply domain','guidance'], ['Rank more than','five points'], ['Carry context across','meetings'], ['Check numbers','against source']];
+const files = ['02-judge-pass1.md', '04-judge-pass2.md'];
+const scores = files.map(file => Number(readFileSync(resolve(run, file), 'utf8').match(/Overall Rating:\s*(\d+(?:\.\d+)?)/)[1]));
+if (scores.join() !== '8.63,9.25') throw new Error('Captured trajectory changed: re-review the diagrams.');
+const recs = ['Omit unsupported details', 'Label unstated facts', 'Five bullets, except refusals', 'Check form and source support', 'Only supplied material'];
+const mobileRecs = [['Omit unsupported','details'], ['Label unstated','facts'], ['Five bullets,','except refusals'], ['Check form and','source support'], ['Only supplied','material']];
 const esc = value => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;');
 const text = (x, y, content, cls = '', anchor = 'middle') => `<text x="${x}" y="${y}" class="${cls}" text-anchor="${anchor}">${esc(content)}</text>`;
 const path = (d, cls = '') => `<path d="${d}" class="route ${cls}"/>`;
@@ -62,15 +62,15 @@ function arbor(mobile) {
     body += trail(inbound,entry,arrived) + trail(outbound,gather,gathered) + dot(inbound,entry,arrived) + dot(outbound,gather,gathered);
   });
   if (mobile) {
-    body += text(50,80,'8','score score-ink') + text(102,48,'First scorecard','stage-label','start') + text(102,77,'Five recommendations','small','start');
+    body += text(56,80,'8.63','score score-dec score-ink') + text(102,48,'First scorecard','stage-label','start') + text(102,77,'Five recommendations','small','start');
     body += `<circle cx="${to[0]}" cy="${to[1]}" r="10" class="accent"/>`;
-    body += text(200,568,'One rewrite','stage-label') + text(200,603,'Next Judge: still 8/10','small');
+    body += text(200,568,'One rewrite','stage-label') + text(200,603,'Next Judge: 9.25/10','small');
   } else {
     body += text(102,212,'8','score score-ink') + text(110,265,'First scorecard','stage-label') + text(110,294,'CONTINUE','small');
     body += `<circle cx="${to[0]}" cy="${to[1]}" r="12" class="accent"/>`;
-    body += text(1080,179,'One rewrite','stage-label') + text(1080,269,'Next Judge','small') + text(1080,302,'Still 8/10','stage-label');
+    body += text(1080,179,'One rewrite','stage-label') + text(1080,269,'Next Judge','small') + text(1080,302,'9.25 / STOP','stage-label');
   }
-  const desc = 'Five actual recommendations from the first scorecard: remove repeated instructions; explain when to apply domain guidance; rank more than five points; carry context across meeting sessions; check numbers against the source. They gather into one rewrite, not five parallel workers. The next Judge still scores 8.';
+  const desc = 'Five recommendations from the first scorecard: omit unsupported details; label unstated facts; allow a safety refusal instead of five bullets; check form and source support; use only supplied material. They gather into one rewrite, not five parallel workers. The next Judge scored 9.25 and stopped.';
   return svg(`arbor-${mobile?'m':'d'}`,mobile?400:1200,mobile?650:440,'Five recommendations, one rewrite',desc,body);
 }
 
@@ -114,8 +114,8 @@ function dataflow(mobile) {
   return svg(`flow-${mobile?'m':'d'}`,mobile?400:1200,mobile?650:440,'Separate processes, explicit packets',desc,body);
 }
 
-for (const [name, build, title] of [['loop',loop,'A real 8 → 8 → 9 run'],['arbor',arbor,'Five recommendations, one rewrite'],['dataflow',dataflow,'Separate processes, explicit packets']]) {
-  const desc='Recorded meeting-notes example, Claude Code worker, 20 October 2026. This explanation is not a live execution.';
+for (const [name, build, title] of [['arbor',arbor,'Five recommendations, one rewrite'],['dataflow',dataflow,'Separate processes, explicit packets']]) {
+  const desc='Recorded meeting-agent example, Codex worker, 21 October 2026. This explanation is not a live execution.';
   writeFileSync(resolve(output,`${name}.html`),wrap(name,title,desc,build(false),build(true)));
 }
-console.log('Built 3 responsive diagrams from captured scores 8, 8, 9 and five source-mapped recommendations.');
+console.log('Built the feedback fan and process diagram from the recorded run (8.63 → 9.25).');

@@ -57,6 +57,9 @@ svg { display: block; }
 .diagram-title { padding: var(--pz-s5) var(--pz-code-pad) 0; display: flex; justify-content: space-between; gap: var(--pz-s4); color: var(--pz-secondary); font-size: var(--pz-small); }
 .trajectory { display: flex; align-items: baseline; gap: var(--pz-s5); margin-top: var(--pz-s7); }
 .trajectory b { font-size: var(--pz-score); line-height: .9; font-weight: 500; letter-spacing: var(--pz-track-score); font-variant-numeric: tabular-nums; }
+/* Decimal scores carry three glyphs more than a single digit: size them to the column. */
+.trajectory.decimal b { font-size: clamp(1.9rem, 4.4vw, 3.9rem); letter-spacing: -.04em; }
+.trajectory.decimal { gap: var(--pz-s3); }
 .trajectory span { color: var(--pz-muted); font-size: var(--pz-subtitle); }
 .trajectory b:last-of-type { color: var(--pz-accent); }
 .proof-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: var(--pz-s8); align-items: end; }
@@ -157,3 +160,97 @@ pre { margin: 0; white-space: pre; max-width: 100%; overflow-x: auto; }
   .footer-links { flex-wrap: wrap; }
 }
 @media (max-width: 30rem) { h1 { font-size: var(--pz-display-small); } }
+
+/* Hero qualification — the score's limit, said at the point of the claim. */
+.hero-qualifier { font-size: var(--pz-tiny); color: var(--pz-muted); max-width: 48ch; margin-top: var(--pz-s2); }
+
+/* Revision diff — the artifact changing, from the two real run files. */
+.diff { margin: 0; border: var(--pz-hair) solid var(--pz-raised); border-radius: var(--pz-radius); overflow: hidden; background: var(--pz-surface); }
+.diff-cols { display: grid; grid-template-columns: 1fr 1fr; }
+.diff-col { padding: var(--pz-s5); min-width: 0; }
+.diff-col + .diff-col { border-left: var(--pz-hair) solid var(--pz-raised); }
+.diff-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--pz-s3); border-bottom: var(--pz-hair) solid var(--pz-raised); padding-bottom: var(--pz-s3); margin-bottom: var(--pz-s4); }
+.diff-file { font-family: var(--pz-code); font-size: var(--pz-tiny); color: var(--pz-secondary); }
+.diff-meta { font-family: var(--pz-code); font-size: var(--pz-tiny); color: var(--pz-muted); }
+.diff-sec { font-family: var(--pz-code); font-size: var(--pz-tiny); letter-spacing: .12em; text-transform: uppercase; color: var(--pz-muted); margin: var(--pz-s4) 0 var(--pz-s2); }
+.diff-body { font-family: var(--pz-code); font-size: var(--pz-small); line-height: 1.7; color: var(--pz-secondary); white-space: pre-wrap; margin: 0; }
+.diff-body mark { background: rgba(212,237,128,.14); color: var(--pz-ink); box-shadow: inset 0 -1px 0 var(--pz-accent); padding: 0 1px; }
+.diff-ell { font-family: var(--pz-code); font-size: var(--pz-tiny); color: var(--pz-path); margin: var(--pz-s3) 0 0; }
+.diff-gone { position: relative; border: 1px dashed rgba(223,177,188,.45); padding: var(--pz-s4); margin-top: var(--pz-s5); }
+.diff-gone .diff-body { color: var(--pz-rose); }
+.diff-gone mark { background: rgba(223,177,188,.12); color: var(--pz-ink); box-shadow: inset 0 -1px 0 var(--pz-rose); }
+.diff-tag { position: absolute; top: -.6em; left: var(--pz-s3); background: var(--pz-surface); padding: 0 6px; font-family: var(--pz-code); font-size: var(--pz-tiny); letter-spacing: .1em; text-transform: uppercase; color: var(--pz-rose); }
+.diff-scores { display: grid; grid-template-columns: 1fr 1fr; border-top: var(--pz-hair) solid var(--pz-raised); }
+.diff-scores > div { padding: var(--pz-s4) var(--pz-s5); font-size: var(--pz-small); color: var(--pz-secondary); }
+.diff-scores > div + div { border-left: var(--pz-hair) solid var(--pz-raised); }
+.diff-scores b { display: block; color: var(--pz-ink); font-weight: 500; margin-bottom: 2px; }
+
+/* Skills — the five callable pieces, each on its own. */
+.skills { margin: var(--pz-s7) 0 0; border-top: var(--pz-hair) solid var(--pz-raised); }
+.skills-head { display: flex; justify-content: space-between; gap: var(--pz-s4); align-items: baseline; padding: var(--pz-s4) 0; }
+.skills-head h3 { font-size: var(--pz-body); font-weight: 600; letter-spacing: var(--pz-track-small); margin: 0; }
+.skills-head p { color: var(--pz-muted); font-size: var(--pz-small); margin: 0; max-width: 44ch; }
+.skill { display: grid; grid-template-columns: 9ch 1fr; gap: var(--pz-s3) var(--pz-s5); align-items: baseline; padding: var(--pz-s4) 0; border-top: var(--pz-hair) solid var(--pz-raised); }
+.skill dt { font-family: var(--pz-code); font-size: var(--pz-small); color: var(--pz-accent); }
+.skill dd { margin: 0; color: var(--pz-secondary); font-size: var(--pz-small); }
+
+@media (max-width: 760px) {
+  .diff-cols { grid-template-columns: 1fr; }
+  .diff-col + .diff-col { border-left: 0; border-top: var(--pz-hair) solid var(--pz-raised); }
+  .diff-scores { grid-template-columns: 1fr; }
+  .diff-scores > div + div { border-left: 0; border-top: var(--pz-hair) solid var(--pz-raised); }
+  .skill { grid-template-columns: 1fr; gap: var(--pz-s1); }
+}
+
+@media (max-width: 760px) {
+  .diff-gone { padding-top: var(--pz-s4); }
+  .diff-tag { position: static; display: inline-block; margin-bottom: var(--pz-s2); background: transparent; padding: 0; }
+}
+
+/* The Rule device — a 0–10 score track with the gate marked. */
+.score-track { margin: 0 0 var(--pz-s5); }
+.score-track svg { display: block; width: 100%; height: auto; color: var(--pz-secondary); }
+.score-track .track-dot { fill: var(--pz-secondary); }
+.score-track .track-dot-gate { fill: var(--pz-accent); }
+.track-label { font-family: var(--pz-code); font-size: 12px; letter-spacing: .08em; fill: var(--pz-secondary); }
+.track-legend { margin: var(--pz-s2) 0 0; font-size: var(--pz-tiny); color: var(--pz-muted); max-width: 62ch; }
+
+/* Diff section, generated from the recorded run by tools/build_silverquill_diff.mjs. */
+.diff-body del.replaced { color: var(--pz-rose); text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: rgba(223,177,188,.6); }
+.diff-body mark.added { background: rgba(212,237,128,.08); color: var(--pz-ink); box-shadow: inset 0 -1px 0 rgba(212,237,128,.7); padding: 0 1px; }
+.rec-n { font-family: var(--pz-code); font-size: .62em; color: var(--pz-ground); background: var(--pz-accent); border-radius: 50%; width: 1.5em; height: 1.5em; display: inline-flex; align-items: center; justify-content: center; vertical-align: super; margin-left: 2px; }
+.diff-recs { display: grid; gap: 0; border-top: var(--pz-hair) solid var(--pz-raised); }
+.diff-rec { display: grid; grid-template-columns: 2.2ch 1fr; gap: var(--pz-s3); align-items: start; padding: var(--pz-s3) var(--pz-s5); border-bottom: var(--pz-hair) solid var(--pz-raised); }
+.diff-rec .rec-n { vertical-align: baseline; margin: 2px 0 0; }
+.diff-rec p { margin: 0; font-size: var(--pz-tiny); color: var(--pz-secondary); font-family: var(--pz-code); line-height: 1.6; }
+.diff-prov { font-family: var(--pz-code); font-size: var(--pz-tiny); color: var(--pz-muted); margin-top: var(--pz-s3); max-width: none; }
+.diff-file, .diff-meta { white-space: nowrap; }
+@media (max-width: 420px) {
+  .diff-head { flex-wrap: wrap; row-gap: 2px; }
+  .diff-meta { font-size: .6875rem; }
+}
+
+/* Hero eyebrow — names the discipline before the promise. */
+.hero-eyebrow { font-family: var(--pz-code); font-size: var(--pz-tiny); letter-spacing: .14em; text-transform: uppercase; color: var(--pz-accent); margin: 0 0 var(--pz-s4); }
+
+/* Skills: the capability each skill belongs to, before its name. */
+.skill-stage { display: block; font-family: var(--pz-code); font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--pz-muted); margin-bottom: 4px; }
+
+/* Change ledger — one recommendation per block, generated from the run. */
+.changes { border-top: var(--pz-hair) solid var(--pz-raised); }
+.change { padding: var(--pz-s5); border-bottom: var(--pz-hair) solid var(--pz-raised); }
+.change-head { display: flex; align-items: center; gap: var(--pz-s3); margin-bottom: var(--pz-s3); }
+.change-where { font-family: var(--pz-code); font-size: var(--pz-tiny); letter-spacing: .1em; text-transform: uppercase; color: var(--pz-secondary); }
+.change-old, .change-new { font-family: var(--pz-code); font-size: var(--pz-small); line-height: 1.65; margin: 0 0 var(--pz-s3); display: grid; grid-template-columns: 4.5ch 1fr; gap: var(--pz-s3); }
+.change-old { color: var(--pz-rose); }
+.change-new { color: var(--pz-ink); }
+.change-old > span, .change-new > span { grid-column: 1; }
+.change-tag { font-family: var(--pz-code); font-size: var(--pz-tiny); letter-spacing: .1em; text-transform: uppercase; color: var(--pz-muted); padding-top: 2px; }
+.change-new { background: rgba(212,237,128,.06); }
+.change-old { text-decoration: line-through; text-decoration-color: rgba(223,177,188,.45); text-decoration-thickness: 1px; }
+@media (max-width: 760px) {
+  .change-old, .change-new { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* Links inside captions stay inline but keep a 24px hit area. */
+.caption-link { display: inline-block; padding-block: 5px; }

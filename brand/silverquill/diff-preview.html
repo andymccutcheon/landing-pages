@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rough preview — revision diff</title>
+<style>
+  @font-face{font-family:'Geist';src:url('../../ninthpass/assets/fonts/geist.woff2') format('woff2');font-weight:100 900}
+  @font-face{font-family:'Fraunces';src:url('../../ninthpass/assets/fonts/fraunces-normal.woff2') format('woff2');font-weight:100 900}
+  @font-face{font-family:'Geist Mono';src:url('../../ninthpass/assets/fonts/geist-mono.woff2') format('woff2');font-weight:100 900}
+  :root{--ground:#151417;--surface:#1e1d21;--raised:#29272d;--ink:#f0eee9;--secondary:#c0bbc4;--muted:#a39da8;--accent:#d4ed80;--rose:#dfb1bc;--path:#736c7b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:'Geist',system-ui,sans-serif;line-height:1.5}
+  .shell{max-width:1240px;margin:0 auto;padding:56px 30px 80px}
+  .flag{display:inline-block;font-family:'Geist Mono',monospace;font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ground);background:var(--accent);padding:4px 8px;margin-bottom:18px}
+  h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(1.75rem,3.4vw,2.7rem);letter-spacing:-.03em;line-height:1.06;margin:0 0 12px}
+  .sub{color:var(--secondary);max-width:64ch;font-size:1.0625rem;margin:0 0 34px}
+  .quote{border-left:2px solid var(--accent);padding-left:14px;margin:0 0 34px;color:var(--ink);font-size:.9375rem;max-width:74ch}
+  .quote cite{display:block;color:var(--muted);font-style:normal;font-family:'Geist Mono',monospace;font-size:.75rem;margin-top:6px;letter-spacing:.06em}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--raised);border:1px solid var(--raised)}
+  .col{background:var(--surface);padding:22px 22px 26px;min-width:0}
+  .fhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--raised);padding-bottom:12px;margin-bottom:18px}
+  .fname{font-family:'Geist Mono',monospace;font-size:.75rem;letter-spacing:.04em;color:var(--secondary)}
+  .fmeta{font-family:'Geist Mono',monospace;font-size:.6875rem;color:var(--muted)}
+  .sec{font-family:'Geist Mono',monospace;font-size:.6875rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+  .body{font-family:'Geist Mono',monospace;font-size:.78rem;line-height:1.72;color:var(--secondary);white-space:pre-wrap}
+  .dup{background:rgba(212,237,128,.13);box-shadow:inset 0 -1px 0 var(--accent);color:var(--ink)}
+  .kept{background:rgba(212,237,128,.13);box-shadow:inset 0 -1px 0 var(--accent);color:var(--ink)}
+  .gone{position:relative;padding:12px 14px;margin:6px 0 0;background:rgba(223,177,188,.06);border:1px dashed rgba(223,177,188,.4)}
+  .gone .body{color:var(--rose);opacity:.85}
+  .gone .tag{position:absolute;top:-9px;left:10px;background:var(--surface);font-family:'Geist Mono',monospace;font-size:.625rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rose);padding:0 6px}
+  .ell{color:var(--path);font-family:'Geist Mono',monospace;font-size:.72rem;margin:6px 0}
+  .mark{display:inline-block;font-family:'Geist Mono',monospace;font-size:.625rem;letter-spacing:.1em;color:var(--accent);border:1px solid rgba(212,237,128,.5);padding:1px 5px;margin-left:6px;vertical-align:1px}
+  .foot{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--raised);border:1px solid var(--raised);border-top:0}
+  .fx{background:var(--ground);padding:16px 22px;font-size:.875rem;color:var(--secondary)}
+  .fx b{color:var(--ink);font-weight:500}
+  .fx .n{font-family:'Geist Mono',monospace;font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px}
+  .note{color:var(--muted);font-size:.8125rem;margin:26px 0 0}
+</style>
+</head>
+<body>
+<div class="shell">
+  <span class="flag">Rough preview · not the built version</span>
+  <h1>The review found the same rule in two places.</h1>
+  <p class="sub">Left is the prompt the tool composed. Right is what came back after one round of review. The five-bullet rule was stated four times; the rewrite left it once. Nothing was lost — only the repetition.</p>
+
+  <blockquote class="quote">
+    “Task Prompt: 7/10 — Clear GOAL and RETURN FORMAT but redundant with Operating Constraints and Deliverable Structure sections… Remove Task Prompt section entirely or convert to cross-reference.”
+    <cite>Judge, second scorecard · 04-judge-pass2.md</cite>
+  </blockquote>
+
+  <div class="cols">
+    <section class="col">
+      <div class="fhead"><span class="fname">01-compose.md</span><span class="fmeta">98 lines</span></div>
+
+      <p class="sec">System prompt · Operating Constraints</p>
+      <div class="body">- <span class="dup">Output must be exactly five bullet points</span> <span class="mark">stated 1</span>
+- Each bullet should be self-contained and meaningful
+- Prioritize actionable items and decisions over general discussion
+- When input lacks five distinct points, state assumptions and proceed with available content</div>
+
+      <p class="ell">… nine more System headings …</p>
+
+      <div class="gone">
+        <span class="tag">Task prompt · removed by the rewrite</span>
+        <p class="sec">Goal</p>
+        <div class="body">Summarize the provided meeting notes into <span class="dup">exactly five bullet points</span> <span class="mark">2</span> that capture the most important decisions, action items, and discussion points.</div>
+        <p class="sec">Return format</p>
+        <div class="body">• [Bullet point 1] • [Bullet point 2] • [Bullet point 3] • [Bullet point 4] • [Bullet point 5] <span class="dup">five</span> <span class="mark">3</span></div>
+        <p class="sec">Warnings &amp; requirements</p>
+        <div class="body">- Do not exceed <span class="dup">five</span> bullets <span class="mark">4</span>
+- If input contains fewer than five distinct points, note this limitation…
+- Prioritize: (1) Decisions made, (2) Action items with owners, (3) Key discussion points
+- Include dates, numbers, and names when available</div>
+        <p class="sec">Context</p>
+        <div class="body">Meeting notes may come in various formats: transcripts, informal notes, or structured agendas. Extract the essence regardless of input structure.</div>
+      </div>
+    </section>
+
+    <section class="col">
+      <div class="fhead"><span class="fname">05-final.md</span><span class="fmeta">78 lines</span></div>
+
+      <p class="sec">System prompt · Operating Constraints</p>
+      <div class="body">- <span class="kept">Output must be exactly five bullet points</span> <span class="mark">stated once</span>
+- Each bullet should be self-contained and meaningful
+- Input may come in various formats: transcripts, informal notes, or structured agendas; extract the essence regardless of input structure <span class="mark">moved up</span>
+- When input lacks five distinct points, state assumptions and proceed with available content
+- When &gt;5 distinct points exist, select in order: (1) Decisions with clear outcomes, (2) Action items with named owners and dates, (3) Action items without owners, (4) Discussion points revealing blockers/risks, (5) General themes <span class="mark">moved up</span></div>
+
+      <p class="sec">System prompt · Deliverable Structure</p>
+      <div class="body">Exactly five bullet points, each:
+- Beginning with a strong action verb or clear subject
+- Containing one primary idea
+- Including specific details (numbers, dates, owners) when available</div>
+
+      <p class="ell">… no Task Prompt section …</p>
+    </section>
+  </div>
+
+  <div class="foot">
+    <div class="fx"><span class="n">Second scorecard</span><b>8 / 10 · CONTINUE.</b> "Primary remaining gap is redundancy between system and task prompt sections, creating maintenance risk."</div>
+    <div class="fx"><span class="n">Third scorecard</span><b>9 / 10 · STOP.</b> "Decision-ready… Remaining opportunities are minor polish items."</div>
+  </div>
+
+  <p class="note">Excerpts, not the full files. Every line above is copied from the two run files; nothing is paraphrased or synthesised. The built version would be generated by script from those files, so the page cannot drift from the run.</p>
+</div>
+</body>
+</html>

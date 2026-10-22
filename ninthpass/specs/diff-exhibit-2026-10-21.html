@@ -1,0 +1,69 @@
+<!-- Removed from the live page on 2026-10-21.
+
+     This is the built revision-diff section, kept as an engineering exhibit rather than
+     deleted. It is pulled because the artefact it shows is not contract-valid: the rewrite
+     removed the required Task Prompt block. See docs/2026-10-21-structural-contract-defect.md
+     in the product repository for the account, and specs/2026-10-21-directive-response.md for
+     the decision.
+
+     It returns to the page with a fresh, contract-valid run. The styles it needs are still in
+     css/ninthpass.css; tools/check_silverquill_diff.py verifies its quotations against the run
+     files.
+-->
+  <section class="section shell" id="the-diff" aria-labelledby="diff-title">
+    <div class="section-intro">
+      <h2 class="editorial" id="diff-title">The review changed<br>the artifact.</h2>
+      <p>The reviewer told it to remove a redundant section. The rewrite did exactly that, and the next scorecard scored the result 9 out of 10.</p>
+    </div>
+      <div class="score-track" role="img" aria-label="Score track from 0 to 10: first score 8, second score 8, third score 9, which meets the stop threshold at 9.">
+        <svg viewBox="0 0 640 86" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="1" opacity=".45">
+            <line x1="40" y1="46" x2="600" y2="46"/>
+            <line x1="40" y1="46" x2="40" y2="50"/><line x1="96" y1="46" x2="96" y2="50"/>
+            <line x1="152" y1="46" x2="152" y2="50"/><line x1="208" y1="46" x2="208" y2="50"/>
+            <line x1="264" y1="46" x2="264" y2="50"/><line x1="320" y1="46" x2="320" y2="50"/>
+            <line x1="376" y1="46" x2="376" y2="50"/><line x1="432" y1="46" x2="432" y2="50"/>
+            <line x1="488" y1="46" x2="488" y2="50"/><line x1="600" y1="46" x2="600" y2="50"/>
+          </g>
+          <line x1="544" y1="22" x2="544" y2="50" stroke="currentColor" stroke-width="1.75"/>
+          <text x="544" y="14" class="track-label" text-anchor="middle">STOP 9</text>
+          <circle cx="488" cy="38" r="3.5" class="track-dot"/>
+          <circle cx="488" cy="58" r="3.5" class="track-dot"/>
+          <circle cx="544" cy="38" r="4" class="track-dot track-dot-gate"/>
+          <text x="488" y="76" class="track-label" text-anchor="middle">8</text>
+          <text x="544" y="76" class="track-label" text-anchor="middle">9</text>
+          <text x="40" y="76" class="track-label" text-anchor="start" opacity=".55">0</text>
+          <text x="600" y="76" class="track-label" text-anchor="end" opacity=".55">10</text>
+        </svg>
+        <p class="track-legend">Three scores from one run, in order. The second rewrite scored 8 again; the third scored 9. The gate is the score, not a count of passes.</p>
+      </div>
+    <figure class="diff" aria-labelledby="diff-caption">
+      <div class="diff-cols">
+        <div class="diff-col">
+          <div class="diff-head"><span class="diff-file">01-compose.md</span><span class="diff-meta">98 lines</span></div>
+          <p class="diff-sec">System prompt · operating constraints</p>
+          <p class="diff-body">- <mark>Output must be exactly five bullet points</mark></p>
+          <p class="diff-ell">… nine more system headings …</p>
+          <div class="diff-gone"><span class="diff-tag">Task prompt · removed</span>
+            <p class="diff-sec">Goal</p>
+            <p class="diff-body">Summarize the provided meeting notes into <mark>exactly five bullet points</mark> that capture the most important decisions, action items, and discussion points.</p>
+            <p class="diff-sec">Warnings &amp; requirements</p>
+            <p class="diff-body">- Do not exceed <mark>five</mark> bullets</p>
+          </div>
+        </div>
+        <div class="diff-col">
+          <div class="diff-head"><span class="diff-file">05-final.md</span><span class="diff-meta">78 lines</span></div>
+          <p class="diff-sec">System prompt · operating constraints</p>
+          <p class="diff-body">- <mark>Output must be exactly five bullet points</mark>
+- Each bullet should be self-contained and meaningful
+- When &gt;5 distinct points exist, select in order: (1) Decisions with clear outcomes, (2) Action items with named owners and dates, (3) Action items without owners, (4) Discussion points revealing blockers/risks, (5) General themes</p>
+          <p class="diff-ell">… no task prompt section …</p>
+        </div>
+      </div>
+      <div class="diff-scores">
+        <div><b>Second scorecard · 8/10 · CONTINUE</b>“Primary remaining gap is redundancy between system and task prompt sections, creating maintenance risk.”</div>
+        <div><b>Third scorecard · 9/10 · STOP</b>“Decision-ready… Remaining opportunities are minor polish items.”</div>
+      </div>
+      <figcaption id="diff-caption">The reviewer’s instruction was “Remove Task Prompt section entirely or convert to cross-reference.” The rewrite removed it and promoted the two rules it had been carrying. <b>This artifact carries only the System block, and the full-mode contract expects a System and a Task block — so this is recorded as a known gap, not as proof of improvement.</b> Every line above is copied from the two run files. <a href="examples/runs/meeting-notes/04-judge-pass2.md">Read the second scorecard ↗</a></figcaption>
+    </figure>
+  </section>

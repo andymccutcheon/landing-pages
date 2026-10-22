@@ -61,21 +61,21 @@ async def run(browser, failures, warm):
           iframes: [...document.querySelectorAll('iframe')].map(f=>f.getAttribute('src'))
         })''')
         if state['scrollWidth'] > width: failures.append(f'{width}: horizontal overflow {state["scrollWidth"]}')
-        if state['sections'] != 7 or state['h1'] != 1: failures.append(f'{width}: structure {state}')
+        if state['sections'] != 8 or state['h1'] != 1: failures.append(f'{width}: structure {state}')
         if state['headlineLines'] > 2.1: failures.append(f'{width}: headline {state["headlineLines"]} lines')
         if state['scheme'] != 'dark': failures.append(f'{width}: wrong scheme')
         if state['primary'] != [REPO, REPO]: failures.append(f'{width}: primary actions')
         if not all(f['loaded'] for f in state['fonts']): failures.append(f'{width}: unloaded font')
         if state['targets']: failures.append(f'{width}: small targets {state["targets"]}')
         if state['firstActionBottom'] > 900: failures.append(f'{width}: primary action below first screen')
-        if len(state['iframes']) != 3: failures.append(f'{width}: missing diagrams')
+        if len(state['iframes']) != 2: failures.append(f'{width}: missing diagrams')
         # Capture the full static-readable composition with loaded embedded documents.
         await page.locator('.site-header').evaluate("e=>e.style.position='static'")
         await page.screenshot(path=OUT / f'page-{width}.png', full_page=True)
         await page.locator('.site-header').evaluate("e=>e.style.position='sticky'")
         if width in (390, 1440):
             await page.screenshot(path=OUT / f'fold-{width}.png')
-            for name in ('loop', 'arbor', 'dataflow'):
+            for name in await page.eval_on_selector_all('[data-diagram]', 'els => els.map(e => e.dataset.diagram)'):
                 frame_el = page.locator(f'[data-diagram="{name}"]')
                 await frame_el.scroll_into_view_if_needed()
                 await frame_el.screenshot(path=OUT / f'{name}-{width}.png')
@@ -94,11 +94,11 @@ async def run(browser, failures, warm):
     page = await browser.new_page(viewport={'width':1440,'height':900})
     await page.goto(URL, wait_until='networkidle')
     # Full keyboard tab pattern, not merely clicking the tabs.
-    await page.get_by_role('tab', name='First score', exact=True).focus()
+    await page.get_by_role('tab', name='Composed', exact=True).focus()
     await page.keyboard.press('ArrowRight')
-    if await page.get_by_role('tab', name='After rewrite', exact=True).get_attribute('aria-selected') != 'true': failures.append('ArrowRight did not select scorecard')
+    if await page.get_by_role('tab', name='Approved', exact=True).get_attribute('aria-selected') != 'true': failures.append('ArrowRight did not select scorecard')
     await page.keyboard.press('End')
-    if not await page.locator('#pass3').is_visible(): failures.append('End did not select final scorecard')
+    if not await page.locator('#pass2').is_visible(): failures.append('End did not select final scorecard')
     await page.keyboard.press('Home')
     if not await page.locator('#pass1').is_visible(): failures.append('Home did not select first scorecard')
     # Every public local link/asset resolves, including unchanged proof artifacts.
@@ -127,10 +127,10 @@ async def run(browser, failures, warm):
     context = await browser.new_context(java_script_enabled=False, viewport={'width':390,'height':900})
     plain = await context.new_page()
     await plain.goto(URL, wait_until='networkidle')
-    if await plain.locator('.score-panel:visible').count() != 3: failures.append('No-script scorecards missing')
+    if await plain.locator('.score-panel:visible').count() != 2: failures.append('No-script scorecards missing')
     if await plain.locator('button:visible').count(): failures.append('No-script dead buttons visible')
     if not await plain.locator('#start-command').is_visible(): failures.append('No-script setup missing')
-    for name in ('loop','arbor','dataflow'):
+    for name in await plain.eval_on_selector_all('[data-diagram]', 'els => els.map(e => e.dataset.diagram)'):
         el = plain.locator(f'[data-diagram="{name}"]')
         await el.scroll_into_view_if_needed()
         frame = await (await el.element_handle()).content_frame()
@@ -141,7 +141,7 @@ async def run(browser, failures, warm):
     page = await browser.new_page(viewport={'width':1440,'height':900}, reduced_motion='reduce')
     await page.goto(URL, wait_until='networkidle')
     if await page.locator('[data-motion-toggle]').text_content() != 'Motion reduced': failures.append('OS preference not communicated')
-    for name in ('loop','arbor','dataflow'):
+    for name in await page.eval_on_selector_all('[data-diagram]', 'els => els.map(e => e.dataset.diagram)'):
         el = page.locator(f'[data-diagram="{name}"]')
         await el.scroll_into_view_if_needed()
         frame = await (await el.element_handle()).content_frame()
@@ -159,7 +159,7 @@ async def run(browser, failures, warm):
     if sum(sizes.values()) > 400000: failures.append(f'Runtime gzip exceeds 400000 bytes: {sum(sizes.values())}')
     failures.extend(errors)
     (OUT/'results.json').write_text(json.dumps({'views':views,'focus':focus,'runtimeGzipBytes':sum(sizes.values()),'assets':sizes,'errors':errors,'failures':failures},indent=2)+'\n')
-    print(f'Ninth Pass: {len(WIDTHS)} responsive views; scorecard keyboard, clipboard success/refusal, local links, no-script, live reduced-motion and focus checked. Runtime gzip: {sum(sizes.values())} bytes.')
+    print(f'Silverquill: {len(WIDTHS)} responsive views; scorecard keyboard, clipboard success/refusal, local links, no-script, live reduced-motion and focus checked. Runtime gzip: {sum(sizes.values())} bytes.')
 
 async def motion_case(browser, name, width=1440):
     """Real embedded page, two cycles, then stop/resume/offscreen/OS preference."""
@@ -220,11 +220,11 @@ async def main():
         browser=await p.chromium.launch(executable_path=installed_chromium())
         await run(browser,failures,warm_page_for_capture)
         if '--motion' in __import__('sys').argv:
-            motion=await asyncio.gather(*(motion_case(browser,n,w) for w in (1440,390) for n in ('loop','arbor','dataflow')))
+            motion=await asyncio.gather(*(motion_case(browser,n,w) for w in (1440,390) for n in await page.eval_on_selector_all('[data-diagram]', 'els => els.map(e => e.dataset.diagram)')))
             (OUT/'motion-results.json').write_text(json.dumps(motion,indent=2)+'\n')
             for item in motion: failures.extend(f'{item["name"]}: {e}' for e in item['errors'])
         await browser.close()
-    print('Ninth Pass PASS' if not failures else '\n'.join(failures))
+    print('Silverquill PASS' if not failures else '\n'.join(failures))
     raise SystemExit(bool(failures))
 
 if __name__=='__main__': asyncio.run(main())

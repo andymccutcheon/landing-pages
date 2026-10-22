@@ -18,6 +18,7 @@ text { fill: var(--pz-ink); font-family: var(--pz-font); font-size: var(--pz-dia
 .feedback-ribbon { stroke-width: var(--pz-feedback-width); }
 .trail { fill: none; stroke: var(--pz-accent); stroke-width: var(--pz-stroke); stroke-linecap: round; opacity: 0; }
 .giant-score { font-size: var(--pz-diagram-giant); }
+.score-dec { font-size: calc(var(--pz-diagram-score) * .62); }
 .active-stage { fill: none; stroke: var(--pz-accent); stroke-width: var(--pz-stroke); opacity: 0; }
 .surface { fill: var(--pz-raised); }
 .ground { fill: var(--pz-ground); }

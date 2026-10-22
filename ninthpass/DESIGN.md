@@ -1,6 +1,43 @@
-# Ninth Pass — The Review Room
+# Silverquill — The Review Room
 
-**Revision:** flagship overhaul, October 2026. **Implementation:** complete local revision; not publicly deployed. The public site still serves the preceding design until an authorized deployment. `index.html` is the implementation, `COPY.md` the public copy record, and `specs/flagship-design-spec.md` the executable design contract.
+**Revision:** flagship overhaul, October 2026. **Implementation:** complete and **deployed** — published on 20–21 October 2026 after the founder's authorisation, on `ninthpass.amccutcheon.com` and the legacy `promptzilla.amccutcheon.com` alias, both served by the Cloudflare Worker `ninthpass-site` (version `a65c7a76-39a0-491b-9129-8e61e950bb49`); all 30 required files answered 200 and the motion was observed live. `index.html` is the implementation, `COPY.md` the public copy record, and `specs/flagship-design-spec.md` the executable design contract.
+
+**Silverquill revision (21 October 2026).** The product name changed from Ninth Pass to Silverquill. The
+page keeps its argument, palette, type pair, motion system and seven-section structure. What changed:
+the wordmark and favicon (the old mark was a literal nine; the new one is a nib and the stroke it has
+just written), the copy and metadata, a hero qualification under the prerequisite, a five-row **skills** block in
+the start section, and the **Rule** device — a 0–10 score track with the gate marked at 9 — in the
+"A score. Not a certificate." section. **Nothing is published:** the copy still links to the existing
+repository paths and the live host until the rename is cleared.
+
+**The revision-diff section was pulled, then rebuilt from a clean run (21 October 2026).** Review found
+that the first artefact was not contract-valid: the rewrite removed the required Task Prompt block and
+the validator of the time accepted it. The product now enforces the structure in code, with mode-aware
+requirements and regression tests; the historical run is preserved unchanged and the defect is recorded
+in the product repository (`docs/2026-10-21-structural-contract-defect.md`). That first section is kept
+as an engineering exhibit at `specs/diff-exhibit-2026-10-21.html`.
+
+**Creation-led revision (21 October 2026).** The canonical product statement made agent creation the
+lead, so the page now opens with "Give your agents better instructions" and an eyebrow naming the
+discipline. The skills block is grouped by capability: Compose (create), Judge (evaluate), Revise
+(refine), Loop (orchestrate), with Brief named as a separate one-off task path. The demonstration is
+**`examples/runs/meeting-agent/`**: a full-mode Codex run on 21 October 2026 that composed an agent,
+scored it **8.63**, applied five numbered recommendations in one revision, and scored **9.25 STOP**.
+Scores are now the arithmetic mean of the section ratings, shown to two decimals.
+
+**Two diagrams were cut rather than re-drawn.** The loop diagram encoded a five-stage 8 → 8 → 9
+trajectory that no longer exists; the arbor encoded the previous run's five recommendations. The arbor
+was regenerated from this run's first scorecard; the loop was removed, because the scorecards and the
+change ledger now carry the sequence with real text. `tools/build_ninthpass_diagrams.mjs` writes only the
+feedback fan and the process diagram.
+
+**The change ledger replaced the two-column diff.** A full agent prompt is too large for a side-by-side
+view, so the section now shows five blocks, each with the section name, the exact replaced wording and
+the exact replacement. `tools/build_silverquill_diff.mjs` generates it and **fails** unless both sides
+appear in the composed and approved prompts; `tools/check_silverquill_diff.py` fails if the page drifts
+from the generated fragment. Nothing in the section is hand-written.
+
+**Strategy review (21 October 2026):** `specs/2026-10-21-strategy-pack-design-review.md` records the design lane's response to the incoming positioning and naming pack, and the two additions it proposes — a revision-diff view and a skills strip. Neither has been built; the page is otherwise unchanged.
 
 ## Positioning and argument
 
@@ -73,10 +110,10 @@ Evidence is local under the ignored `.review/ninthpass-flagship/` directory.
 - **Installed taste browser inspector:** **0 failures, 3 warnings** with three declared scope exceptions. No stock-image quota for a command-line product explained by real data; iframe SVG motion is checked by the dedicated motion gate rather than the parent-only movement counter; actual score numerals were falsely detected as headings with an eyebrow. Warnings retained with reasons: mineral-white *text* was classified as a cream background; code legitimately uses a third font; live vector animation replaces video footage. The report is `.review/ninthpass-taste-final/report.json`.
 - **Tooling boundary:** the installed design-doctrine package contains no `accuracy_report.mjs` or related generic gate scripts. They were not run or claimed. Existing project gates, the installed taste inspector and explicit browser checks supply the actual receipts.
 - **Messaging owner:** rendered desktop/mobile review accepted; all scorecard states, diagram semantics, setup prerequisites and claim boundaries inspected. Visual implementation review inspected desktop, tablet and phone captures and the active diagram state; the final narrow-screen refinement increased diagram type rather than merely passing overflow tests.
-- **Cloudflare packaging:** build and dry-run validation pass. All **30 required page/runtime/proof files** returned HTTP 200 from the locally served staged build; both primary actions point to the product repository. The package now includes shared diagram runtime files and unchanged proof artifacts. No public deployment has been performed.
+- **Cloudflare packaging:** build and dry-run validation pass. All **30 required page/runtime/proof files** returned HTTP 200 from the locally served staged build; both primary actions point to the product repository. The package now includes shared diagram runtime files and unchanged proof artifacts. **Published on 20–21 October 2026** after the founder authorised deployment; the same 30 files answered 200 from both live domains.
 
 **Cross-page aggregate:** `tools/render_check.py` passes on the final revision: Acheron's twelve theme/width captures, Freewhirr's eight, Shipwatch's twelve plus two no-script views, the unchanged sixteen byte-identical Acheron/Freewhirr baseline pairs and the seven Ninth Pass views. An earlier attempt exceeded a four-minute tool timeout; the subsequent full run completed successfully. No unrelated page runtime files changed.
 
 ## Remaining boundaries
 
-No known blocking Ninth Pass defect in the checked Chromium views. Firefox, Safari and real assistive-technology testing have not been performed. The npm package remains unpublished at the availability check, so source setup remains primary. The rubric is the project's own, not a validated industry benchmark. This revision is uncommitted and undeployed until separately authorized.
+No known blocking Ninth Pass defect in the checked Chromium views. Firefox, Safari and real assistive-technology testing have not been performed. The npm package remains unpublished at the availability check, so source setup remains primary. The rubric is the project's own, not a validated industry benchmark. This revision is deployed and unchanged since 21 October 2026, apart from the corrected deployment note above and the added strategy-review pointer.

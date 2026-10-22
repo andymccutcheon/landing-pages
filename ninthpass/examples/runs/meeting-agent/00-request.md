@@ -1,0 +1,1 @@
+An agent that summarises meeting notes into five short, useful bullets for a colleague who missed the meeting.

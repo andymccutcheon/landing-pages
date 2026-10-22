@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Silverquill">
   <rect width="64" height="64" rx="8" fill="#151417"/>
-  <circle cx="30" cy="22" r="14" fill="none" stroke="#d4ed80" stroke-width="10"/>
-  <path d="M44 22v16c0 10-6 16-16 16H18" fill="none" stroke="#d4ed80" stroke-width="10"/>
+  <path d="M22 8 L42 8 L32 33 Z" fill="#d4ed80"/>
+  <line x1="32" y1="18" x2="32" y2="33" stroke="#151417" stroke-width="2"/>
+  <path d="M32 36C32 47.6 25.2 54.8 12 57.2" fill="none" stroke="#d4ed80" stroke-width="3" stroke-linecap="round"/>
 </svg>

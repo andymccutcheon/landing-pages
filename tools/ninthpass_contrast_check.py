@@ -45,13 +45,33 @@ async def main():
             const y = luminance(b);
             return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
           };
+          // Composite translucent layers over their ancestor instead of treating a
+          // transparent tint as an opaque background, which produced false failures.
           window.background = (element) => {
-            while (element) {
-              const color = getComputedStyle(element).backgroundColor;
-              if (color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') return color;
-              element = element.parentElement;
+            const parse = (value) => {
+              const match = /rgba?\(([^)]+)\)/.exec(value || '');
+              if (!match) return null;
+              const parts = match[1].split(',').map(Number);
+              return { r: parts[0], g: parts[1], b: parts[2], a: parts.length > 3 ? parts[3] : 1 };
+            };
+            const stack = [];
+            for (let node = element; node; node = node.parentElement) {
+              const colour = parse(getComputedStyle(node).backgroundColor);
+              if (!colour || colour.a === 0) continue;
+              stack.push(colour);
+              if (colour.a >= 1) break;
             }
-            return 'rgb(245, 240, 230)';
+            let out = stack.length ? stack.pop() : { r: 245, g: 240, b: 230, a: 1 };
+            while (stack.length) {
+              const top = stack.pop();
+              out = {
+                r: top.r * top.a + out.r * (1 - top.a),
+                g: top.g * top.a + out.g * (1 - top.a),
+                b: top.b * top.a + out.b * (1 - top.a),
+                a: 1,
+              };
+            }
+            return `rgb(${Math.round(out.r)}, ${Math.round(out.g)}, ${Math.round(out.b)})`;
           };
         }''')
 
@@ -123,7 +143,7 @@ async def main():
         diagrams = []
         ratio_source = await page.evaluate('window.ratio.toString()')
         for width in (280, 390, 1440):
-            for name in ('loop', 'arbor', 'dataflow'):
+            for name in ('arbor', 'dataflow'):
                 doc = await browser.new_page(viewport={'width': width - (32 if width < 768 else 104), 'height': 608}, reduced_motion='reduce')
                 await doc.goto(PAGE_URL + 'diagrams/' + name + '.html', wait_until='networkidle')
                 await doc.evaluate('document.fonts.ready')

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="t d">
+  <title id="t">Silverquill — the nib</title>
+  <desc id="d">A pen nib with the stroke it has just written.</desc>
+  <path d="M11 4 L21 4 L16 16.5 Z" fill="currentColor"/>
+  <line x1="16" y1="9" x2="16" y2="16.5" stroke="#151417" stroke-width="1"/>
+  <path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

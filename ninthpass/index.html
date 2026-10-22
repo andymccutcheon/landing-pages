@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Ninth Pass — Put your prompts through review</title>
-  <meta name="description" content="An open-source review-and-rewrite loop for agent prompts. Separate worker processes, inspectable scorecards, and a real 8 → 8 → 9 run. Build Ninth Pass from GitHub.">
+  <title>Silverquill — Give your agents better instructions</title>
+  <meta name="description" content="An open-source toolkit that turns what you want an agent to do into a System Prompt and a Task Prompt, evaluates them against a published rubric, and refines them with evidence-backed recommendations. Every stage is inspectable.">
   <link rel="canonical" href="https://ninthpass.amccutcheon.com/">
-  <meta property="og:title" content="Ninth Pass — Put your prompts through review">
-  <meta property="og:description" content="Prompt review, with the record attached. Inspect a real run, then review your next agent prompt.">
+  <meta property="og:title" content="Silverquill — Give your agents better instructions">
+  <meta property="og:description" content="Create the agent instructions, evaluate them, refine them — and inspect every stage.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ninthpass.amccutcheon.com/">
   <meta property="og:image" content="https://ninthpass.amccutcheon.com/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ninth Pass — Put your prompts through review">
+  <meta name="twitter:title" content="Silverquill — Give your agents better instructions">
   <meta name="twitter:description" content="Open-source prompt review, with the record attached.">
   <meta name="twitter:image" content="https://ninthpass.amccutcheon.com/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -30,7 +30,7 @@
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-header">
   <div class="shell header-inner">
-    <a class="wordmark" href="#main" aria-label="Ninth Pass home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="5"/><path d="M22 11v8c0 5-3 8-8 8H9" fill="none" stroke="currentColor" stroke-width="5"/></svg>Ninth Pass</a>
+    <a class="wordmark" href="#main" aria-label="Silverquill home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M11 4 L21 4 L16 16.5 Z" fill="currentColor"/><line x1="16" y1="9" x2="16" y2="16.5" stroke="var(--pz-ground)" stroke-width="1"/><path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Silverquill</a>
     <nav class="nav" aria-label="Primary">
       <a class="section-link" href="#real-run">Real run</a>
       <a class="section-link" href="#how-it-works">How it works</a>
@@ -41,50 +41,42 @@
 </header>
 <main id="main" tabindex="-1">
   <section class="hero shell" aria-labelledby="hero-title">
-    <h1 id="hero-title"><span class="hero-line">Put your prompts</span><span class="hero-line">through review.</span></h1>
+    <p class="hero-eyebrow">Agent instruction engineering &amp; review</p>
+    <h1 id="hero-title"><span class="hero-line">Give your agents</span><span class="hero-line">better instructions.</span></h1>
     <div class="hero-bottom">
-      <p class="hero-description">Open-source command-line prompt review for agent builders. Start with a rough request or an existing prompt. Ninth Pass runs a scored review-and-rewrite loop and saves the prompt with the scorecards behind it.</p>
+      <p class="hero-description">Describe what you want an agent to accomplish. Silverquill creates the System Prompt and Task Prompt, independently evaluates them against a defined standard, and refines them using evidence-backed recommendations. Every stage is inspectable. The task itself remains yours to execute with the agent.</p>
       <div class="hero-actions">
-        <a class="button primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+        <a class="button primary" href="https://github.com/andymccutcheon/ninthpass">Get Silverquill on GitHub <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
         <a class="text-link" href="#real-run">Inspect a real run ↓</a>
       </div>
     </div>
     <p class="prerequisite">Node.js 22.12+ · MIT licensed. Installed, authenticated agent worker required.</p>
+    <p class="hero-qualifier">A score is a model's assessment of instruction quality. It is not a measurement of what your agent does with it.</p>
   </section>
 
   <section class="section real-run shell" id="real-run" aria-labelledby="run-title">
     <div class="section-intro">
-      <h2 id="run-title">The first rewrite<br>still scored 8.</h2>
-      <p>You can ask a model to critique a prompt in the same chat. Ninth Pass makes review a sequence you can inspect: score the prompt, revise from numbered feedback, then score the rewritten text.</p>
+      <h2 id="run-title">Scored 8.63.<br>Then 9.25.</h2>
+      <p>The composed agent was scored before it was trusted. One revision closed the numbered findings, and the next scorecard stopped the loop. You can read every stage.</p>
     </div>
-    <p class="request"><span>The actual request</span>“Write a prompt for a meeting-notes summarizer that returns five bullets”</p>
-    <figure class="diagram" aria-labelledby="loop-caption">
-      <div class="diagram-title"><span>One captured run · Claude Code</span><span>20 October 2026</span></div>
-      <iframe src="diagrams/loop.html" title="The captured run: Compose, Judge 8, Revise, Judge 8, Revise, Judge 9" data-diagram="loop"></iframe>
-      <figcaption id="loop-caption">Three scorecards. Two rewrites. The first rewrite did not improve the score. This is a recorded example, not a live model run. <a href="https://github.com/andymccutcheon/landing-pages/tree/main/ninthpass/examples/runs/meeting-notes">Open the unchanged run files ↗</a></figcaption>
-    </figure>
+    <p class="request"><span>The actual request</span>“An agent that summarises meeting notes into five short, useful bullets for a colleague who missed the meeting.”</p>
     <div class="proof-bottom">
       <div>
-        <div class="trajectory" aria-label="Model-assigned scores: 8, then 8, then 9"><b>8</b><span>→</span><b>8</b><span>→</span><b>9</b></div>
-        <p>These are model-assigned prompt scores, not measurements of task performance. The run stopped at 9 with two polish recommendations still open.</p>
+        <div class="trajectory decimal" aria-label="Model-assigned scores: 8.63, then 9.25"><b>8.63</b><span>→</span><b>9.25</b></div>
+        <p>These are model-assigned instruction-quality scores, not measurements of what the agent does with the prompt. Each is the mean of the section ratings.</p>
       </div>
       <div class="score-inspector" data-tabs>
-        <div class="score-tabs" role="tablist" aria-label="Inspect the captured scorecards">
-          <button id="pass1-tab" type="button" role="tab" aria-selected="true" aria-controls="pass1">First score</button>
-          <button id="pass2-tab" type="button" role="tab" aria-selected="false" aria-controls="pass2" tabindex="-1">After rewrite</button>
-          <button id="pass3-tab" type="button" role="tab" aria-selected="false" aria-controls="pass3" tabindex="-1">Final score</button>
+        <div class="score-tabs" role="tablist" aria-label="Inspect the recorded scorecards">
+          <button id="pass1-tab" type="button" role="tab" aria-selected="true" aria-controls="pass1">Composed</button>
+          <button id="pass2-tab" type="button" role="tab" aria-selected="false" aria-controls="pass2" tabindex="-1">Approved</button>
         </div>
         <div class="score-panel" id="pass1" role="tabpanel" aria-labelledby="pass1-tab" tabindex="0">
-          <h3>8/10 · CONTINUE</h3><blockquote>“Usable and mostly complete.”</blockquote>
-          <a class="text-link" href="examples/runs/meeting-notes/02-judge-pass1.md">Read the first scorecard ↗</a>
+          <h3>8.63/10 · CONTINUE</h3><blockquote>“A strong, practical prompt with clear scope, source discipline, and output constraints. Its main weaknesses are contradictory handling of missing information and safety refusals, plus one unsupported inference in the few-shot example.”</blockquote>
+          <a class="text-link" href="examples/runs/meeting-agent/02-judge-pass1.md">Read the first scorecard ↗</a>
         </div>
         <div class="score-panel" id="pass2" role="tabpanel" aria-labelledby="pass2-tab" tabindex="0">
-          <h3>8/10 · CONTINUE</h3><blockquote>“Primary remaining gap is redundancy between system and task prompt sections, creating maintenance risk.”</blockquote>
-          <a class="text-link" href="examples/runs/meeting-notes/04-judge-pass2.md">Read the second scorecard ↗</a>
-        </div>
-        <div class="score-panel" id="pass3" role="tabpanel" aria-labelledby="pass3-tab" tabindex="0">
-          <h3>9/10 · STOP</h3><blockquote>“Remaining opportunities are minor polish items.”</blockquote>
-          <a class="text-link" href="examples/runs/meeting-notes/04b-judge-pass3.md">Read the final scorecard ↗</a>
+          <h3>9.25/10 · STOP</h3><blockquote>“A decision-ready prompt with strong source discipline, safety boundaries, output control, and self-checking. Minor ambiguity remains around absent inputs and the scope of fact verification.”</blockquote>
+          <a class="text-link" href="examples/runs/meeting-agent/04-judge-pass2.md">Read the approved scorecard ↗</a>
         </div>
       </div>
     </div>
@@ -94,18 +86,61 @@
     <div class="shell">
       <div class="feedback-head"><h2 class="editorial" id="feedback-title">A review you can<br>take apart.</h2><p>The first scorecard named five recommendations. Revise returned one rewritten prompt and a numbered checklist accounting for each one.</p></div>
       <figure class="diagram" aria-labelledby="arbor-caption">
-        <iframe src="diagrams/arbor.html" title="Five actual recommendations fan from one scorecard and gather into one rewrite" data-diagram="arbor" loading="lazy"></iframe>
-        <figcaption id="arbor-caption">Five pieces of feedback, not five parallel workers. Every checklist entry said APPLIED; the next scorecard still found repeated instructions.</figcaption>
+        <iframe src="diagrams/arbor.html" title="Five recommendations from the first scorecard gather into one rewrite" data-diagram="arbor" loading="lazy"></iframe>
+        <figcaption id="arbor-caption">Five pieces of feedback, not five parallel workers. The revision applied every numbered recommendation in one rewrite, and the next scorecard stopped the loop.</figcaption>
       </figure>
-      <div class="feedback-foot"><p>The branches summarize the actual first-pass recommendations. Open the scorecard for the exact wording.</p><div><a class="text-link" href="examples/runs/meeting-notes/02-judge-pass1.md">Read the five recommendations ↗</a><br><a class="text-link" href="examples/runs/meeting-notes/03-revise.md">Inspect the first rewrite ↗</a></div></div>
+      <div class="feedback-foot"><p>The branches summarize the actual first-pass recommendations. Open the scorecard for the exact wording.</p><div><a class="text-link" href="examples/runs/meeting-agent/02-judge-pass1.md">Read the five recommendations ↗</a><br><a class="text-link" href="examples/runs/meeting-agent/03-revise.md">Inspect the first rewrite ↗</a></div></div>
     </div>
   </section>
 
+
+  <section class="section shell" id="the-diff" aria-labelledby="diff-title">
+    <div class="section-intro">
+      <h2 class="editorial" id="diff-title">See what<br>changed.</h2>
+      <p>5 edits, one review round. The judge scored the composed agent 8.63; after the revision it scored the approved agent 9.25 and stopped.</p>
+    </div>
+    <p class="diff-prov">Recorded run · Codex worker · 21 October 2026 · full mode · 570 → 623 words</p>
+    <figure class="diff" aria-labelledby="diff-caption">
+      <div class="diff-scores">
+        <div><b>First scorecard · 8.63/10 · CONTINUE</b>5 numbered recommendations, each with exact replacement wording.</div>
+        <div><b>Second scorecard · 9.25/10 · STOP</b>The same agent after one revision. Every change above was applied, then scored again.</div>
+      </div>
+      <div class="changes">
+        <div class="change">
+          <div class="change-head"><span class="rec-n">1</span><span class="change-where">Operating Constraints</span></div>
+          <p class="change-old"><span class="change-tag">was</span>For missing context, state a one-line default and proceed with labelled assumptions; ask only when the answer would materially undermine the summary.</p>
+          <p class="change-new"><span class="change-tag">now</span>For missing context, omit unsupported details; ask a concise clarifying question only when the missing information would materially undermine the summary.</p>
+        </div>
+        <div class="change">
+          <div class="change-head"><span class="rec-n">2</span><span class="change-where">the first example</span></div>
+          <p class="change-old"><span class="change-tag">was</span>The team will confirm whether the tracking delay affects launch readiness.</p>
+          <p class="change-new"><span class="change-tag">now</span>Whether the possible tracking-event delay will affect the 12 May launch is not stated.</p>
+        </div>
+        <div class="change">
+          <div class="change-head"><span class="rec-n">3</span><span class="change-where">Deliverable Structure</span></div>
+          <p class="change-old"><span class="change-tag">was</span>Provide exactly five standalone bullets.</p>
+          <p class="change-new"><span class="change-tag">now</span>Provide exactly five standalone bullets, except when refusing a request that would breach Safety &amp; Ethics; in that case, provide a concise refusal instead.</p>
+        </div>
+        <div class="change">
+          <div class="change-head"><span class="rec-n">4</span><span class="change-where">Self-Monitoring &amp; Reflection</span></div>
+          <p class="change-old"><span class="change-tag">was</span>Before responding, verify that there are five bullets</p>
+          <p class="change-new"><span class="change-tag">now</span>Before responding, verify that the applicable output form is correct, every claim is supported by the supplied material, and there are five bullets unless issuing a safety refusal.</p>
+        </div>
+        <div class="change">
+          <div class="change-head"><span class="rec-n">5</span><span class="change-where">Domain Expertise &amp; Resources</span></div>
+          <p class="change-old"><span class="change-tag">was</span>Use supplied notes, transcripts, agendas, attendee lists, and linked materials as the source of truth.</p>
+          <p class="change-new"><span class="change-tag">now</span>Treat supplied meeting materials as the source of truth; use linked material only when it is explicitly supplied or accessible through an allowed tool.</p>
+        </div>
+      </div>
+      <figcaption id="diff-caption">Each block is one recommendation: the exact wording it replaced, and the exact wording it supplied. The script fails if a replaced phrase is missing from the composed prompt or a replacement is missing from the approved one. The second score is the judge's assessment of the result, not proof that any single edit caused the change. <a class="caption-link" href="examples/runs/meeting-agent/02-judge-pass1.md">Read the first scorecard ↗</a> · <a class="caption-link" href="examples/runs/meeting-agent/05-final.md">Read the approved prompt ↗</a></figcaption>
+    </figure>
+  </section>
+
   <section class="section shell" id="how-it-works" aria-labelledby="flow-title">
-    <div class="flow-copy"><h2 id="flow-title">Separate the process.<br>Keep the evidence.</h2><p>The built-in OpenCode, Claude Code and Codex workers start a new process for each stage. Ninth Pass forwards the stage packet rather than the conversation that produced the draft.</p></div>
+    <div class="flow-copy"><h2 id="flow-title">Separate the process.<br>Keep the evidence.</h2><p>The built-in OpenCode, Claude Code and Codex workers start a new process for each stage. Silverquill forwards the stage packet rather than the conversation that produced the draft.</p></div>
     <figure class="diagram flow-diagram" aria-labelledby="flow-caption">
       <iframe src="diagrams/dataflow.html" title="Explicit packets move between Compose, Judge and Revise processes while artifacts stay on disk" data-diagram="dataflow" loading="lazy"></iframe>
-      <figcaption id="flow-caption">Judge must see the prompt it grades. Its packet includes the original request and earlier scorecards. Ninth Pass does not forward the authoring conversation or the rewrite’s APPLIED checklist; deferred notes can travel with it.</figcaption>
+      <figcaption id="flow-caption">Judge must see the prompt it grades. Its packet includes the original request and earlier scorecards. Silverquill does not forward the authoring conversation or the rewrite’s APPLIED checklist; deferred notes can travel with it.</figcaption>
     </figure>
     <div class="context-note"><p>Separate processes can use the same model and provider. In manual mode, your host must provide fresh contexts. Process separation is not a security sandbox.</p><div><a class="text-link" href="https://github.com/andymccutcheon/ninthpass/blob/main/src/workers/adapters.ts">Read the worker implementation ↗</a></div></div>
   </section>
@@ -114,6 +149,28 @@
     <div class="shell standard-grid">
       <div><h2 class="editorial" id="standard-title">A score.<br>Not a certificate.</h2><p class="standard-lead">Know what a 9 means—and what it doesn’t.</p><a class="text-link" href="https://github.com/andymccutcheon/ninthpass/blob/main/skills/judge/SKILL.md#scoring-rubric-locked-010">Read the published rubric ↗</a></div>
       <div class="standard-body">
+          <div class="score-track" role="img" aria-label="Score track from 0 to 10: the composed agent scored 8.63, the approved agent 9.25, above the stop threshold at 9.">
+          <svg viewBox="0 0 640 86" aria-hidden="true">
+            <g stroke="currentColor" stroke-width="1" opacity=".45">
+              <line x1="40" y1="46" x2="600" y2="46"/>
+              <line x1="40" y1="46" x2="40" y2="50"/><line x1="96" y1="46" x2="96" y2="50"/>
+              <line x1="152" y1="46" x2="152" y2="50"/><line x1="208" y1="46" x2="208" y2="50"/>
+              <line x1="264" y1="46" x2="264" y2="50"/><line x1="320" y1="46" x2="320" y2="50"/>
+              <line x1="376" y1="46" x2="376" y2="50"/><line x1="432" y1="46" x2="432" y2="50"/>
+              <line x1="488" y1="46" x2="488" y2="50"/><line x1="600" y1="46" x2="600" y2="50"/>
+            </g>
+            <line x1="544" y1="22" x2="544" y2="50" stroke="currentColor" stroke-width="1.75"/>
+            <text x="544" y="14" class="track-label" text-anchor="middle">STOP 9.00</text>
+            <circle cx="523.3" cy="46" r="3.5" class="track-dot"/>
+            <circle cx="558" cy="46" r="4" class="track-dot track-dot-gate"/>
+            <text x="523.3" y="76" class="track-label" text-anchor="middle">8.63</text>
+            <text x="558" y="76" class="track-label" text-anchor="middle">9.25</text>
+            <text x="40" y="76" class="track-label" text-anchor="start" opacity=".55">0</text>
+            <text x="600" y="76" class="track-label" text-anchor="end" opacity=".55">10</text>
+          </svg>
+          <p class="track-legend">Two scores from one run: the composed agent, then the approved agent. The gate is the score, not a count of passes.</p>
+        </div>
+
         <table class="score-bands"><caption class="sr-only">Published scoring bands, summarized</caption><thead><tr><th scope="col">Score</th><th scope="col">Rubric summary</th></tr></thead><tbody><tr><td>0–3</td><td>Missing, contradictory or unsafe</td></tr><tr><td>4–6</td><td>Present but thin</td></tr><tr><td>7–8</td><td>Usable, with gaps</td></tr><tr><td>9–10</td><td>Stop-loop caliber</td></tr></tbody></table>
         <p>Judge is instructed to cite prompt text or structural facts. An overall score of at least 9 means STOP under this rubric. A lower score means CONTINUE.</p>
         <p>The model judges the prompt. The code checks return formats, score/verdict agreement and recommendation accounting. It does not establish that cited evidence is sound or that a claimed edit was made.</p>
@@ -125,14 +182,12 @@
   <section class="section shell" id="record" aria-labelledby="record-title">
     <div class="section-intro"><h2 id="record-title">The prompt.<br>And its paper trail.</h2><p>Run files stay on disk: the input, stage outputs, scorecards, retries and run state. The exported Markdown contains the prompt text.</p></div>
     <div class="record-layout">
-      <div class="file-record"><h3>Files from the captured example</h3><pre tabindex="0" aria-label="Eight files from the captured meeting-notes run"><code>00-request.md
+      <div class="file-record"><h3>Files from the recorded run</h3><pre tabindex="0" aria-label="Six files from the recorded run"><code>00-request.md
 01-compose.md
 02-judge-pass1.md
 03-revise.md
 04-judge-pass2.md
-03b-revise.md
-04b-judge-pass3.md
-<span class="final-file">05-final.md</span></code></pre><a class="text-link" href="examples/runs/meeting-notes/05-final.md">Read the unchanged final prompt ↗</a></div>
+<span class="final-file">05-final.md</span></code></pre><a class="text-link" href="examples/runs/meeting-agent/05-final.md">Read the unchanged final prompt ↗</a></div>
       <div class="outcomes">
         <div><h3>Judge STOP</h3><p>Export the scored prompt to <code>./prompts/&lt;slug&gt;.md</code>.</p></div>
         <div><h3>Cap, validation block or plateau</h3><p>Preserve the best scored candidate as <code>&lt;slug&gt;.provisional.md</code>, when one exists. A run that fails before any score may have no prompt to export.</p></div>
@@ -144,23 +199,35 @@
   <section class="section install" id="start" aria-labelledby="start-title">
     <div class="shell"><h2 id="start-title">Your next prompt.<br>Put it through review.</h2>
       <div class="install-grid">
-        <div class="install-copy"><p>Clone and build from GitHub while the npm package is unpublished. Install and authenticate your chosen worker first; this example uses Claude Code.</p><p>Use <code>--worker opencode</code> or <code>--worker codex</code> for another supported worker. Ninth Pass uses the worker’s authentication and does not store provider credentials. Worker usage follows your provider’s plan or billing.</p><a class="button primary" href="https://github.com/andymccutcheon/ninthpass">Get Ninth Pass on GitHub ↗</a><a class="text-link" href="https://github.com/andymccutcheon/ninthpass#quick-start">Read the setup guide ↗</a><a class="text-link" href="https://github.com/andymccutcheon/ninthpass#install-the-skills">Install the five skills separately ↗</a></div>
+        <div class="install-copy"><p>Clone and build from GitHub while the npm package is unpublished. Install and authenticate your chosen worker first; this example uses Claude Code.</p><p>Use <code>--worker opencode</code> or <code>--worker codex</code> for another supported worker. Silverquill uses the worker’s authentication and does not store provider credentials. Worker usage follows your provider’s plan or billing.</p><a class="button primary" href="https://github.com/andymccutcheon/ninthpass">Get Silverquill on GitHub ↗</a><a class="text-link" href="https://github.com/andymccutcheon/ninthpass#quick-start">Read the setup guide ↗</a><a class="text-link" href="https://github.com/andymccutcheon/ninthpass#install-the-skills">Install the five skills separately ↗</a></div>
         <div>
           <div class="command"><div class="command-top"><span>From source to first run</span><button class="copy-button" type="button" data-copy-target="start-command" aria-label="Copy setup and first-run commands">Copy commands</button></div><pre tabindex="0" aria-label="Setup and first-run commands"><code id="start-command">git clone https://github.com/andymccutcheon/ninthpass
 cd ninthpass
 npm install
 npm run build
 node dist/cli.js run \
-  --request "Write a prompt for a meeting-notes summarizer that returns five bullets" \
+  --request "An agent that summarises meeting notes into five short, useful bullets" \
   --worker claude \
-  --name meeting-notes</code></pre></div>
+  --name meeting-agent</code></pre></div>
           <div class="existing"><p>Already have a prompt?</p><code>node dist/cli.js run --prompt ./prompt.md --worker claude</code></div>
         </div>
+      </div>
+
+      <div class="skills">
+        <div class="skills-head"><h3>Three capabilities. One loop.</h3><p>Create, evaluate and refine. Each skill installs into your agent and can be used on its own; the loop runs them in order.</p></div>
+        <dl>
+          <div class="skill"><dt>Compose</dt><dd><span class="skill-stage">Create</span>Turns what you want an agent to accomplish into a System Prompt and a Task Prompt. It never performs the task.</dd></div>
+          <div class="skill"><dt>Judge</dt><dd><span class="skill-stage">Evaluate</span>Scores those instructions against the published rubric, quotes the lines that are weak, and numbers its recommendations.</dd></div>
+          <div class="skill"><dt>Revise</dt><dd><span class="skill-stage">Refine</span>Applies the numbered recommendations and returns a checklist of what was applied or deferred.</dd></div>
+          <div class="skill"><dt>Loop</dt><dd><span class="skill-stage">Orchestrate</span>Runs the three stages in order and keeps the record. Also available as one command: <code>node dist/cli.js run --request &quot;…&quot;</code></dd></div>
+          <div class="skill"><dt>Brief</dt><dd><span class="skill-stage">One-off task</span>A separate path: turns a rough task assignment into a single execution-ready brief, without building an agent. A task-like input given to Compose still produces System and Task Prompts.</dd></div>
+        </dl>
+      </div>
       </div>
     </div>
   </section>
 </main>
-<footer class="site-footer"><div class="shell footer-inner"><div><a class="wordmark" href="#main">Ninth Pass</a><p>Open-source prompt review. MIT licensed.</p></div><nav class="footer-links" aria-label="Footer"><a href="https://github.com/andymccutcheon/ninthpass">Source</a><a href="https://github.com/andymccutcheon/landing-pages/tree/main/ninthpass/examples/runs/meeting-notes">Run artifacts</a><a href="https://github.com/andymccutcheon/ninthpass/blob/main/LICENSE">License</a></nav></div></footer>
+<footer class="site-footer"><div class="shell footer-inner"><div><a class="wordmark" href="#main">Silverquill</a><p>Open-source prompt review. MIT licensed.</p></div><nav class="footer-links" aria-label="Footer"><a href="https://github.com/andymccutcheon/ninthpass">Source</a><a href="https://github.com/andymccutcheon/landing-pages/tree/main/ninthpass/examples/runs/meeting-agent">Run artifacts</a><a href="https://github.com/andymccutcheon/ninthpass/blob/main/LICENSE">License</a></nav></div></footer>
 <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
 </body>
 </html>
