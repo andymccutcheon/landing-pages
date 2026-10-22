@@ -3,7 +3,7 @@
 **Author:** Layla Brower. **Date:** 21 October 2026.
 **Directive:** `~/Downloads/Silverquill_Design_Refinement_Directive.md`.
 **Baseline inspected:** `landing-pages/ninthpass/` (static HTML, no framework, Cloudflare Worker
-`ninthpass-site`), `~/Documents/GitHub/ninthpass` (TypeScript CLI, Node 22, Vitest).
+`ninthpass-site`), `~/Documents/GitHub/silverquill` (TypeScript CLI, Node 22, Vitest).
 
 ---
 
@@ -86,7 +86,7 @@ has to be replaced, and the next public run needs a fresh execution.
   invent `silverquill brief` or any per-skill subcommand.
 - `tools/check_silverquill_diff.py` still passes: 10 quotations and 2 line counts match the run files.
 
-**Product** (`~/Documents/GitHub/ninthpass`):
+**Product** (`~/Documents/GitHub/silverquill`):
 
 - **Legacy runs are now read-only.** My earlier change would have written new runs into
   `~/.ninthpass/runs` when that directory existed, which the directive forbids. Writes now always go to

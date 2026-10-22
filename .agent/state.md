@@ -58,6 +58,34 @@ state, focus or rule failure, and the Cloudflare dry run. The baseline is captur
 32 pixels in four treatments and holds at every size; two new one-ink forms were drawn for it
 (`brand/silverquill/marks/nib-mono.svg`, `nib-reversed.svg`).
 
-Still held behind trademark clearance: the GitHub repository rename and the npm publication, so
-the page's install commands and calls to action still name the old repository slug. Session record:
-`sessions/2026-10-21-silverquill-page-switch.md`.
+Session record: `sessions/2026-10-21-silverquill-page-switch.md`.
+
+## Silverquill: the repository rename, done (2026-10-22)
+
+The GitHub repository is now **`andymccutcheon/silverquill`**, and the local checkout moved from
+`~/Documents/GitHub/ninthpass` to `~/Documents/GitHub/silverquill`. The old slug returns a 301
+redirect, so every existing clone URL and link still resolves.
+
+The rename ran ahead of the trademark clearance on purpose. A GitHub rename is a two-way door —
+the old URL redirects and the rename can be reversed — while the npm publication is one-way,
+because npm never releases a name. The name was already in public use on three hosts before this,
+so renaming the repository added no exposure the page switch had not already taken.
+
+The page's install command, both primary calls to action, the footer source link and three deep
+links now name `silverquill`; the reachability gate and the render gate assert the new slug. The
+page was redeployed as Worker version `7912fc53-5085-48e5-a231-21727bdf3cf9`; all 33 required
+files answer 200 on all three hosts. The published run's README clone command was corrected too.
+
+The copy record had drifted independently of the rename: its "current" block never recorded the
+live install section or the shared interface, so both survived only in the superseded block still
+named Ninth Pass. They are now recorded as current and match the rendered page.
+
+**Still held behind trademark clearance:** the npm publication only. The npm account was suspended
+on 19 October (error E403), so a fresh one-time passcode is needed as well.
+
+**Still open:** the page folder (`landing-pages/ninthpass/`) and the Worker name (`ninthpass-site`)
+still carry the old name. The Worker rename drops the custom-domain bindings, so it is a deliberate
+pass. The folder rename is mechanical but touches the build script's page path and about ten tool
+scripts. Neither is visible to a visitor. A prior session record gave the GitHub Pages allowlist
+as the blocker for the folder rename; that constraint does not exist — `pages.yml` never listed
+`ninthpass`, and the README says so.

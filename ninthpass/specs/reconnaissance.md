@@ -9,7 +9,7 @@ directive asked for, so later changes can be checked against something real.
 |---|---|---|
 | The page | `landing-pages/ninthpass/` | **Static HTML, CSS and small progressive-enhancement scripts. No framework, no build step.** Deployed by a Cloudflare assets-only Worker |
 | Page records | `ninthpass/{DESIGN,COPY,VERIFICATION}.md`, `ninthpass/specs/` | Design contract, public copy, checks, and the directive response |
-| The product | `~/Documents/GitHub/ninthpass` | TypeScript CLI, Node 22, Vitest |
+| The product | `~/Documents/GitHub/silverquill` | TypeScript CLI, Node 22, Vitest |
 | Product entry points | `src/cli.ts`, `src/pipeline-engine.ts`, `src/validation.ts`, `src/state.ts` | Compose → Judge → Revise, staged with a fresh process per stage |
 | The skills | `ninthpass/skills/{brief,compose,judge,revise,loop}/SKILL.md` | Installed into agent hosts; `loop` carries the CLI path |
 | Brand work | `landing-pages/brand/silverquill/` | Marks, identity record, size tests, go-live checklist |
