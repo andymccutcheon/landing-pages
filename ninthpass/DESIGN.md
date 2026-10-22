@@ -1,14 +1,16 @@
 # Silverquill — The Review Room
 
-**Revision:** flagship overhaul, October 2026. **Implementation:** complete and **deployed** — published on 20–21 October 2026 after the founder's authorisation, on `ninthpass.amccutcheon.com` and the legacy `promptzilla.amccutcheon.com` alias, both served by the Cloudflare Worker `ninthpass-site` (version `a65c7a76-39a0-491b-9129-8e61e950bb49`); all 30 required files answered 200 and the motion was observed live. `index.html` is the implementation, `COPY.md` the public copy record, and `specs/flagship-design-spec.md` the executable design contract.
+**Revision:** flagship overhaul, October 2026. **Implementation:** complete and **deployed** — published on 20–21 October 2026 after the founder's authorisation, and re-published on 21 October 2026 as the Silverquill page, on `silverquill.amccutcheon.com` with `ninthpass.amccutcheon.com` and the legacy `promptzilla.amccutcheon.com` alias serving the same build; all served by the Cloudflare Worker `ninthpass-site` (version `ece106f4-9aa7-4c3b-b74b-1bd5bc5b3815`); all 33 required files answer 200 on every host and the motion was observed live. `index.html` is the implementation, `COPY.md` the public copy record, and `specs/flagship-design-spec.md` the executable design contract.
 
 **Silverquill revision (21 October 2026).** The product name changed from Ninth Pass to Silverquill. The
 page keeps its argument, palette, type pair, motion system and seven-section structure. What changed:
 the wordmark and favicon (the old mark was a literal nine; the new one is a nib and the stroke it has
 just written), the copy and metadata, a hero qualification under the prerequisite, a five-row **skills** block in
 the start section, and the **Rule** device — a 0–10 score track with the gate marked at 9 — in the
-"A score. Not a certificate." section. **Nothing is published:** the copy still links to the existing
-repository paths and the live host until the rename is cleared.
+"A score. Not a certificate." section. **The page is published under the new name and the new host.** The
+copy still links to the existing repository paths, and the install commands still clone the old
+repository slug, because the repository rename and the npm publication are held behind trademark
+clearance.
 
 **The revision-diff section was pulled, then rebuilt from a clean run (21 October 2026).** Review found
 that the first artefact was not contract-valid: the rewrite removed the required Task Prompt block and
@@ -110,10 +112,17 @@ Evidence is local under the ignored `.review/ninthpass-flagship/` directory.
 - **Installed taste browser inspector:** **0 failures, 3 warnings** with three declared scope exceptions. No stock-image quota for a command-line product explained by real data; iframe SVG motion is checked by the dedicated motion gate rather than the parent-only movement counter; actual score numerals were falsely detected as headings with an eyebrow. Warnings retained with reasons: mineral-white *text* was classified as a cream background; code legitimately uses a third font; live vector animation replaces video footage. The report is `.review/ninthpass-taste-final/report.json`.
 - **Tooling boundary:** the installed design-doctrine package contains no `accuracy_report.mjs` or related generic gate scripts. They were not run or claimed. Existing project gates, the installed taste inspector and explicit browser checks supply the actual receipts.
 - **Messaging owner:** rendered desktop/mobile review accepted; all scorecard states, diagram semantics, setup prerequisites and claim boundaries inspected. Visual implementation review inspected desktop, tablet and phone captures and the active diagram state; the final narrow-screen refinement increased diagram type rather than merely passing overflow tests.
-- **Cloudflare packaging:** build and dry-run validation pass. All **30 required page/runtime/proof files** returned HTTP 200 from the locally served staged build; both primary actions point to the product repository. The package now includes shared diagram runtime files and unchanged proof artifacts. **Published on 20–21 October 2026** after the founder authorised deployment; the same 30 files answered 200 from both live domains.
+- **Cloudflare packaging:** build and dry-run validation pass. All **33 required page/runtime/proof files** returned HTTP 200 from the locally served staged build; both primary actions point to the product repository. The package now includes shared diagram runtime files and the two retained proof runs. **Published on 20–21 October 2026** after the founder authorised deployment, and **re-published as the Silverquill page on 21 October 2026** on `silverquill.amccutcheon.com` alongside the two existing hosts; the same 33 files answer 200 from all three live domains.
+
+**Baseline and recon (21 October 2026):** captured at 1440×900, 1024×768 and 390×844 with no
+horizontal overflow, eight sections, one headline of two lines, two diagrams, two scorecards, five
+ledger blocks, all faces loaded, no undersized targets and no console errors. The mark was tested at
+16, 24 and 32 pixels in four treatments — two-colour, one-ink on paper, one-ink with the slit cut
+out, and reversed out of a solid — and holds at every size. Written record:
+`specs/2026-10-21-silverquill-baseline-recon.md`.
 
 **Cross-page aggregate:** `tools/render_check.py` passes on the final revision: Acheron's twelve theme/width captures, Freewhirr's eight, Shipwatch's twelve plus two no-script views, the unchanged sixteen byte-identical Acheron/Freewhirr baseline pairs and the seven Ninth Pass views. An earlier attempt exceeded a four-minute tool timeout; the subsequent full run completed successfully. No unrelated page runtime files changed.
 
 ## Remaining boundaries
 
-No known blocking Ninth Pass defect in the checked Chromium views. Firefox, Safari and real assistive-technology testing have not been performed. The npm package remains unpublished at the availability check, so source setup remains primary. The rubric is the project's own, not a validated industry benchmark. This revision is deployed and unchanged since 21 October 2026, apart from the corrected deployment note above and the added strategy-review pointer.
+No known blocking Silverquill defect in the checked Chromium views. Firefox, Safari and real assistive-technology testing have not been performed. The npm package remains unpublished at the availability check, so source setup remains primary. The rubric is the project's own, not a validated industry benchmark. This revision is deployed on three hosts since 21 October 2026. The product name is now in public use before the trademark search has reported; the remedy if it conflicts is a copy-and-mark change plus a redirect, not an unpublished package.

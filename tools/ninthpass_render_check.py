@@ -14,6 +14,7 @@ from render_check import installed_chromium, warm_page_for_capture
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '.review/ninthpass-flagship'
 WIDTHS = (280, 320, 390, 414, 768, 1024, 1440)
+DIAGRAMS = ('arbor', 'dataflow')
 BASE = os.environ.get('LP_TEST_URL', 'http://127.0.0.1:8766/acheron/').removesuffix('acheron/')
 URL = os.environ.get('LP_NINTHPASS_URL', BASE + 'ninthpass/')
 REPO = 'https://github.com/andymccutcheon/ninthpass'
@@ -220,7 +221,7 @@ async def main():
         browser=await p.chromium.launch(executable_path=installed_chromium())
         await run(browser,failures,warm_page_for_capture)
         if '--motion' in __import__('sys').argv:
-            motion=await asyncio.gather(*(motion_case(browser,n,w) for w in (1440,390) for n in await page.eval_on_selector_all('[data-diagram]', 'els => els.map(e => e.dataset.diagram)')))
+            motion=await asyncio.gather(*(motion_case(browser,n,w) for w in (1440,390) for n in DIAGRAMS))
             (OUT/'motion-results.json').write_text(json.dumps(motion,indent=2)+'\n')
             for item in motion: failures.extend(f'{item["name"]}: {e}' for e in item['errors'])
         await browser.close()

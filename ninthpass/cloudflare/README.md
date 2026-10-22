@@ -67,11 +67,15 @@ instead of signing in, as described in [Use `cf` in CI](https://developers.cloud
 
 ## Verify a deploy
 
-Reachability is one command. It requests all thirty required page/runtime/proof files,
+Reachability is one command. It requests all thirty-three required page/runtime/proof files,
 requires `200` from each, and asserts that the served HTML still carries two primary calls
 to action pointing at the Ninth Pass repository and references its stylesheet, page
 script and favicon.
 
 ```sh
-npm run verify -- https://ninthpass.amccutcheon.com
+npm run verify -- https://silverquill.amccutcheon.com
 ```
+
+The page answers on three hosts — `silverquill.amccutcheon.com` (canonical),
+`ninthpass.amccutcheon.com` and `promptzilla.amccutcheon.com` — and the verify command passes
+against each of them.

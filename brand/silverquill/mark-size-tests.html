@@ -21,6 +21,9 @@
   .sample{display:flex;flex-direction:column;align-items:center;gap:8px}
   .size{font-family:'Geist Mono',monospace;font-size:.68rem;color:#a39da8;letter-spacing:.08em}
   .d16{width:16px;height:16px}.d24{width:24px;height:24px}.d32{width:32px;height:32px}.d64{width:64px;height:64px}.d128{width:128px;height:128px}
+  .stamp{display:inline-block;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:center;mask-position:center;background:currentColor}
+  .mono{-webkit-mask-image:url(marks/nib-mono.svg);mask-image:url(marks/nib-mono.svg)}
+  .reverse{-webkit-mask-image:url(marks/nib-reversed.svg);mask-image:url(marks/nib-reversed.svg)}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px}
   .card{border:1px solid #29272d;padding:18px}
   .card p{margin:8px 0 0;font-size:.82rem;color:#a39da8}
@@ -32,7 +35,7 @@
 <body>
 <div class="shell">
   <h1>The Nib at size</h1>
-  <p class="lede">One mark, five sizes, two grounds, plus the reversed favicon tile. The interior slit is the part that fails first; below 24&nbsp;px it is drawn wider so it survives rasterisation.</p>
+  <p class="lede">One mark, five sizes, two grounds, its one-ink and reversed forms, plus the reversed favicon tile. The interior slit is the part that fails first; below 24&nbsp;px it is drawn wider so it survives rasterisation.</p>
 
   <h2>On the product ground — accent</h2>
   <div class="strip dark">
@@ -51,6 +54,34 @@
     <div class="sample"><svg class="d32" viewBox="0 0 32 32" aria-hidden="true"><path d="M11 4 L21 4 L16 16.5 Z" fill="#14140f"/><line x1="16" y1="9" x2="16" y2="16.5" stroke="#f7f6f3" stroke-width="1.3"/><path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="#14140f" stroke-width="1.5" stroke-linecap="round"/></svg><span class="size">32</span></div>
     <div class="sample"><svg class="d64" viewBox="0 0 32 32" aria-hidden="true"><path d="M11 4 L21 4 L16 16.5 Z" fill="#14140f"/><line x1="16" y1="9" x2="16" y2="16.5" stroke="#f7f6f3" stroke-width="1"/><path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="#14140f" stroke-width="1.5" stroke-linecap="round"/></svg><span class="size">64</span></div>
     <div class="sample"><div class="lockup"><svg class="d24" viewBox="0 0 32 32" aria-hidden="true"><path d="M11 4 L21 4 L16 16.5 Z" fill="#14140f"/><line x1="16" y1="9" x2="16" y2="16.5" stroke="#f7f6f3" stroke-width="1.7"/><path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="#14140f" stroke-width="1.5" stroke-linecap="round"/></svg><span class="wm" style="color:#14140f">Silverquill</span></div><span class="size">lockup</span></div>
+  </div>
+
+  <h2>One ink — the slit cut out, not painted in</h2>
+  <div class="strip dark">
+    <div class="sample"><span class="stamp mono d16"></span><span class="size">16</span></div>
+    <div class="sample"><span class="stamp mono d24"></span><span class="size">24</span></div>
+    <div class="sample"><span class="stamp mono d32"></span><span class="size">32</span></div>
+    <div class="sample"><span class="stamp mono d64"></span><span class="size">64</span></div>
+  </div>
+  <div class="strip light">
+    <div class="sample"><span class="stamp mono d16"></span><span class="size">16</span></div>
+    <div class="sample"><span class="stamp mono d24"></span><span class="size">24</span></div>
+    <div class="sample"><span class="stamp mono d32"></span><span class="size">32</span></div>
+    <div class="sample"><span class="stamp mono d64"></span><span class="size">64</span></div>
+  </div>
+
+  <h2>Reversed out of a solid</h2>
+  <div class="strip dark">
+    <div class="sample"><span class="stamp reverse d16"></span><span class="size">16</span></div>
+    <div class="sample"><span class="stamp reverse d24"></span><span class="size">24</span></div>
+    <div class="sample"><span class="stamp reverse d32"></span><span class="size">32</span></div>
+    <div class="sample"><span class="stamp reverse d64"></span><span class="size">64</span></div>
+  </div>
+  <div class="strip light">
+    <div class="sample"><span class="stamp reverse d16"></span><span class="size">16</span></div>
+    <div class="sample"><span class="stamp reverse d24"></span><span class="size">24</span></div>
+    <div class="sample"><span class="stamp reverse d32"></span><span class="size">32</span></div>
+    <div class="sample"><span class="stamp reverse d64"></span><span class="size">64</span></div>
   </div>
 
   <h2>Reversed favicon tile</h2>

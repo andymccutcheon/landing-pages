@@ -14,7 +14,6 @@ const PATHS = [
   '/css/diagrams.css',
   '/js/page.js',
   '/js/diagrams.js',
-  '/diagrams/loop.html',
   '/diagrams/dataflow.html',
   '/diagrams/arbor.html',
   '/robots.txt',
@@ -28,7 +27,12 @@ const PATHS = [
   '/assets/fonts/OFL-Fraunces.txt',
   '/assets/fonts/OFL-Geist.txt',
   '/assets/fonts/OFL-GeistMono.txt',
-  ...['00-request.md', '01-compose.md', '02-judge-pass1.md', '03-revise.md', '04-judge-pass2.md', '03b-revise.md', '04b-judge-pass3.md', '05-final.md', 'README.md'].map(file => '/examples/runs/meeting-notes/' + file),
+  // The published demonstration: the full-mode meeting-agent run the page links.
+  ...['00-request.md', '01-compose.md', '02-judge-pass1.md', '03-revise.md', '04-judge-pass2.md', '05-final.md', 'PROVENANCE.md']
+    .map(file => '/examples/runs/meeting-agent/' + file),
+  // The retained optimize-only run: the recorded example of the Brief-side path.
+  ...['00-original.md', '02-judge-pass1.md', '03-revise.md', '04-judge-pass2.md', '05-final.md', 'PROVENANCE.md']
+    .map(file => '/examples/runs/rough-to-reviewed/' + file),
 ];
 
 const base = process.argv[2]?.replace(/\/$/, '');

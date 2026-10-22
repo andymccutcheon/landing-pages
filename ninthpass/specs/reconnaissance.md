@@ -28,6 +28,11 @@ The page's demonstration is `ninthpass/examples/runs/meeting-agent/` — run
 source. The earlier `meeting-notes` run (8 → 8 → 9) is preserved on disk but is **not** the published
 example: its final artifact fails the structural contract that now exists.
 
+`ninthpass/examples/runs/rough-to-reviewed/` is also retained: an optimize-only run that took a
+two-sentence **task directive** from 5 → 9. It is not linked from the page, because the page demonstrates
+the loop's job (creating an agent). It is kept as the recorded example of the Brief-side path, so the
+distinction between a task brief and an agent specification has evidence behind it.
+
 ## Integration points the page depends on
 
 - Two iframes only: `diagrams/arbor.html` (feedback fan) and `diagrams/dataflow.html` (process). The

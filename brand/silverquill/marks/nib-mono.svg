@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Silverquill, one ink">
+  <title>Silverquill — the nib, one ink</title>
+  <desc>The nib drawn in a single ink, with the interior slit cut out of it rather than painted in.</desc>
+  <defs>
+    <mask id="silverquill-mono-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+      <rect width="32" height="32" fill="#fff"/>
+      <line x1="16" y1="9" x2="16" y2="16.5" stroke="#000" stroke-width="1.4"/>
+    </mask>
+  </defs>
+  <g mask="url(#silverquill-mono-cut)">
+    <path d="M11 4 L21 4 L16 16.5 Z" fill="currentColor"/>
+    <path d="M16 18C16 23.8 12.6 27.4 6 28.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+</svg>

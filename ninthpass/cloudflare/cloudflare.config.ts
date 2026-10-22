@@ -11,7 +11,7 @@ export default defineConfig({
     compatibilityDate: '2026-10-01',
     workersDev: true,
     previewUrls: false,
-    domains: ['ninthpass.amccutcheon.com', 'promptzilla.amccutcheon.com'],
+    domains: ['silverquill.amccutcheon.com', 'ninthpass.amccutcheon.com', 'promptzilla.amccutcheon.com'],
     assets: {
       htmlHandling: 'auto-trailing-slash',
       notFoundHandling: 'none',

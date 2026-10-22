@@ -41,3 +41,23 @@ shipped file. Nothing is deployed.
 Operational: use `.venv/bin/python3` for Playwright checks; system Python for source checks; preview on 8769 if 8766 is occupied; `.review/` is ignored.
 
 > Corrected 2026-10-12 by Cricket (Omnigent operations): this file still described the pre-publication Freewhirr stage ("no remote exists; do not push or deploy") — stale after the overnight close-out. Sources: the successor session's close-out summary (2026-10-12 07:44) and the 07:31 handoff.
+
+## Silverquill: the page switch, deployed (2026-10-21 evening)
+
+The Ninth Pass page is now the Silverquill page, published on `silverquill.amccutcheon.com` with
+`ninthpass.amccutcheon.com` and `promptzilla.amccutcheon.com` serving the same build. Worker
+`ninthpass-site`, version `ece106f4-9aa7-4c3b-b74b-1bd5bc5b3815`; all 33 required files answer 200
+on every host; the live page was opened in a browser with no console errors. The Worker name and
+the page folder were deliberately not renamed — renaming the Worker would drop the existing
+custom-domain bindings, and the folder rename touches the Pages allowlist for four other pages.
+
+Gates pass on this build: the cross-page aggregate render check, the contrast check with no text,
+state, focus or rule failure, and the Cloudflare dry run. The baseline is captured at 1440×900,
+1024×768 and 390×844, with the written record at
+`ninthpass/specs/2026-10-21-silverquill-baseline-recon.md`. The nib mark was tested at 16, 24 and
+32 pixels in four treatments and holds at every size; two new one-ink forms were drawn for it
+(`brand/silverquill/marks/nib-mono.svg`, `nib-reversed.svg`).
+
+Still held behind trademark clearance: the GitHub repository rename and the npm publication, so
+the page's install commands and calls to action still name the old repository slug. Session record:
+`sessions/2026-10-21-silverquill-page-switch.md`.
